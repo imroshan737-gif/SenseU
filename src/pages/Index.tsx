@@ -50,7 +50,7 @@ const Index = () => {
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/30 to-secondary/30 flex items-center justify-center border border-primary/30">
             <div className="w-4 h-4 rounded-full bg-gradient-to-br from-primary to-secondary animate-pulse" />
           </div>
-          <span className="font-orbitron font-bold text-lg text-gradient">MindGuard</span>
+          <span className="font-orbitron font-bold text-lg text-gradient">NeuroAura</span>
         </div>
         <div className="flex items-center gap-4">
           <button
@@ -86,9 +86,9 @@ const Index = () => {
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-orbitron font-bold leading-tight">
             <span className="text-foreground">Your Personal</span>
             <br />
-            <span className="text-gradient neon-text">AI Guardian</span>
+            <span className="text-gradient neon-text">NeuroAura</span>
             <br />
-            <span className="text-foreground">for Mental Wellness</span>
+            <span className="text-foreground">Mental Wellness Guardian</span>
           </h1>
 
           {/* Subheadline */}
@@ -105,8 +105,8 @@ const Index = () => {
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </span>
             </NeonButton>
-            <NeonButton variant="ghost" size="lg">
-              Watch Demo
+            <NeonButton variant="ghost" size="lg" onClick={() => navigate("/dashboard?demo=true")}>
+              Show Demo
             </NeonButton>
           </div>
 
@@ -191,7 +191,7 @@ const Index = () => {
             </h2>
             <p className="text-muted-foreground mb-8 max-w-lg mx-auto">
               Join thousands of students and professionals who have taken control of their mental
-              health with MindGuard AI.
+              health with NeuroAura.
             </p>
             <NeonButton onClick={() => navigate("/auth")} size="lg">
               Start Free Trial

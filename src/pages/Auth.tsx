@@ -26,11 +26,12 @@ const Auth = () => {
     
     await new Promise((resolve) => setTimeout(resolve, 2000));
     
-    toast.success("Welcome to MindGuard AI", {
+    toast.success("Welcome to NeuroAura", {
       description: "Your AI Guardian is now online.",
     });
     
-    navigate("/dashboard");
+    // Redirect to assessment for new signups
+    navigate(isLogin ? "/dashboard" : "/assessment");
   };
 
   return (
@@ -73,7 +74,7 @@ const Auth = () => {
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/20 to-secondary/20 border border-primary/30 mb-4">
             <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary animate-pulse" />
           </div>
-          <h1 className="text-2xl font-orbitron font-bold text-gradient">MindGuard AI</h1>
+          <h1 className="text-2xl font-orbitron font-bold text-gradient">NeuroAura</h1>
           <p className="text-sm text-muted-foreground mt-2">
             Your Proactive Mental Wellness Guardian
           </p>

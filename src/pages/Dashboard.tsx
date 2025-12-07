@@ -59,7 +59,7 @@ const Dashboard = () => {
               <div className="w-4 h-4 rounded-full bg-gradient-to-br from-primary to-secondary" />
             </div>
             <div>
-              <h1 className="font-orbitron font-bold text-lg text-gradient">MindGuard</h1>
+              <h1 className="font-orbitron font-bold text-lg text-gradient">NeuroAura</h1>
               <p className="text-xs text-muted-foreground">AI Wellness System</p>
             </div>
           </div>
