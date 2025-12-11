@@ -1,26 +1,36 @@
 import { useState, useEffect, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
-import { Mail, Lock, User, ArrowRight, Fingerprint, Eye, EyeOff } from "lucide-react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { Mail, Lock, User, ArrowRight, Eye, EyeOff } from "lucide-react";
 import ParticleBackground from "@/components/ParticleBackground";
 import GlassCard from "@/components/GlassCard";
 import NeonInput from "@/components/NeonInput";
 import NeonButton from "@/components/NeonButton";
+import ForgotPassword from "@/components/ForgotPassword";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 
 const Auth = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showVerified, setShowVerified] = useState(false);
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
   
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
   });
+
+  // Check if coming from password reset
+  useEffect(() => {
+    if (searchParams.get("reset") === "true") {
+      setShowForgotPassword(true);
+    }
+  }, [searchParams]);
 
   // Check if already logged in
   useEffect(() => {
@@ -30,7 +40,6 @@ const Auth = () => {
       try {
         const { data: { session } } = await supabase.auth.getSession();
         if (mounted && session) {
-          // Check if user has completed assessment
           const hasCompletedAssessment = localStorage.getItem("neuroaura_assessment_done");
           if (hasCompletedAssessment) {
             navigate("/dashboard", { replace: true });
@@ -51,7 +60,6 @@ const Auth = () => {
       if (!mounted) return;
       
       if (session && event === 'SIGNED_IN') {
-        // Store user info
         if (session.user?.user_metadata?.name) {
           localStorage.setItem("neuroaura_name", session.user.user_metadata.name);
         }
@@ -59,15 +67,11 @@ const Auth = () => {
           localStorage.setItem("neuroaura_email", session.user.email);
         }
         
-        // For new signups, always go to assessment
-        // For logins, check if assessment was done
         const hasCompletedAssessment = localStorage.getItem("neuroaura_assessment_done");
         
         if (!isLogin || !hasCompletedAssessment) {
-          // New signup or no assessment done - go to assessment
           navigate("/assessment", { replace: true });
         } else {
-          // Login with assessment done - go to dashboard
           navigate("/dashboard", { replace: true });
         }
       }
@@ -98,7 +102,6 @@ const Auth = () => {
 
         if (error) throw error;
 
-        // Quick verified animation
         setShowVerified(true);
         setTimeout(() => {
           toast.success("Welcome back to NeuroAura");
@@ -123,7 +126,6 @@ const Auth = () => {
 
         if (error) throw error;
 
-        // Store name for profile
         localStorage.setItem("neuroaura_name", formData.name);
         localStorage.setItem("neuroaura_email", formData.email);
 
@@ -155,7 +157,6 @@ const Auth = () => {
     }
   }, []);
 
-  // Show loading while checking auth
   if (isCheckingAuth) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
@@ -168,22 +169,32 @@ const Auth = () => {
     );
   }
 
+  // Show forgot password flow
+  if (showForgotPassword) {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden bg-background">
+        <ParticleBackground />
+        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/5 rounded-full blur-[80px]" />
+        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-secondary/5 rounded-full blur-[80px]" />
+        <ForgotPassword onBack={() => setShowForgotPassword(false)} />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden bg-background">
       <ParticleBackground />
 
-      {/* Simplified ambient glow effects */}
       <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/5 rounded-full blur-[80px]" />
       <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-secondary/5 rounded-full blur-[80px]" />
 
-      {/* Verified overlay */}
       {showVerified && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/95">
           <div className="text-center space-y-4">
             <div className="relative mx-auto w-20 h-20">
               <div className="absolute inset-0 rounded-full bg-primary/20 animate-ping" />
               <div className="relative w-20 h-20 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
-                <Fingerprint className="w-10 h-10 text-primary-foreground" />
+                <div className="w-8 h-8 rounded-full bg-white/20" />
               </div>
             </div>
             <h2 className="text-xl font-orbitron font-bold neon-text">Identity Verified</h2>
@@ -192,9 +203,7 @@ const Auth = () => {
         </div>
       )}
 
-      {/* Main auth card */}
       <GlassCard className="w-full max-w-md relative z-10" glow>
-        {/* Logo/Brand */}
         <div className="text-center mb-6">
           <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/20 to-secondary/20 border border-primary/30 mb-3">
             <div className="w-6 h-6 rounded-full bg-gradient-to-br from-primary to-secondary" />
@@ -205,7 +214,6 @@ const Auth = () => {
           </p>
         </div>
 
-        {/* Toggle Login/Signup */}
         <div className="flex gap-2 p-1 bg-muted/30 rounded-xl mb-5">
           <button
             onClick={() => setIsLogin(true)}
@@ -229,7 +237,6 @@ const Auth = () => {
           </button>
         </div>
 
-        {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
           {!isLogin && (
             <NeonInput
@@ -270,7 +277,11 @@ const Auth = () => {
 
           {isLogin && (
             <div className="flex justify-end">
-              <button type="button" className="text-sm text-primary hover:text-primary/80 transition-colors">
+              <button 
+                type="button" 
+                onClick={() => setShowForgotPassword(true)}
+                className="text-sm text-primary hover:text-primary/80 transition-colors"
+              >
                 Forgot password?
               </button>
             </div>
@@ -291,7 +302,6 @@ const Auth = () => {
           </NeonButton>
         </form>
 
-        {/* Divider */}
         <div className="relative my-5">
           <div className="absolute inset-0 flex items-center">
             <div className="w-full border-t border-border/50" />
@@ -301,7 +311,6 @@ const Auth = () => {
           </div>
         </div>
 
-        {/* Google Sign In */}
         <NeonButton 
           variant="ghost" 
           className="w-full flex items-center justify-center gap-2"
@@ -328,14 +337,6 @@ const Auth = () => {
           </svg>
           Sign in with Google
         </NeonButton>
-
-        {/* Biometric hint */}
-        <div className="mt-5 pt-5 border-t border-border/30">
-          <button className="w-full flex items-center justify-center gap-3 py-2 text-muted-foreground hover:text-primary transition-colors group">
-            <Fingerprint className="w-5 h-5 group-hover:scale-110 transition-transform" />
-            <span className="text-sm">Enable Biometric Login</span>
-          </button>
-        </div>
       </GlassCard>
     </div>
   );

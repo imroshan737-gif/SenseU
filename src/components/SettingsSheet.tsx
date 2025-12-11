@@ -5,18 +5,17 @@ import {
   Settings, 
   Volume2, 
   Bell, 
-  Moon, 
   Sparkles, 
   Shield, 
   Trash2, 
   Download,
   Monitor,
-  Smartphone,
   Zap
 } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import NeonButton from "./NeonButton";
+import BackgroundMusicSettings from "./BackgroundMusicSettings";
 import { toast } from "@/hooks/use-toast";
 
 interface SettingsSheetProps {
@@ -117,6 +116,11 @@ export default function SettingsSheet({ open, onOpenChange }: SettingsSheetProps
               </div>
             </div>
           ))}
+
+          {/* Background Music Settings */}
+          <div className="p-4 rounded-xl bg-muted/20 border border-border/30">
+            <BackgroundMusicSettings />
+          </div>
 
           {/* Animation Speed Slider */}
           <div className="space-y-4">

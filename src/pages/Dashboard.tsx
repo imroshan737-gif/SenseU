@@ -34,10 +34,30 @@ import SearchDialog from "@/components/SearchDialog";
 import AllSessionsSheet from "@/components/AllSessionsSheet";
 import AchievementsSheet from "@/components/AchievementsSheet";
 import SessionFeedback from "@/components/SessionFeedback";
+import MiniGame from "@/components/MiniGame";
+import EmergencySOS from "@/components/EmergencySOS";
 import { useRealtimeVitals } from "@/hooks/useRealtimeVitals";
 import { usePoints } from "@/hooks/usePoints";
 import { cn } from "@/lib/utils";
 import { toast } from "@/hooks/use-toast";
+
+// Get stored assessment vitals
+const getAssessmentVitals = () => {
+  const storedStress = localStorage.getItem("neuroaura_stress_score");
+  const storedMood = localStorage.getItem("neuroaura_mood");
+  
+  const stressScore = storedStress ? parseInt(storedStress) : 35;
+  
+  // Derive other vitals from stress score
+  const focus = Math.max(20, 100 - stressScore - Math.floor(Math.random() * 10));
+  const energy = Math.max(30, 90 - (stressScore * 0.5) - Math.floor(Math.random() * 15));
+  
+  return {
+    baseStress: stressScore,
+    baseFocus: focus,
+    baseEnergy: energy,
+  };
+};
 
 // Memoized vitals display
 const VitalsSection = memo(({ 
@@ -74,11 +94,10 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const isDemo = searchParams.get("demo") === "true";
 
-  const { vitals } = useRealtimeVitals({
-    baseStress: 35,
-    baseFocus: 75,
-    baseEnergy: 65,
-  });
+  // Get vitals based on assessment answers
+  const assessmentVitals = getAssessmentVitals();
+  
+  const { vitals } = useRealtimeVitals(assessmentVitals);
 
   const { points, addPoints, achievements } = usePoints();
 
@@ -90,6 +109,7 @@ const Dashboard = () => {
   const [showAllSessions, setShowAllSessions] = useState(false);
   const [showAchievements, setShowAchievements] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
+  const [showEmergencySOS, setShowEmergencySOS] = useState(false);
   const [completedSession, setCompletedSession] = useState<{ title: string; type: string } | null>(null);
   const [improvementSheet, setImprovementSheet] = useState<{
     open: boolean;
@@ -141,7 +161,6 @@ const Dashboard = () => {
   }, []);
 
   const handleFeedbackSubmit = useCallback((rating: number, feedback: string) => {
-    // Award points based on session type
     const sessionPoints = completedSession?.type === "focus" ? 25 : completedSession?.type === "breathe" ? 15 : 20;
     addPoints(sessionPoints, `Completed ${completedSession?.title}`);
     
@@ -159,7 +178,7 @@ const Dashboard = () => {
   }, []);
   
   const handleEmergencySOS = useCallback(() => {
-    toast({ title: "Emergency Support Activated", description: "Connecting you to crisis resources.", variant: "destructive" });
+    setShowEmergencySOS(true);
   }, []);
 
   const getInitials = useCallback(() => {
@@ -187,7 +206,6 @@ const Dashboard = () => {
         </button>
 
         <div className="flex items-center gap-4">
-          {/* Points Display */}
           <button 
             onClick={() => setShowAchievements(true)}
             className="hidden md:flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-amber-500/20 to-orange-500/20 rounded-lg border border-amber-500/30 hover:border-amber-500/50 transition-colors"
@@ -222,15 +240,16 @@ const Dashboard = () => {
           {/* Center Panel */}
           <div className="col-span-12 lg:col-span-6">
             <GlassCard className="h-full min-h-[500px] flex flex-col items-center justify-center relative overflow-visible">
-              <div className="absolute top-4 left-4 flex items-center gap-2 px-3 py-1.5 bg-primary/10 rounded-full border border-primary/30">
-                <div className="w-2 h-2 rounded-full bg-primary" />
-                <span className="text-xs font-orbitron text-primary uppercase tracking-wider">System Active</span>
+              {/* Mini Game instead of System Active */}
+              <div className="absolute top-4 left-4 right-4">
+                <MiniGame />
               </div>
-              <div className="relative flex items-center justify-center">
-                <StressAura level={vitals.stress} size={320} />
+              
+              <div className="relative flex items-center justify-center mt-24">
+                <StressAura level={vitals.stress} size={280} />
                 <div className="absolute"><DigitalTwin stressLevel={vitals.stress} /></div>
               </div>
-              <div className="mt-8 text-center">
+              <div className="mt-6 text-center">
                 <p className="text-sm text-muted-foreground">
                   Your current state is{" "}
                   <span className={cn("font-orbitron font-semibold", vitals.stress <= 40 ? "text-stress-calm" : vitals.stress <= 60 ? "text-stress-rising" : "text-stress-high")}>
@@ -238,7 +257,7 @@ const Dashboard = () => {
                   </span>
                 </p>
               </div>
-              <div className="flex gap-3 mt-6">
+              <div className="flex gap-3 mt-4">
                 {[{ label: "Breathe", type: "breathe" as const, duration: 60 }, { label: "Focus", type: "focus" as const, duration: 900 }, { label: "Rest", type: "rest" as const, duration: 300 }].map((a) => (
                   <button key={a.label} onClick={() => handleStartSession(a.type, `${a.label} Session`, a.duration)} className="px-4 py-2 rounded-lg bg-muted/30 border border-border/30 text-sm font-orbitron text-muted-foreground hover:text-primary hover:border-primary/30 transition-all">
                     {a.label}
@@ -286,7 +305,15 @@ const Dashboard = () => {
             </GlassCard>
           </div>
           <div className="col-span-12 lg:col-span-4">
-            <InterventionCard title="Emergency SOS" description="Immediate AI crisis support" duration="Instant" icon={AlertTriangle} type="emergency" className="h-full" onStart={handleEmergencySOS} />
+            <InterventionCard 
+              title="Emergency SOS" 
+              description="Immediate AI crisis support" 
+              duration="Instant" 
+              icon={AlertTriangle} 
+              type="emergency" 
+              className="h-full" 
+              onStart={handleEmergencySOS} 
+            />
           </div>
         </div>
       </div>
@@ -327,6 +354,10 @@ const Dashboard = () => {
         onOpenChange={setShowFeedback}
         sessionTitle={completedSession?.title || ""}
         onSubmit={handleFeedbackSubmit}
+      />
+      <EmergencySOS
+        open={showEmergencySOS}
+        onOpenChange={setShowEmergencySOS}
       />
     </div>
   );

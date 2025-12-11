@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Play, Pause, RotateCcw, Volume2, VolumeX, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -26,34 +26,81 @@ export default function SessionGuide({
   const [currentStep, setCurrentStep] = useState(0);
   const [isMuted, setIsMuted] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false);
+  const synthRef = useRef<SpeechSynthesis | null>(null);
 
   const breathingSteps = [
-    { instruction: "Breathe In", duration: 4, color: "from-cyan-500 to-blue-500" },
-    { instruction: "Hold", duration: 4, color: "from-blue-500 to-violet-500" },
-    { instruction: "Breathe Out", duration: 6, color: "from-violet-500 to-purple-500" },
-    { instruction: "Rest", duration: 2, color: "from-purple-500 to-cyan-500" },
+    { instruction: "Breathe In", duration: 4, color: "from-cyan-500 to-blue-500", voice: "Breathe in slowly" },
+    { instruction: "Hold", duration: 4, color: "from-blue-500 to-violet-500", voice: "Hold your breath" },
+    { instruction: "Breathe Out", duration: 6, color: "from-violet-500 to-purple-500", voice: "Breathe out slowly" },
+    { instruction: "Rest", duration: 2, color: "from-purple-500 to-cyan-500", voice: "Rest" },
   ];
 
   const focusSteps = [
-    { instruction: "Clear Your Mind", duration: 10, color: "from-violet-500 to-purple-500" },
-    { instruction: "Set Your Intention", duration: 10, color: "from-purple-500 to-pink-500" },
-    { instruction: "Focus Mode Active", duration: Math.max(duration - 20, 30), color: "from-cyan-500 to-blue-500" },
+    { instruction: "Close Your Eyes", duration: 10, color: "from-violet-500 to-purple-500", voice: "Close your eyes and relax" },
+    { instruction: "Set Your Intention", duration: 10, color: "from-purple-500 to-pink-500", voice: "Set your intention for this session" },
+    { instruction: "Focus Mode Active", duration: Math.max(duration - 20, 30), color: "from-cyan-500 to-blue-500", voice: "Focus mode is now active. Stay present." },
   ];
 
   const restSteps = [
-    { instruction: "Close Your Eyes", duration: 5, color: "from-indigo-500 to-violet-500" },
-    { instruction: "Relax Your Body", duration: 10, color: "from-violet-500 to-purple-500" },
-    { instruction: "Deep Rest Mode", duration: Math.max(duration - 15, 30), color: "from-purple-500 to-indigo-500" },
+    { instruction: "Close Your Eyes", duration: 5, color: "from-indigo-500 to-violet-500", voice: "Close your eyes gently" },
+    { instruction: "Relax Your Body", duration: 10, color: "from-violet-500 to-purple-500", voice: "Let go of all tension in your body" },
+    { instruction: "Deep Rest Mode", duration: Math.max(duration - 15, 30), color: "from-purple-500 to-indigo-500", voice: "Enter deep rest. Let your mind be still." },
   ];
 
   const steps = sessionType === "breathe" ? breathingSteps : sessionType === "focus" ? focusSteps : restSteps;
 
+  // Initialize speech synthesis
   useEffect(() => {
-    if (!open) {
+    if (typeof window !== "undefined" && "speechSynthesis" in window) {
+      synthRef.current = window.speechSynthesis;
+    }
+    return () => {
+      if (synthRef.current) {
+        synthRef.current.cancel();
+      }
+    };
+  }, []);
+
+  // Speak instruction
+  const speakInstruction = useCallback((text: string) => {
+    if (!synthRef.current || isMuted) return;
+    
+    // Cancel any ongoing speech
+    synthRef.current.cancel();
+    
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 0.85;
+    utterance.pitch = 1;
+    utterance.volume = 0.8;
+    
+    // Try to use a calm voice
+    const voices = synthRef.current.getVoices();
+    const preferredVoice = voices.find(v => 
+      v.name.includes("Female") || 
+      v.name.includes("Samantha") || 
+      v.name.includes("Karen") ||
+      v.lang.startsWith("en")
+    );
+    if (preferredVoice) {
+      utterance.voice = preferredVoice;
+    }
+    
+    synthRef.current.speak(utterance);
+  }, [isMuted]);
+
+  // Always reset to beginning when opening
+  useEffect(() => {
+    if (open) {
       setTimeLeft(duration);
       setIsRunning(false);
       setCurrentStep(0);
       setIsComplete(false);
+      setHasStarted(false);
+    } else {
+      if (synthRef.current) {
+        synthRef.current.cancel();
+      }
     }
   }, [open, duration]);
 
@@ -66,11 +113,14 @@ export default function SessionGuide({
     } else if (timeLeft === 0 && isRunning) {
       setIsRunning(false);
       setIsComplete(true);
+      speakInstruction("Well done. You've completed the session.");
     }
     return () => clearInterval(interval);
-  }, [isRunning, timeLeft]);
+  }, [isRunning, timeLeft, speakInstruction]);
 
-  // Cycle through breathing steps
+  // Track step changes and speak instructions
+  const prevStepRef = useRef(currentStep);
+  
   useEffect(() => {
     if (sessionType === "breathe" && isRunning) {
       const totalCycle = breathingSteps.reduce((sum, s) => sum + s.duration, 0);
@@ -81,12 +131,31 @@ export default function SessionGuide({
       for (let i = 0; i < breathingSteps.length; i++) {
         accumulated += breathingSteps[i].duration;
         if (cyclePosition < accumulated) {
-          setCurrentStep(i);
+          if (i !== prevStepRef.current) {
+            setCurrentStep(i);
+            speakInstruction(breathingSteps[i].voice);
+            prevStepRef.current = i;
+          }
+          break;
+        }
+      }
+    } else if (isRunning) {
+      // For focus/rest sessions
+      let accumulated = 0;
+      for (let i = 0; i < steps.length; i++) {
+        accumulated += steps[i].duration;
+        const elapsed = duration - timeLeft;
+        if (elapsed < accumulated) {
+          if (i !== prevStepRef.current) {
+            setCurrentStep(i);
+            speakInstruction(steps[i].voice);
+            prevStepRef.current = i;
+          }
           break;
         }
       }
     }
-  }, [timeLeft, isRunning, sessionType, duration]);
+  }, [timeLeft, isRunning, sessionType, duration, speakInstruction, steps]);
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -97,11 +166,21 @@ export default function SessionGuide({
   const progress = ((duration - timeLeft) / duration) * 100;
   const currentStepData = steps[currentStep] || steps[0];
 
-  const handleReset = () => {
+  const handleStart = () => {
+    // Always start fresh
     setTimeLeft(duration);
-    setIsRunning(false);
     setCurrentStep(0);
     setIsComplete(false);
+    setHasStarted(true);
+    setIsRunning(true);
+    prevStepRef.current = -1;
+    
+    // Speak initial instruction
+    speakInstruction(steps[0].voice);
+  };
+
+  const handlePause = () => {
+    setIsRunning(false);
   };
 
   const handleComplete = () => {
@@ -212,18 +291,24 @@ export default function SessionGuide({
                   {sessionType === "focus" && "Block out distractions. Stay present."}
                   {sessionType === "rest" && "Let go of tension. Allow yourself to relax."}
                 </p>
+                {!isMuted && (
+                  <p className="text-xs text-primary mt-2">🔊 Voice guidance enabled</p>
+                )}
               </div>
 
               {/* Controls */}
               <div className="flex items-center gap-4 mt-8">
-                <button
-                  onClick={handleReset}
-                  className="p-3 rounded-full bg-muted/30 hover:bg-muted/50 transition-colors"
-                >
-                  <RotateCcw className="w-5 h-5 text-muted-foreground" />
-                </button>
+                {hasStarted && (
+                  <button
+                    onClick={handleStart}
+                    className="p-3 rounded-full bg-muted/30 hover:bg-muted/50 transition-colors"
+                    title="Restart"
+                  >
+                    <RotateCcw className="w-5 h-5 text-muted-foreground" />
+                  </button>
+                )}
                 <NeonButton
-                  onClick={() => setIsRunning(!isRunning)}
+                  onClick={isRunning ? handlePause : handleStart}
                   size="lg"
                   className="px-8"
                 >
@@ -235,7 +320,7 @@ export default function SessionGuide({
                   ) : (
                     <>
                       <Play className="w-5 h-5 mr-2" />
-                      {timeLeft === duration ? "Start" : "Resume"}
+                      Start
                     </>
                   )}
                 </NeonButton>
