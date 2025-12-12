@@ -1,160 +1,46 @@
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useRef } from "react";
 import { Music, Upload, Play, Pause, Volume2, VolumeX, SkipForward, SkipBack } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
-import { toast } from "sonner";
+import { useMusic } from "@/contexts/MusicContext";
 
 interface BackgroundMusicSettingsProps {
   className?: string;
 }
 
-interface Track {
-  id: string;
-  name: string;
-  url: string;
-  isCustom?: boolean;
-}
-
-// Built-in calming tracks (using royalty-free ambient sounds)
-const builtInTracks: Track[] = [
-  { id: "rain", name: "Gentle Rain", url: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3" },
-  { id: "forest", name: "Forest Ambience", url: "https://cdn.pixabay.com/download/audio/2022/03/10/audio_6c5d91f3c0.mp3" },
-  { id: "ocean", name: "Ocean Waves", url: "https://cdn.pixabay.com/download/audio/2021/08/04/audio_0625c1e6c2.mp3" },
-  { id: "meditation", name: "Meditation Bell", url: "https://cdn.pixabay.com/download/audio/2022/03/15/audio_55f78a08d1.mp3" },
-];
-
 export default function BackgroundMusicSettings({ className }: BackgroundMusicSettingsProps) {
-  const [isEnabled, setIsEnabled] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [volume, setVolume] = useState([50]);
-  const [isMuted, setIsMuted] = useState(false);
-  const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
-  const [tracks, setTracks] = useState<Track[]>(builtInTracks);
-  const [customTracks, setCustomTracks] = useState<Track[]>([]);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  
+  const {
+    isEnabled,
+    isPlaying,
+    isMuted,
+    volume,
+    currentTrack,
+    tracks,
+    customTracks,
+    currentTrackIndex,
+    toggleEnabled,
+    togglePlay,
+    toggleMute,
+    setVolume,
+    nextTrack,
+    prevTrack,
+    selectTrack,
+    addCustomTrack,
+  } = useMusic();
 
-  const allTracks = [...tracks, ...customTracks];
-  const currentTrack = allTracks[currentTrackIndex];
-
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.volume = isMuted ? 0 : volume[0] / 100;
-    }
-  }, [volume, isMuted]);
-
-  useEffect(() => {
-    // Create audio element
-    if (!audioRef.current) {
-      audioRef.current = new Audio();
-      audioRef.current.loop = true;
-      audioRef.current.volume = volume[0] / 100;
-    }
-
-    return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current = null;
-      }
-    };
-  }, []);
-
-  const playTrack = useCallback((track: Track) => {
-    if (audioRef.current) {
-      audioRef.current.src = track.url;
-      audioRef.current.play().catch((e) => {
-        console.error("Audio play error:", e);
-        toast.error("Could not play audio. Try a different track.");
-      });
-      setIsPlaying(true);
-    }
-  }, []);
-
-  const togglePlay = useCallback(() => {
-    if (!audioRef.current) return;
-
-    if (isPlaying) {
-      audioRef.current.pause();
-      setIsPlaying(false);
-    } else {
-      if (currentTrack) {
-        if (!audioRef.current.src || audioRef.current.src !== currentTrack.url) {
-          audioRef.current.src = currentTrack.url;
-        }
-        audioRef.current.play().catch((e) => {
-          console.error("Audio play error:", e);
-          toast.error("Could not play audio");
-        });
-        setIsPlaying(true);
-      }
-    }
-  }, [isPlaying, currentTrack]);
-
-  const nextTrack = useCallback(() => {
-    const nextIndex = (currentTrackIndex + 1) % allTracks.length;
-    setCurrentTrackIndex(nextIndex);
-    if (isPlaying) {
-      playTrack(allTracks[nextIndex]);
-    }
-  }, [currentTrackIndex, allTracks, isPlaying, playTrack]);
-
-  const prevTrack = useCallback(() => {
-    const prevIndex = currentTrackIndex === 0 ? allTracks.length - 1 : currentTrackIndex - 1;
-    setCurrentTrackIndex(prevIndex);
-    if (isPlaying) {
-      playTrack(allTracks[prevIndex]);
-    }
-  }, [currentTrackIndex, allTracks, isPlaying, playTrack]);
-
-  const handleFileUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (!file) return;
-
-    if (!file.type.startsWith("audio/")) {
-      toast.error("Please upload an audio file");
-      return;
+    if (file) {
+      addCustomTrack(file);
     }
-
-    if (file.size > 10 * 1024 * 1024) {
-      toast.error("File too large. Max 10MB allowed.");
-      return;
-    }
-
-    const url = URL.createObjectURL(file);
-    const newTrack: Track = {
-      id: `custom-${Date.now()}`,
-      name: file.name.replace(/\.[^/.]+$/, ""),
-      url,
-      isCustom: true,
-    };
-
-    setCustomTracks((prev) => [...prev, newTrack]);
-    setCurrentTrackIndex(allTracks.length);
-    toast.success("Track added successfully");
-
-    // Reset input
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
-  }, [allTracks.length]);
+  };
 
-  const toggleEnabled = useCallback(() => {
-    if (isEnabled) {
-      // Disable
-      if (audioRef.current) {
-        audioRef.current.pause();
-      }
-      setIsPlaying(false);
-    }
-    setIsEnabled(!isEnabled);
-  }, [isEnabled]);
-
-  const selectTrack = useCallback((index: number) => {
-    setCurrentTrackIndex(index);
-    if (isPlaying) {
-      playTrack(allTracks[index]);
-    }
-  }, [isPlaying, allTracks, playTrack]);
+  const allTracks = [...tracks, ...customTracks];
 
   return (
     <div className={cn("space-y-4", className)}>
@@ -218,7 +104,7 @@ export default function BackgroundMusicSettings({ className }: BackgroundMusicSe
           {/* Volume Control */}
           <div className="flex items-center gap-3">
             <button
-              onClick={() => setIsMuted(!isMuted)}
+              onClick={toggleMute}
               className="p-2 rounded-lg hover:bg-muted/30 transition-colors"
             >
               {isMuted ? (
@@ -228,13 +114,13 @@ export default function BackgroundMusicSettings({ className }: BackgroundMusicSe
               )}
             </button>
             <Slider
-              value={volume}
-              onValueChange={setVolume}
+              value={[volume]}
+              onValueChange={(val) => setVolume(val[0])}
               max={100}
               step={1}
               className="flex-1"
             />
-            <span className="text-xs text-muted-foreground w-8">{volume[0]}%</span>
+            <span className="text-xs text-muted-foreground w-8">{volume}%</span>
           </div>
 
           {/* Track List */}

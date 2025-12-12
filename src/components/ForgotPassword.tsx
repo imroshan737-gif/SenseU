@@ -30,18 +30,28 @@ export default function ForgotPassword({ onBack }: ForgotPasswordProps) {
 
     setIsLoading(true);
     try {
-      const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/auth?reset=true`,
+      // Use signInWithOtp for email-based OTP verification
+      const { error } = await supabase.auth.signInWithOtp({
+        email,
+        options: {
+          shouldCreateUser: false, // Don't create new user, only existing users
+        }
       });
 
-      if (error) throw error;
+      if (error) {
+        // If user doesn't exist, show appropriate error
+        if (error.message.includes("User not found") || error.message.includes("invalid")) {
+          throw new Error("No account found with this email address");
+        }
+        throw error;
+      }
 
       // Set expiry for 10 minutes
       setOtpExpiry(Date.now() + 10 * 60 * 1000);
       setStep("otp");
-      toast.success("Reset link sent! Check your email inbox.");
+      toast.success("6-digit code sent! Check your email inbox.");
     } catch (error: any) {
-      toast.error(error.message || "Failed to send reset link");
+      toast.error(error.message || "Failed to send reset code");
     } finally {
       setIsLoading(false);
     }
@@ -136,8 +146,8 @@ export default function ForgotPassword({ onBack }: ForgotPasswordProps) {
           {step === "reset" && "New Password"}
         </h1>
         <p className="text-sm text-muted-foreground mt-1">
-          {step === "email" && "We'll send a reset code to your email"}
-          {step === "otp" && `Code expires in ${getTimeRemaining()}`}
+          {step === "email" && "We'll send a 6-digit code to your email"}
+          {step === "otp" && `Enter the 6-digit code. Expires in ${getTimeRemaining()}`}
           {step === "reset" && "Create a strong new password"}
         </p>
       </div>

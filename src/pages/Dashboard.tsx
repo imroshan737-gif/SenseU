@@ -316,6 +316,23 @@ const Dashboard = () => {
             />
           </div>
         </div>
+
+        {/* Hobby Link Section */}
+        <div className="mt-6">
+          <GlassCard className="text-center py-4">
+            <p className="text-muted-foreground">
+              Not able to maintain your hobbies consistently? Don't worry{" "}
+              <a 
+                href="https://micromuse.lovable.app" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-primary hover:text-primary/80 underline font-semibold"
+              >
+                CLICK HERE
+              </a>
+            </p>
+          </GlassCard>
+        </div>
       </div>
 
       {/* Floating AI Orb */}
