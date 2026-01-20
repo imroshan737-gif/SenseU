@@ -247,7 +247,6 @@ const Dashboard = () => {
               <div className="absolute top-4 left-4 right-4">
                 <SnakeGame />
               </div>
-              </div>
               
               <div className="relative flex items-center justify-center mt-24">
                 <StressAura level={vitals.stress} size={280} />
