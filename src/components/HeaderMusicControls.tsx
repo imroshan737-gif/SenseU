@@ -1,5 +1,5 @@
-import { memo } from "react";
-import { Music, Volume2, VolumeX, Play, Pause, SkipBack, SkipForward } from "lucide-react";
+import { memo, useRef } from "react";
+import { Music, Volume2, VolumeX, Play, Pause, SkipBack, SkipForward, Upload } from "lucide-react";
 import { useMusic } from "@/contexts/MusicContext";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Slider } from "@/components/ui/slider";
@@ -12,13 +12,28 @@ const HeaderMusicControls = memo(() => {
     volume,
     currentTrack,
     tracks,
+    customTracks,
     toggleEnabled,
     togglePlay,
     setVolume,
     nextTrack,
     prevTrack,
     selectTrack,
+    addCustomTrack,
   } = useMusic();
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      addCustomTrack(file);
+    }
+    // Reset input
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
 
   return (
     <Popover>
@@ -106,22 +121,67 @@ const HeaderMusicControls = memo(() => {
               </div>
 
               {/* Track List */}
-              <div className="space-y-1 max-h-32 overflow-y-auto">
-                <p className="text-xs text-muted-foreground font-orbitron uppercase">Tracks</p>
-                {tracks.map((track, index) => (
+              <div className="space-y-2">
+                <p className="text-xs text-muted-foreground font-orbitron uppercase">Built-in Tracks</p>
+                <div className="space-y-1 max-h-24 overflow-y-auto">
+                  {tracks.map((track, index) => (
+                    <button
+                      key={track.id}
+                      onClick={() => selectTrack(index)}
+                      className={cn(
+                        "w-full text-left px-2 py-1.5 rounded text-xs transition-colors",
+                        currentTrack?.id === track.id
+                          ? "bg-primary/20 text-primary"
+                          : "hover:bg-muted/30 text-muted-foreground"
+                      )}
+                    >
+                      {track.name}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Custom Tracks */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <p className="text-xs text-muted-foreground font-orbitron uppercase">Your Tracks</p>
                   <button
-                    key={track.id}
-                    onClick={() => selectTrack(index)}
-                    className={cn(
-                      "w-full text-left px-2 py-1.5 rounded text-xs transition-colors",
-                      currentTrack?.id === track.id
-                        ? "bg-primary/20 text-primary"
-                        : "hover:bg-muted/30 text-muted-foreground"
-                    )}
+                    onClick={() => fileInputRef.current?.click()}
+                    className="flex items-center gap-1 px-2 py-1 rounded text-xs bg-primary/20 text-primary hover:bg-primary/30 transition-colors"
                   >
-                    {track.name}
+                    <Upload className="w-3 h-3" />
+                    Upload
                   </button>
-                ))}
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="audio/*"
+                    onChange={handleFileUpload}
+                    className="hidden"
+                  />
+                </div>
+                {customTracks.length > 0 ? (
+                  <div className="space-y-1 max-h-20 overflow-y-auto">
+                    {customTracks.map((track, index) => (
+                      <button
+                        key={track.id}
+                        onClick={() => selectTrack(tracks.length + index)}
+                        className={cn(
+                          "w-full text-left px-2 py-1.5 rounded text-xs transition-colors",
+                          currentTrack?.id === track.id
+                            ? "bg-primary/20 text-primary"
+                            : "hover:bg-muted/30 text-muted-foreground"
+                        )}
+                      >
+                        🎵 {track.name}
+                      </button>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-xs text-muted-foreground/60 italic">
+                    No custom tracks yet
+                  </p>
+                )}
               </div>
             </>
           )}

@@ -107,6 +107,7 @@ export default function Assessment() {
   
   const typingMetrics = useTypingMetrics();
   const choiceLatency = useChoiceLatency();
+  const [finalTypingWPM, setFinalTypingWPM] = useState(0);
 
   const currentQuestion = questions[currentStep];
   const isLastQuestion = currentStep === questions.length - 1;
@@ -207,6 +208,9 @@ export default function Assessment() {
       // Calculate stress score locally (would be API call in production)
       const stressResult = calculateStressScore(payload);
       
+      // Store typing WPM for display
+      setFinalTypingWPM(finalTypingMetrics.typingSpeedWPM);
+      
       // Store assessment completion
       localStorage.setItem("neuroaura_assessment_done", "true");
       localStorage.setItem("neuroaura_stress_score", String(stressResult.stressScore));
@@ -282,6 +286,7 @@ export default function Assessment() {
         <div className="relative z-10 w-full">
           <StressResultCard
             result={result}
+            typingWPM={finalTypingWPM}
             onStartIntervention={handleStartIntervention}
             onContinue={handleContinue}
           />

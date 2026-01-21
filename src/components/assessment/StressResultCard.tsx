@@ -6,18 +6,27 @@ import { AlertCircle, Sparkles, TrendingDown, TrendingUp } from "lucide-react";
 
 interface StressResultCardProps {
   result: StressResult;
+  typingWPM?: number;
   onStartIntervention: () => void;
   onContinue: () => void;
   className?: string;
 }
 
+const getTypingSpeedLabel = (wpm: number) => {
+  if (wpm < 25) return { label: "Slow typing detected", color: "text-amber-500", emoji: "🐢" };
+  if (wpm < 50) return { label: "Normal typing speed", color: "text-green-500", emoji: "✍️" };
+  return { label: "Fast typing detected", color: "text-cyan-500", emoji: "⚡" };
+};
+
 export default function StressResultCard({
   result,
+  typingWPM = 0,
   onStartIntervention,
   onContinue,
   className,
 }: StressResultCardProps) {
   const { stressScore, mood, confidence, explanations, recommendedIntervention } = result;
+  const typingSpeedInfo = getTypingSpeedLabel(typingWPM);
   
   // Calculate gauge rotation (-90 to 90 degrees based on 0-100 score)
   const gaugeRotation = -90 + (stressScore / 100) * 180;
@@ -111,6 +120,22 @@ export default function StressResultCard({
             </div>
           </div>
         </div>
+
+        {/* Typing Speed Detection */}
+        {typingWPM > 0 && (
+          <div className={cn(
+            "flex items-center justify-center gap-2 p-3 rounded-xl border",
+            "bg-muted/20 border-border/30"
+          )}>
+            <span className="text-xl">{typingSpeedInfo.emoji}</span>
+            <span className={cn("font-orbitron text-sm font-medium", typingSpeedInfo.color)}>
+              {typingSpeedInfo.label}
+            </span>
+            <span className="text-xs text-muted-foreground ml-1">
+              ({Math.round(typingWPM)} WPM)
+            </span>
+          </div>
+        )}
 
         {/* Explanations */}
         <div className="space-y-2">

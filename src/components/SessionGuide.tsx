@@ -70,18 +70,27 @@ export default function SessionGuide({
     synthRef.current.cancel();
     
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = 0.85;
-    utterance.pitch = 1;
-    utterance.volume = 0.8;
+    utterance.rate = 0.75; // Slower for soothing effect
+    utterance.pitch = 1.1; // Slightly higher for softer feminine tone
+    utterance.volume = 0.7; // Softer volume
     
-    // Try to use a calm voice
+    // Try to use a soft female voice - prioritize known gentle voices
     const voices = synthRef.current.getVoices();
     const preferredVoice = voices.find(v => 
-      v.name.includes("Female") || 
-      v.name.includes("Samantha") || 
+      v.name.includes("Samantha") || // Apple's gentle female voice
+      v.name.includes("Victoria") ||
       v.name.includes("Karen") ||
-      v.lang.startsWith("en")
-    );
+      v.name.includes("Moira") ||
+      v.name.includes("Fiona") ||
+      v.name.includes("Tessa") ||
+      v.name.includes("Veena") ||
+      (v.name.includes("Female") && v.lang.startsWith("en")) ||
+      (v.name.includes("Google") && v.name.includes("Female")) ||
+      v.name.includes("Zira") || // Microsoft's female voice
+      v.name.includes("Hazel") ||
+      v.name.includes("Susan")
+    ) || voices.find(v => v.lang.startsWith("en") && v.name.toLowerCase().includes("female"));
+    
     if (preferredVoice) {
       utterance.voice = preferredVoice;
     }
