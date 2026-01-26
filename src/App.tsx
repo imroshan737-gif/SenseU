@@ -83,6 +83,50 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   return <>{children}</>;
 };
 
+// Enforce mandatory post-signup assessment before allowing access to the dashboard
+const AssessmentGate = ({ children }: { children: React.ReactNode }) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasCompletedAssessment, setHasCompletedAssessment] = useState(false);
+
+  useEffect(() => {
+    let mounted = true;
+
+    const evaluate = (session: any) => {
+      if (!mounted) return;
+
+      const userId: string | undefined = session?.user?.id;
+      if (!userId) {
+        setHasCompletedAssessment(false);
+        setIsLoading(false);
+        return;
+      }
+
+      const done = localStorage.getItem(`neuroaura_assessment_done:${userId}`) === "true";
+      setHasCompletedAssessment(done);
+      setIsLoading(false);
+    };
+
+    supabase.auth.getSession().then(({ data: { session } }) => evaluate(session));
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
+      evaluate(session);
+    });
+
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
+  }, []);
+
+  if (isLoading) return <PageLoader />;
+
+  if (!hasCompletedAssessment) {
+    return <Navigate to="/assessment" replace />;
+  }
+
+  return <>{children}</>;
+};
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -109,7 +153,9 @@ const App = () => (
                 path="/dashboard" 
                 element={
                   <ProtectedRoute>
-                    <Dashboard />
+                    <AssessmentGate>
+                      <Dashboard />
+                    </AssessmentGate>
                   </ProtectedRoute>
                 } 
               />

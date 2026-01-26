@@ -54,6 +54,14 @@ const Auth = () => {
       
       // Only redirect on explicit SIGNED_IN event (after user action)
       if (session && event === 'SIGNED_IN') {
+        // Clear legacy global flags (they can incorrectly apply to a different user on the same device)
+        localStorage.removeItem("neuroaura_assessment_done");
+        localStorage.removeItem("neuroaura_stress_score");
+        localStorage.removeItem("neuroaura_mood");
+
+        const userId = session.user.id;
+        localStorage.setItem("neuroaura_user_id", userId);
+
         if (session.user?.user_metadata?.name) {
           localStorage.setItem("neuroaura_name", session.user.user_metadata.name);
         }
@@ -61,7 +69,7 @@ const Auth = () => {
           localStorage.setItem("neuroaura_email", session.user.email);
         }
         
-        const hasCompletedAssessment = localStorage.getItem("neuroaura_assessment_done");
+        const hasCompletedAssessment = localStorage.getItem(`neuroaura_assessment_done:${userId}`) === "true";
         
         if (!hasCompletedAssessment) {
           navigate("/assessment", { replace: true });

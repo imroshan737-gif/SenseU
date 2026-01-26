@@ -18,6 +18,7 @@ import {
 } from "@/lib/stressCalculator";
 import { toast } from "sonner";
 import { ArrowLeft, ArrowRight, Loader2 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 interface Question {
   id: string;
@@ -153,6 +154,9 @@ export default function Assessment() {
     setIsSubmitting(true);
 
     try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const userId = session?.user.id || localStorage.getItem("neuroaura_user_id") || "unknown";
+
       // Calculate typing metrics for text question
       const textAnswer = answers["q4"] as string || "";
       const finalTypingMetrics = typingMetrics.calculateMetrics(textAnswer);
@@ -211,10 +215,10 @@ export default function Assessment() {
       // Store typing WPM for display
       setFinalTypingWPM(finalTypingMetrics.typingSpeedWPM);
       
-      // Store assessment completion
-      localStorage.setItem("neuroaura_assessment_done", "true");
-      localStorage.setItem("neuroaura_stress_score", String(stressResult.stressScore));
-      localStorage.setItem("neuroaura_mood", stressResult.mood);
+      // Store assessment completion per-user (prevents one user's completion flag affecting another account)
+      localStorage.setItem(`neuroaura_assessment_done:${userId}`, "true");
+      localStorage.setItem(`neuroaura_stress_score:${userId}`, String(stressResult.stressScore));
+      localStorage.setItem(`neuroaura_mood:${userId}`, stressResult.mood);
       
       // Simulate API delay
       await new Promise(resolve => setTimeout(resolve, 1500));
@@ -361,19 +365,6 @@ export default function Assessment() {
             </div>
           </div>
         </GlassCard>
-
-        {/* Skip option */}
-        <div className="text-center mt-4">
-          <button
-            onClick={() => {
-              localStorage.setItem("neuroaura_assessment_done", "true");
-              navigate("/dashboard");
-            }}
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-          >
-            Skip for now (limited features)
-          </button>
-        </div>
       </div>
     </div>
   );

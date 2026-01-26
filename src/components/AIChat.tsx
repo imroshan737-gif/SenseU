@@ -198,7 +198,7 @@ export default function AIChat({ isOpen, onClose, isDemo = false }: AIChatProps)
 
   return (
     <div className="fixed bottom-28 right-8 z-50 w-80 md:w-96 animate-scale-in">
-      <GlassCard className="max-h-[500px] flex flex-col">
+      <GlassCard className="max-h-[500px] flex flex-col bg-card/95 before:opacity-0 border border-border/70 backdrop-blur-2xl">
         {/* Header */}
         <div className="flex items-center justify-between pb-4 border-b border-border/30">
           <div className="flex items-center gap-3">
@@ -212,9 +212,10 @@ export default function AIChat({ isOpen, onClose, isDemo = false }: AIChatProps)
           </div>
           <button
             onClick={onClose}
-            className="p-1 rounded-lg hover:bg-muted/30 transition-colors"
+            aria-label="Close chat"
+            className="p-2 rounded-lg bg-muted/40 hover:bg-muted/60 border border-border/60 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/40"
           >
-            <X className="w-4 h-4 text-muted-foreground" />
+            <X className="w-5 h-5 text-foreground" />
           </button>
         </div>
 
