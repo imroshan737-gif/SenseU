@@ -36,6 +36,7 @@ import SessionFeedback from "@/components/SessionFeedback";
 import SnakeGame from "@/components/SnakeGame";
 import HeaderMusicControls from "@/components/HeaderMusicControls";
 import EmergencySOS from "@/components/EmergencySOS";
+import { PrivacyModal, TermsModal, ContactModal } from "@/components/FooterModals";
 import { useRealtimeVitals } from "@/hooks/useRealtimeVitals";
 import { usePoints } from "@/hooks/usePoints";
 import { cn } from "@/lib/utils";
@@ -115,6 +116,9 @@ const Dashboard = () => {
   const [showAchievements, setShowAchievements] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
   const [showEmergencySOS, setShowEmergencySOS] = useState(false);
+  const [showPrivacy, setShowPrivacy] = useState(false);
+  const [showTerms, setShowTerms] = useState(false);
+  const [showContact, setShowContact] = useState(false);
   const [completedSession, setCompletedSession] = useState<{ title: string; type: string } | null>(null);
   const [improvementSheet, setImprovementSheet] = useState<{
     open: boolean;
@@ -383,6 +387,41 @@ const Dashboard = () => {
             </p>
           </GlassCard>
         </div>
+
+        {/* Footer */}
+        <footer className="mt-8 py-6 border-t border-border/30">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary/30 to-secondary/30 flex items-center justify-center border border-primary/30">
+                <div className="w-3 h-3 rounded-full bg-gradient-to-br from-primary to-secondary" />
+              </div>
+              <span className="text-sm text-muted-foreground">
+                <span className="neon-text font-orbitron">NeuroAura</span> — Made to help students thrive
+              </span>
+            </div>
+            <div className="flex items-center gap-6">
+              <button 
+                onClick={() => setShowPrivacy(true)}
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Privacy
+              </button>
+              <button 
+                onClick={() => setShowTerms(true)}
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Terms
+              </button>
+              <button 
+                onClick={() => setShowContact(true)}
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Contact
+              </button>
+            </div>
+            <div className="text-xs text-muted-foreground/50 font-orbitron">v2.0.1</div>
+          </div>
+        </footer>
       </div>
 
       {/* Floating AI Orb */}
@@ -426,6 +465,11 @@ const Dashboard = () => {
         open={showEmergencySOS}
         onOpenChange={setShowEmergencySOS}
       />
+      
+      {/* Footer Modals */}
+      <PrivacyModal open={showPrivacy} onOpenChange={setShowPrivacy} />
+      <TermsModal open={showTerms} onOpenChange={setShowTerms} />
+      <ContactModal open={showContact} onOpenChange={setShowContact} />
     </div>
   );
 };
