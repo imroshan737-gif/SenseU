@@ -27,6 +27,7 @@ const allSessions: Session[] = [
   { id: "f4", title: "Flow State", description: "Get into the zone", duration: 900, durationLabel: "15 min", type: "focus", icon: Brain, color: "from-violet-500 to-purple-500" },
   
   // Rest Sessions
+  { id: "r0", title: "Eyes Closed Relax", description: "Close your eyes and relax for 30 seconds", duration: 30, durationLabel: "30 sec", type: "rest", icon: Moon, color: "from-indigo-500 to-violet-500" },
   { id: "r1", title: "Micro Break", description: "Quick mental reset", duration: 60, durationLabel: "1 min", type: "rest", icon: Coffee, color: "from-indigo-500 to-violet-500" },
   { id: "r2", title: "Recovery Break", description: "Guided relaxation", duration: 300, durationLabel: "5 min", type: "rest", icon: Moon, color: "from-indigo-500 to-violet-500" },
   { id: "r3", title: "Deep Rest", description: "Full relaxation session", duration: 600, durationLabel: "10 min", type: "rest", icon: Moon, color: "from-indigo-500 to-violet-500" },

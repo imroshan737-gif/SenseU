@@ -197,8 +197,8 @@ export default function AIChat({ isOpen, onClose, isDemo = false }: AIChatProps)
   if (!isOpen) return null;
 
   return (
-    <div className="fixed bottom-28 right-8 z-50 w-96 md:w-[420px] animate-scale-in">
-      <GlassCard className="max-h-[600px] flex flex-col bg-card/95 before:opacity-0 border border-border/70 backdrop-blur-2xl">
+    <div className="fixed bottom-28 right-8 z-50 w-96 md:w-[440px] animate-scale-in">
+      <GlassCard className="max-h-[85vh] h-[700px] flex flex-col bg-card/95 before:opacity-0 border border-border/70 backdrop-blur-2xl">
         {/* Header */}
         <div className="flex items-center justify-between pb-4 border-b border-border/30">
           <div className="flex items-center gap-3">
@@ -222,7 +222,7 @@ export default function AIChat({ isOpen, onClose, isDemo = false }: AIChatProps)
         </div>
 
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto py-4 space-y-3 max-h-[400px]">
+        <div className="flex-1 overflow-y-auto py-4 space-y-3">
           {messages.map((msg, i) => (
             <div
               key={i}

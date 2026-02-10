@@ -226,13 +226,15 @@ const Dashboard = () => {
         </button>
 
         <div className="flex items-center gap-4">
-          <button 
-            onClick={() => setShowAchievements(true)}
-            className="hidden md:flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-amber-500/20 to-orange-500/20 rounded-lg border border-amber-500/30 hover:border-amber-500/50 transition-colors"
-          >
-            <Trophy className="w-4 h-4 text-amber-400" />
-            <span className="text-sm font-orbitron text-amber-400">{points}</span>
-          </button>
+          {points > 0 && (
+            <button 
+              onClick={() => setShowAchievements(true)}
+              className="hidden md:flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-amber-500/20 to-orange-500/20 rounded-lg border border-amber-500/30 hover:border-amber-500/50 transition-colors"
+            >
+              <Trophy className="w-4 h-4 text-amber-400" />
+              <span className="text-sm font-orbitron text-amber-400">{points}</span>
+            </button>
+          )}
           
           <button onClick={() => setShowSearch(true)} className="hidden md:flex items-center gap-2 px-4 py-2 bg-muted/30 rounded-xl border border-border/30 hover:border-primary/30 transition-colors">
             <Search className="w-4 h-4 text-muted-foreground" />
@@ -312,7 +314,7 @@ const Dashboard = () => {
               </div>
 
               <div className="flex gap-3 mt-6">
-                {[{ label: "Breathe", type: "breathe" as const, duration: 60 }, { label: "Focus", type: "focus" as const, duration: 900 }, { label: "Rest", type: "rest" as const, duration: 300 }].map((a) => (
+                {[{ label: "Breathe", type: "breathe" as const, duration: 60 }, { label: "Focus", type: "focus" as const, duration: 900 }, { label: "Rest", type: "rest" as const, duration: 300 }, { label: "Eyes Closed", type: "rest" as const, duration: 30 }].map((a) => (
                   <button key={a.label} onClick={() => handleStartSession(a.type, `${a.label} Session`, a.duration)} className="px-4 py-2 rounded-lg bg-muted/30 border border-border/30 text-sm font-orbitron text-muted-foreground hover:text-primary hover:border-primary/30 transition-all">
                     {a.label}
                   </button>
