@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { AlertTriangle, Phone, MapPin, MessageCircle, Users, X, Check, Loader2 } from "lucide-react";
+import { AlertTriangle, Phone, MapPin, Loader2, Check } from "lucide-react";
 import NeonButton from "./NeonButton";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -12,87 +12,117 @@ interface EmergencySOSProps {
 
 type SOSStep = "confirm" | "sending" | "sent";
 
-interface EmergencyContact {
-  id: string;
-  name: string;
-  phone: string;
-  relationship: string;
-}
-
 export default function EmergencySOS({ open, onOpenChange }: EmergencySOSProps) {
   const [step, setStep] = useState<SOSStep>("confirm");
-  const [selectedContacts, setSelectedContacts] = useState<string[]>([]);
   const [shareLocation, setShareLocation] = useState(true);
   const [customMessage, setCustomMessage] = useState("");
   const [location, setLocation] = useState<{ lat: number; lng: number } | null>(null);
 
-  // Demo contacts - in production, these would come from user's saved contacts
-  const emergencyContacts: EmergencyContact[] = [
-    { id: "1", name: "Campus Security", phone: "911", relationship: "Emergency" },
-    { id: "2", name: "Mental Health Hotline", phone: "988", relationship: "Crisis Support" },
-    { id: "3", name: "Trusted Friend", phone: "+1234567890", relationship: "Friend" },
-  ];
+  /* ---------------- LOCAL STORAGE HELPERS ---------------- */
 
-  const toggleContact = (id: string) => {
-    setSelectedContacts((prev) =>
-      prev.includes(id) ? prev.filter((c) => c !== id) : [...prev, id]
+  const getPrimaryContact = () => {
+    const saved = localStorage.getItem("primary_emergency_contact");
+    return saved ? JSON.parse(saved) : null;
+  };
+
+  const savePrimaryContact = (phone: string) => {
+    localStorage.setItem(
+      "primary_emergency_contact",
+      JSON.stringify({ phone })
     );
   };
 
-  const getLocation = useCallback(() => {
-    if ("geolocation" in navigator) {
+  const changePrimaryContact = () => {
+    const number = prompt("Enter primary WhatsApp number with country code (e.g. 919876543210)");
+    if (!number) return;
+    savePrimaryContact(number);
+    toast.success("Primary contact updated");
+  };
+
+  /* ---------------- LOCATION ---------------- */
+
+  const getLocation = useCallback(async (): Promise<{ lat: number; lng: number } | null> => {
+    if (!("geolocation" in navigator)) {
+      toast.error("Geolocation not supported");
+      return null;
+    }
+
+    return new Promise((resolve) => {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          setLocation({
+          const coords = {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
-          });
+          };
+          setLocation(coords);
+          resolve(coords);
         },
-        (error) => {
-          console.error("Location error:", error);
-          toast.error("Could not get location. Alerts will be sent without location.");
+        () => {
+          toast.error("Could not get location");
+          resolve(null);
         }
       );
-    }
+    });
   }, []);
 
-  const handleSendSOS = async () => {
-    if (selectedContacts.length === 0) {
-      toast.error("Please select at least one contact");
-      return;
-    }
+  /* ---------------- MAIN SOS LOGIC ---------------- */
 
+  const handleSendSOS = async () => {
     setStep("sending");
 
-    // Get location if enabled
-    if (shareLocation && !location) {
-      getLocation();
+    let contact = getPrimaryContact();
+
+    // Ask for number if not saved
+    if (!contact) {
+      const number = prompt(
+        "Enter primary WhatsApp number with country code\nExample: 919876543210"
+      );
+
+      if (!number) {
+        setStep("confirm");
+        return;
+      }
+
+      contact = { phone: number };
+      savePrimaryContact(number);
     }
 
-    // Simulate sending alerts
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    // Get location if enabled
+    let coords = location;
+    if (shareLocation && !coords) {
+      coords = await getLocation();
+    }
 
-    // In production, this would:
-    // 1. Call an edge function to send SMS/notifications
-    // 2. Log the SOS event
-    // 3. Trigger any emergency workflows
+    // Build message
+    let message = "🚨 EMERGENCY! I need help.";
 
-    setStep("sent");
-    toast.success("Emergency alerts sent successfully");
+    if (customMessage.trim()) {
+      message += `\n\n${customMessage}`;
+    }
+
+    if (shareLocation && coords) {
+      message += `\n\nMy location:\nhttps://maps.google.com/?q=${coords.lat},${coords.lng}`;
+    }
+
+    // Open WhatsApp
+    const url = `https://wa.me/${contact.phone}?text=${encodeURIComponent(message)}`;
+    window.open(url, "_blank");
+
+    setTimeout(() => {
+      setStep("sent");
+      toast.success("WhatsApp opened with SOS message");
+    }, 1200);
   };
 
   const handleClose = () => {
     setStep("confirm");
-    setSelectedContacts([]);
     setCustomMessage("");
     onOpenChange(false);
   };
 
-  const emergencyResources = [
-    { name: "National Suicide Prevention", number: "988", description: "24/7 crisis support" },
-    { name: "Crisis Text Line", number: "Text HOME to 741741", description: "Text-based support" },
-    { name: "SAMHSA Helpline", number: "1-800-662-4357", description: "Mental health support" },
-  ];
+  const primaryContact = getPrimaryContact();
+
+  /* ---------------- UI ---------------- */
 
   return (
     <Sheet open={open} onOpenChange={handleClose}>
@@ -107,52 +137,30 @@ export default function EmergencySOS({ open, onOpenChange }: EmergencySOSProps) 
         <div className="space-y-6 mt-6">
           {step === "confirm" && (
             <>
-              {/* Warning Banner */}
+              {/* Warning */}
               <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/30">
                 <p className="text-sm text-red-300">
-                  This will send an emergency alert to your selected contacts with your current status and location.
+                  This will open WhatsApp and send your location to your primary emergency contact.
                 </p>
               </div>
 
-              {/* Contact Selection */}
-              <div className="space-y-3">
-                <h3 className="text-sm font-orbitron uppercase tracking-wider text-muted-foreground">
-                  Select Contacts to Alert
-                </h3>
-                {emergencyContacts.map((contact) => (
+              {/* Primary Contact Display */}
+              <div className="p-4 rounded-xl bg-muted/20 border border-border/30">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium">Primary Contact</p>
+                    <p className="text-xs text-muted-foreground">
+                      {primaryContact?.phone || "Not set"}
+                    </p>
+                  </div>
+
                   <button
-                    key={contact.id}
-                    onClick={() => toggleContact(contact.id)}
-                    className={cn(
-                      "w-full p-4 rounded-xl border transition-all text-left",
-                      selectedContacts.includes(contact.id)
-                        ? "bg-red-500/20 border-red-500/50"
-                        : "bg-muted/20 border-border/30 hover:border-red-500/30"
-                    )}
+                    onClick={changePrimaryContact}
+                    className="text-xs text-primary underline"
                   >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div
-                          className={cn(
-                            "w-10 h-10 rounded-full flex items-center justify-center",
-                            selectedContacts.includes(contact.id)
-                              ? "bg-red-500/30"
-                              : "bg-muted/30"
-                          )}
-                        >
-                          <Users className="w-5 h-5 text-red-400" />
-                        </div>
-                        <div>
-                          <p className="font-medium text-foreground">{contact.name}</p>
-                          <p className="text-xs text-muted-foreground">{contact.relationship}</p>
-                        </div>
-                      </div>
-                      {selectedContacts.includes(contact.id) && (
-                        <Check className="w-5 h-5 text-red-400" />
-                      )}
-                    </div>
+                    {primaryContact ? "Change" : "Add"}
                   </button>
-                ))}
+                </div>
               </div>
 
               {/* Location Toggle */}
@@ -161,9 +169,12 @@ export default function EmergencySOS({ open, onOpenChange }: EmergencySOSProps) 
                   <MapPin className="w-5 h-5 text-primary" />
                   <div>
                     <p className="text-sm font-medium">Share Location</p>
-                    <p className="text-xs text-muted-foreground">Include your current location</p>
+                    <p className="text-xs text-muted-foreground">
+                      Include your current GPS location
+                    </p>
                   </div>
                 </div>
+
                 <button
                   onClick={() => setShareLocation(!shareLocation)}
                   className={cn(
@@ -188,43 +199,17 @@ export default function EmergencySOS({ open, onOpenChange }: EmergencySOSProps) 
                 <textarea
                   value={customMessage}
                   onChange={(e) => setCustomMessage(e.target.value)}
-                  placeholder="Add any additional details..."
-                  className="w-full p-3 rounded-xl bg-muted/20 border border-border/30 text-sm text-foreground placeholder:text-muted-foreground resize-none focus:outline-none focus:border-red-500/50"
+                  placeholder="Add details like injury, danger, etc..."
+                  className="w-full p-3 rounded-xl bg-muted/20 border border-border/30 text-sm resize-none focus:outline-none focus:border-red-500/50"
                   rows={3}
                 />
               </div>
 
-              {/* Send Button */}
-              <NeonButton
-                variant="danger"
-                className="w-full"
-                onClick={handleSendSOS}
-              >
+              {/* SEND SOS */}
+              <NeonButton variant="danger" className="w-full" onClick={handleSendSOS}>
                 <AlertTriangle className="w-5 h-5 mr-2" />
-                Send Emergency Alert
+                Send SOS via WhatsApp
               </NeonButton>
-
-              {/* Crisis Resources */}
-              <div className="space-y-3 pt-4 border-t border-border/30">
-                <h3 className="text-sm font-orbitron uppercase tracking-wider text-muted-foreground">
-                  Crisis Resources
-                </h3>
-                {emergencyResources.map((resource, i) => (
-                  <a
-                    key={i}
-                    href={`tel:${resource.number.replace(/\D/g, "")}`}
-                    className="flex items-center gap-3 p-3 rounded-xl bg-muted/10 border border-border/20 hover:border-primary/30 transition-colors"
-                  >
-                    <Phone className="w-4 h-4 text-primary" />
-                    <div>
-                      <p className="text-sm font-medium">{resource.name}</p>
-                      <p className="text-xs text-muted-foreground">
-                        {resource.number} • {resource.description}
-                      </p>
-                    </div>
-                  </a>
-                ))}
-              </div>
             </>
           )}
 
@@ -236,10 +221,7 @@ export default function EmergencySOS({ open, onOpenChange }: EmergencySOSProps) 
                 </div>
                 <div className="absolute inset-0 w-20 h-20 rounded-full border-2 border-red-500/50 animate-ping" />
               </div>
-              <p className="text-lg font-orbitron text-foreground">Sending Alerts...</p>
-              <p className="text-sm text-muted-foreground text-center">
-                Contacting emergency contacts and sharing your location
-              </p>
+              <p className="text-lg font-orbitron">Preparing SOS...</p>
             </div>
           )}
 
@@ -248,23 +230,17 @@ export default function EmergencySOS({ open, onOpenChange }: EmergencySOSProps) 
               <div className="w-20 h-20 rounded-full bg-emerald-500/20 flex items-center justify-center">
                 <Check className="w-10 h-10 text-emerald-400" />
               </div>
-              <div className="text-center space-y-2">
-                <p className="text-lg font-orbitron text-foreground">Alerts Sent</p>
+
+              <div className="text-center">
+                <p className="text-lg font-orbitron">WhatsApp Opened</p>
                 <p className="text-sm text-muted-foreground">
-                  {selectedContacts.length} contact(s) have been notified
+                  Press SEND in WhatsApp to notify your contact.
                 </p>
-                {shareLocation && location && (
-                  <p className="text-xs text-primary">Location shared successfully</p>
-                )}
               </div>
-              <div className="space-y-3 w-full">
-                <p className="text-sm text-muted-foreground text-center">
-                  Help is on the way. Stay where you are if safe to do so.
-                </p>
-                <NeonButton onClick={handleClose} className="w-full">
-                  Close
-                </NeonButton>
-              </div>
+
+              <NeonButton onClick={handleClose} className="w-full">
+                Close
+              </NeonButton>
             </div>
           )}
         </div>
