@@ -194,10 +194,9 @@ export function ContactModal({ open, onOpenChange }: FooterModalProps) {
           <div className="text-center p-4 rounded-xl bg-gradient-to-br from-primary/10 to-secondary/10 border border-primary/30">
             <h3 className="text-lg font-orbitron font-bold text-gradient mb-4">My Team</h3>
             <ul className="space-y-3 text-base">
-              <li className="text-foreground font-medium">Pratiksha S Meti</li>
-              <li className="text-foreground font-medium">Anwesha Nagaraj</li>
-              <li className="text-foreground font-medium">Abhay Rao</li>
-              <li className="text-foreground font-medium">Ishan Sahoo</li>
+              <li className="text-foreground font-medium">Megharaju HM</li>
+              <li className="text-foreground font-medium">Manish S Deshpande</li>
+              <li className="text-foreground font-medium">Tilak Kumar BL</li>
             </ul>
           </div>
         </div>
