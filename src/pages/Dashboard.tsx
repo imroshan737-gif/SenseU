@@ -13,7 +13,8 @@ import {
   Search,
   ChevronRight,
   TrendingUp,
-  Trophy
+  Trophy,
+  Activity // <--- Added correctly here
 } from "lucide-react";
 import ParticleBackground from "@/components/ParticleBackground";
 import GlassCard from "@/components/GlassCard";
@@ -240,6 +241,7 @@ const Dashboard = () => {
             <Search className="w-4 h-4 text-muted-foreground" />
             <span className="text-sm text-muted-foreground">Search...</span>
           </button>
+
           <HeaderMusicControls />
           <button onClick={() => setShowNotifications(true)} className="relative p-2 rounded-xl bg-muted/30 border border-border/30 hover:bg-muted/50 transition-colors">
             <Bell className="w-5 h-5 text-muted-foreground" />
@@ -325,6 +327,32 @@ const Dashboard = () => {
 
           {/* Right Panel */}
           <div className="col-span-12 lg:col-span-3 space-y-4">
+            
+            {/* --- NEW CLINICAL ASSESSMENTS CARD START --- */}
+            {/* Wrapper div to handle the click event */}
+            <div 
+              onClick={() => navigate("/clinical-assessments")}
+              className="cursor-pointer"
+            >
+              <GlassCard className="p-4 hover:border-primary/50 transition-colors group">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded-lg bg-primary/10 border border-primary/20 text-primary">
+                    <Activity className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="font-orbitron font-semibold text-sm group-hover:text-primary transition-colors">
+                      Clinical Assessments
+                    </h3>
+                    <p className="text-xs text-muted-foreground">
+                      Check Depression & Anxiety
+                    </p>
+                  </div>
+                  <ChevronRight className="w-4 h-4 text-muted-foreground ml-auto group-hover:translate-x-1 transition-transform" />
+                </div>
+              </GlassCard>
+            </div>
+            {/* --- NEW CLINICAL ASSESSMENTS CARD END --- */}
+
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-sm font-orbitron uppercase tracking-wider text-muted-foreground">Interventions</h3>
               <button 
@@ -340,7 +368,8 @@ const Dashboard = () => {
               <h4 className="text-xs font-orbitron uppercase tracking-wider text-muted-foreground/70 mb-2">What You Need</h4>
               <div className="relative group">
                 <VitalsTile title="Sleep Quality" value={7.5} unit="hrs" icon={Moon} trend="up" color="violet" />
-                <button onClick={() => handleImprove("sleep")} className="absolute top-2 right-2 px-2 py-1 rounded-md bg-violet-500/20 text-violet-400 text-xs font-orbitron opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+                <button onClick={() => handleImprove("sleep")} className="absolute top-2 right-2 px-2 py-1 rounded-md bg-violet-500/20 text-violet-400 text-xs font-orbitron opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1"
+                >
                   <TrendingUp className="w-3 h-3" /> Improve
                 </button>
               </div>

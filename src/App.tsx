@@ -6,6 +6,10 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { MusicProvider } from "@/contexts/MusicContext";
+import Stress from "@/components/assessment/Stress";
+import Anxiety from "@/components/assessment/Anxiety";
+import Depression from "@/components/assessment/Depression";
+const ClinicalAssessments = lazy(() => import("./pages/Integrations"));
 
 // Lazy load pages for code splitting
 const Index = lazy(() => import("./pages/Index"));
@@ -147,8 +151,21 @@ const App = () => (
         <BrowserRouter>
           <Suspense fallback={<PageLoader />}>
             <Routes>
+              {/* Public Routes */}
               <Route path="/" element={<Index />} />
               <Route path="/auth" element={<Auth />} />
+              
+              {/* Protected Assessment Hub */}
+              <Route 
+                path="/clinical-assessments" 
+                element={
+                  <ProtectedRoute>
+                    <ClinicalAssessments />
+                  </ProtectedRoute>
+                } 
+              />
+
+              {/* Protected Dashboard */}
               <Route 
                 path="/dashboard" 
                 element={
@@ -159,6 +176,8 @@ const App = () => (
                   </ProtectedRoute>
                 } 
               />
+
+              {/* Initial Mandatory Assessment */}
               <Route 
                 path="/assessment" 
                 element={
@@ -167,6 +186,8 @@ const App = () => (
                   </ProtectedRoute>
                 } 
               />
+
+              {/* 404 Fallback */}
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
