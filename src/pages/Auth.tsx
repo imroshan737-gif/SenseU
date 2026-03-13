@@ -70,13 +70,9 @@ const Auth = () => {
           localStorage.setItem("neuroaura_email", session.user.email);
         }
         
-        const hasCompletedAssessment = localStorage.getItem(`neuroaura_assessment_done:${userId}`) === "true";
-        
-        if (!hasCompletedAssessment) {
-          navigate("/assessment", { replace: true });
-        } else {
-          navigate("/dashboard", { replace: true });
-        }
+        // Always require assessment on every sign-in (fresh baseline each session)
+        localStorage.removeItem(`neuroaura_assessment_done:${userId}`);
+        navigate("/assessment", { replace: true });
       }
     });
 
