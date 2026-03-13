@@ -37,7 +37,7 @@ const SnakeGame = memo(({ className, onScoreChange }: SnakeGameProps) => {
   const [particles, setParticles] = useState<{ x: number; y: number; id: number }[]>([]);
   
   const directionRef = useRef(direction);
-  const gameLoopRef = useRef<NodeJS.Timeout | null>(null);
+  const gameLoopRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const lastFoodTime = useRef(Date.now());
 
   const generatePosition = useCallback((exclude: Position[]): Position => {
