@@ -64,3 +64,58 @@ It combines **predictive analytics, adaptive AI, and immersive UI** to deliver a
   - **Focus**
   - **Energy**
 - Interactive and immersive UI
+---
+
+### 🧠 Clinical Assessments
+- Standard tests:
+  - **PHQ-9** (Depression)
+  - **GAD-7** (Anxiety)
+  - **PSS** (Stress)
+- Provides **quantitative evaluation**
+
+---
+
+### 🧘 Interventions & Wellness Sessions
+- Sessions from **30 sec to 30 min**
+- Includes breathing & relaxation techniques
+- Helps:
+  - Reduce stress
+  - Improve focus
+
+---
+
+### 🎮 Gamification & Engagement
+- **Zen Snake Game** for relaxation
+- Reward system:
+  - Points
+  - Trophies
+- Encourages **consistent engagement**
+
+---
+
+### 📊 Emotional Timeline
+- Visual mood tracking across the day
+- Helps identify **emotional patterns**
+
+---
+
+### 🚨 Smart SOS System
+- Manual + AI-triggered alerts
+- Notifies **trusted contacts**
+- Includes **confirmation layer**
+
+---
+
+### 🎵 Background Music & Relaxation
+- Built-in ambient sounds
+- Controls:
+  - Play/pause/volume
+- Supports **custom uploads**
+
+---
+
+### 🔗 Hobby Integration
+- External tool for **habit tracking**
+- Promotes consistency in hobbies
+
+---
