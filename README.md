@@ -30,3 +30,37 @@ It combines **predictive analytics, adaptive AI, and immersive UI** to deliver a
   - **Stress Score**
   - **Confidence Level**
   - **Key insights**
+---
+
+### 🤖 Aurora – Intelligent AI Assistant
+- Context-aware **AI wellness assistant**
+- Supports:
+  - Conversations
+  - Image analysis
+  - Personalized guidance
+- Learns from **user behavior and history**
+
+---
+
+### 📈 Predictive Mental Health Analytics
+- Predicts **future stress trends**
+- Identifies:
+  - Daily stress patterns
+  - Sleep-related impacts
+- Provides **preventive suggestions**
+
+---
+
+### 🧬 Adaptive Personalization Engine
+- Learns user-specific responses to interventions
+- Tracks **stress reduction effectiveness**
+- Recommends **best-suited activities**
+
+---
+
+### 📉 Live Vitals Dashboard
+- Real-time metrics:
+  - **Stress**
+  - **Focus**
+  - **Energy**
+- Interactive and immersive UI
