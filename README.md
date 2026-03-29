@@ -167,7 +167,7 @@ NeuroAura is not just a wellness app — it is a:
 ---
 
 ## 👨‍💻 Developed By
-**Roshan Gowda J**
+**Roshan Gowda J and Team**
 
 ---
 
