@@ -119,3 +119,63 @@ It combines **predictive analytics, adaptive AI, and immersive UI** to deliver a
 - Promotes consistency in hobbies
 
 ---
+### ⚙️ Personalization & Settings
+- Toggle:
+  - 3D animations
+  - Visual effects
+- Theme options:
+  - Dark mode / Light mode
+- Profile customization:
+  - Name, bio, email, profile picture
+
+---
+
+## 🏗️ System Architecture
+
+### 🔧 Tech Stack
+- **Frontend:** React.js
+- **Backend:** Node.js / Python
+- **Database:** MongoDB / PostgreSQL
+- **AI Integration:** LLM APIs + ML Models
+
+---
+
+### 🧩 Core Modules
+- Stress Analysis Engine
+- AI Memory & Context Engine
+- Predictive Analytics Engine
+- Personalization Engine
+- SOS & Alert System
+
+---
+
+## 🔐 Data Privacy & Security
+- End-to-end **data encryption**
+- Secure authentication using **JWT**
+- User-first privacy:
+  - Data is not shared with third parties
+- Optional:
+  - Data deletion feature
+
+---
+
+## 📌 Unique Value Proposition
+NeuroAura is not just a wellness app — it is a:
+
+> **Predictive, Adaptive, AI-powered Mental Health Intelligence System**
+
+---
+
+## 👨‍💻 Developed By
+**Roshan Gowda J**
+
+---
+
+## ⭐ Final Note
+NeuroAura aims to make mental wellness:
+- **Accessible**
+- **Personalized**
+- **Data-driven**
+- **Engaging**
+
+> "Because mental health deserves intelligent solutions."
