@@ -1,13 +1,14 @@
 // Dashboard - Main application screen
 import { useState, useEffect, useCallback, memo } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
+import ContributionChart from "@/components/ContributionChart";
 import { 
   Brain, 
   Zap, 
   Moon, 
   Target, 
   Leaf, 
-  AlertTriangle,
+  AlertTriangle,emotiona
   Settings,
   Bell,
   Search,
@@ -385,6 +386,7 @@ const Dashboard = () => {
         {/* Bottom Section */}
         <div className="grid grid-cols-12 gap-6 mt-6">
           <div className="col-span-12 lg:col-span-8">
+            <ContributionChart title="Wellness Activity" />
             <GlassCard>
               <EmotionalTimeline data={timelineData} />
             </GlassCard>
