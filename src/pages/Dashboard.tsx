@@ -1,14 +1,13 @@
 // Dashboard - Main application screen
 import { useState, useEffect, useCallback, memo } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import ContributionChart from "@/components/ContributionChart";
 import { 
   Brain, 
   Zap, 
   Moon, 
   Target, 
   Leaf, 
-  AlertTriangle,emotiona
+  AlertTriangle,
   Settings,
   Bell,
   Search,
@@ -17,6 +16,7 @@ import {
   Trophy,
   Activity // <--- Added correctly here
 } from "lucide-react";
+import ContributionChart from "@/components/ContributionChart";
 import ParticleBackground from "@/components/ParticleBackground";
 import GlassCard from "@/components/GlassCard";
 import StressAura from "@/components/StressAura";
