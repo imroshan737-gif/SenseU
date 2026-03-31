@@ -1,3 +1,4 @@
+import { supabase } from "@/integrations/supabase/client";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Play, Pause, RotateCcw, Volume2, VolumeX, Check } from "lucide-react";
@@ -220,12 +221,21 @@ export default function SessionGuide({
     setIsRunning(false);
   };
 
-  const handleComplete = () => {
-    onOpenChange(false);
-    if (onComplete) {
-      onComplete();
-    }
-  };
+  const handleComplete = async () => {
+  try {
+    const userId = localStorage.getItem("neuroaura_user_id") || "anonymous";
+    await supabase.from("sessions").insert({
+      user_id: userId,
+      session_type: sessionType,
+      title: title,
+      completed_at: new Date().toISOString().split("T")[0],
+    });
+  } catch (err) {
+    console.error("Failed to save session:", err);
+  }
+  onOpenChange(false);
+  if (onComplete) onComplete();
+};
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
