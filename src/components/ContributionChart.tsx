@@ -33,12 +33,12 @@ function generateMockData(): ContributionDay[] {
 const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 const DAYS = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 
-function getColor(count: number): string {
-  if (count === 0) return "bg-[#1a2535]";
-  if (count === 1) return "bg-[#0e4429]";
-  if (count === 2) return "bg-[#006d32]";
-  if (count === 3) return "bg-[#26a641]";
-  return "bg-[#39d353]";
+function getColor(count: number): React.CSSProperties {
+  if (count === 0) return { backgroundColor: "#1a2535" };
+  if (count === 1) return { backgroundColor: "#0e4429" };
+  if (count === 2) return { backgroundColor: "#006d32" };
+  if (count === 3) return { backgroundColor: "#26a641" };
+  return { backgroundColor: "#39d353" };
 }
 
 const ContributionChart: React.FC<ContributionChartProps> = ({
@@ -134,8 +134,9 @@ const ContributionChart: React.FC<ContributionChartProps> = ({
                   <div
                     key={di}
                     title={day ? `${day.date}: ${day.count} sessions` : ""}
+                    style={day ? getColor(day.count) : {}}
                     className={`w-[13px] h-[13px] mb-[2px] rounded-[2px] transition-all duration-150 hover:ring-1 hover:ring-cyan-400/60 ${
-                      day ? getColor(day.count) : "opacity-0 pointer-events-none"
+                      !day ? "opacity-0 pointer-events-none" : ""
                     }`}
                   />
                 ))}
@@ -149,7 +150,8 @@ const ContributionChart: React.FC<ContributionChartProps> = ({
             {[0, 1, 2, 3, 4].map((c) => (
               <div
                 key={c}
-                className={`w-[13px] h-[13px] rounded-[2px] ${getColor(c)}`}
+                style={getColor(c)}
+                className="w-[13px] h-[13px] rounded-[2px]"
               />
             ))}
             <span className="text-[10px] text-gray-500 ml-1">More</span>
