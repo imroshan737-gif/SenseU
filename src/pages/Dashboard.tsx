@@ -39,7 +39,7 @@ import SessionFeedback from "@/components/SessionFeedback";
 import SnakeGame from "@/components/SnakeGame";
 import HeaderMusicControls from "@/components/HeaderMusicControls";
 import EmergencySOS from "@/components/EmergencySOS";
-import LeaderboardSheet from "@/components/LeaderboardSheet";
+
 import { PrivacyModal, TermsModal, ContactModal } from "@/components/FooterModals";
 import { useRealtimeVitals } from "@/hooks/useRealtimeVitals";
 import { usePoints } from "@/hooks/usePoints";
