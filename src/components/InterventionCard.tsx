@@ -62,7 +62,7 @@ const InterventionCard = ({
         "relative overflow-hidden rounded-2xl p-5",
         "bg-gradient-to-br border backdrop-blur-sm",
         "transition-all duration-500 hover:scale-[1.02]",
-        "group cursor-pointer",
+        "group cursor-pointer flex flex-col",
         style.gradient,
         style.border,
         style.glow,
@@ -81,7 +81,7 @@ const InterventionCard = ({
         <Icon className={cn("w-10 h-10", style.icon)} />
       </div>
 
-      <div className="relative z-10 space-y-4">
+      <div className="relative z-10 flex flex-col justify-between h-full">
         <div className="flex items-start gap-3">
           <div
             className={cn(
@@ -99,7 +99,7 @@ const InterventionCard = ({
           </div>
         </div>
 
-        <p className="text-sm text-muted-foreground leading-relaxed">
+        <p className="text-sm text-muted-foreground leading-relaxed flex-1">
           {description}
         </p>
 
