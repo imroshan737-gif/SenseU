@@ -1,5 +1,6 @@
 // Dashboard - Main application screen
 import { useState, useEffect, useCallback, memo } from "react";
+import { syncLeaderboardStats } from "@/hooks/useLeaderboard";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { 
   Brain, 
