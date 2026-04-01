@@ -516,6 +516,7 @@ const Dashboard = () => {
         open={showEmergencySOS}
         onOpenChange={setShowEmergencySOS}
       />
+      <LeaderboardSheet open={showLeaderboard} onOpenChange={setShowLeaderboard} />
       
       {/* Footer Modals */}
       <PrivacyModal open={showPrivacy} onOpenChange={setShowPrivacy} />
