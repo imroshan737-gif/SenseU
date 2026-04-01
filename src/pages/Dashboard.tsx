@@ -249,7 +249,7 @@ const Dashboard = () => {
             <Search className="w-4 h-4 text-muted-foreground" />
             <span className="text-sm text-muted-foreground">Search...</span>
           </button>
-          <button onClick={() => setShowLeaderboard(true)} className="hidden md:flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-amber-500/10 to-orange-500/10 rounded-xl border border-amber-500/20 hover:border-amber-500/40 transition-colors">
+          <button onClick={() => navigate("/leaderboard")} className="hidden md:flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-amber-500/10 to-orange-500/10 rounded-xl border border-amber-500/20 hover:border-amber-500/40 transition-colors">
             <Trophy className="w-4 h-4 text-amber-400" />
             <span className="text-sm font-orbitron text-amber-400">Leaderboard</span>
           </button>
