@@ -379,30 +379,38 @@ const Dashboard = () => {
             <InterventionCard title="Grounding Breath" description="Deep grounding breathing to calm your nervous system" duration="3 min" icon={Leaf} type="micro" onStart={() => handleStartSession("breathe", "Grounding Breath", 180)} />
             <InterventionCard title="Shoulder & Jaw Release" description="Release tension with gentle stretches + breathing" duration="4 min" icon={Leaf} type="recovery" onStart={() => handleStartSession("rest", "Shoulder & Jaw Release", 240)} />
             <InterventionCard title="Deep Focus" description="Pomodoro focus timer" duration="15 min" icon={Target} type="focus" onStart={() => handleStartSession("focus", "Deep Focus", 900)} />
-            <InterventionCard title="Box Breathing" description="4-4-4-4 pattern for instant calm" duration="2 min" icon={Leaf} type="micro" onStart={() => handleStartSession("breathe", "Box Breathing", 120)} />
           </div>
         </div>
 
-        {/* Bottom Section */}
-        <div className="grid grid-cols-12 gap-6 mt-6">
-          <div className="col-span-12 lg:col-span-8">
-            <ContributionChart title="Wellness Activity" />
-            <GlassCard>
-              <EmotionalTimeline data={timelineData} />
-            </GlassCard>
-          </div>
-          <div className="col-span-12 lg:col-span-4">
-            <InterventionCard 
-              title="Emergency SOS" 
-              description="Immediate AI crisis support" 
-              duration="Instant" 
-              icon={AlertTriangle} 
-              type="emergency" 
-              className="h-full" 
-              onStart={handleEmergencySOS} 
-            />
-          </div>
-        </div>
+        {/* Contribution Chart + Box Breathing Row */}
+<div className="grid grid-cols-12 gap-6 mt-6">
+  <div className="col-span-12 lg:col-span-8">
+    <ContributionChart title="Wellness Activity" />
+  </div>
+  <div className="col-span-12 lg:col-span-4">
+    <InterventionCard title="Box Breathing" description="4-4-4-4 pattern for instant calm" duration="2 min" icon={Leaf} type="micro" onStart={() => handleStartSession("breathe", "Box Breathing", 120)} />
+  </div>
+</div>
+
+{/* Bottom Section - Emotional Timeline + SOS */}
+<div className="grid grid-cols-12 gap-6 mt-6">
+  <div className="col-span-12 lg:col-span-8">
+    <GlassCard className="h-full">
+      <EmotionalTimeline data={timelineData} />
+    </GlassCard>
+  </div>
+  <div className="col-span-12 lg:col-span-4">
+    <InterventionCard 
+      title="Emergency SOS" 
+      description="Immediate AI crisis support" 
+      duration="Instant" 
+      icon={AlertTriangle} 
+      type="emergency" 
+      className="h-full" 
+      onStart={handleEmergencySOS} 
+    />
+  </div>
+</div>
 
         {/* Hobby Link Section */}
         <div className="mt-6">
