@@ -189,6 +189,10 @@ const Dashboard = () => {
     const stressReduction = completedSession?.type === "focus" ? 8 : completedSession?.type === "breathe" ? 12 : 10;
     reduceStressFromSession(stressReduction);
     
+    // Sync to leaderboard database
+    const newTotal = points + sessionPoints;
+    syncLeaderboardStats(newTotal, completedSession?.type);
+    
     setShowFeedback(false);
     setCompletedSession(null);
     
@@ -196,7 +200,7 @@ const Dashboard = () => {
       title: "Session Complete! 🎉",
       description: `+${sessionPoints} points earned. Stress reduced! Keep up the great work!`,
     });
-  }, [completedSession, addPoints, reduceStressFromSession]);
+  }, [completedSession, addPoints, reduceStressFromSession, points]);
   
   const handleImprove = useCallback((type: "stress" | "focus" | "energy" | "sleep" | "mood") => {
     setImprovementSheet({ open: true, type });
