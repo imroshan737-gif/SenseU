@@ -197,6 +197,6 @@ export async function syncLeaderboardStats(points: number, sessionType?: string)
       if (sessionType === "rest") insert.rest_sessions = 1;
       if (sessionType === "relax") insert.relax_sessions = 1;
     }
-    await supabase.from("leaderboard_stats").insert(insert);
+    await supabase.from("leaderboard_stats").insert(insert as { user_id: string; total_points?: number; total_sessions?: number; breathe_sessions?: number; focus_sessions?: number; rest_sessions?: number; relax_sessions?: number; current_streak?: number; best_streak?: number; last_session_at?: string });
   }
 }
