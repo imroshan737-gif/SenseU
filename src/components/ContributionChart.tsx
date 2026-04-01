@@ -22,11 +22,9 @@ const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov
 const DAYS = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 
 function buildYearGrid(data: ContributionDay[]) {
-  // Build a map of date -> count
   const map: Record<string, number> = {};
   data.forEach((d) => { map[d.date] = d.count; });
 
-  // Generate all 365 days
   const days: ContributionDay[] = [];
   const today = new Date();
   for (let i = 364; i >= 0; i--) {
@@ -36,7 +34,6 @@ function buildYearGrid(data: ContributionDay[]) {
     days.push({ date: dateStr, count: map[dateStr] || 0 });
   }
 
-  // Build weeks grid
   const grid: (ContributionDay | null)[][] = [];
   const firstDay = new Date(days[0].date).getDay();
   let current: (ContributionDay | null)[] = Array(firstDay).fill(null);
@@ -71,7 +68,6 @@ const ContributionChart: React.FC<ContributionChartProps> = ({
 
       if (error) { console.error(error); setLoading(false); return; }
 
-      // Count sessions per day
       const countMap: Record<string, number> = {};
       (data || []).forEach((row: { completed_at: string }) => {
         countMap[row.completed_at] = (countMap[row.completed_at] || 0) + 1;
@@ -79,7 +75,7 @@ const ContributionChart: React.FC<ContributionChartProps> = ({
 
       const result = Object.entries(countMap).map(([date, count]) => ({
         date,
-        count: Math.min(count, 4), // cap at 4 for color scale
+        count: Math.min(count, 4),
       }));
 
       setContributions(result);
@@ -108,9 +104,11 @@ const ContributionChart: React.FC<ContributionChartProps> = ({
   }, [grid]);
 
   const total = days.filter((d) => d.count > 0).length;
+  const totalWeeks = grid.length;
 
   return (
     <div className="rounded-2xl border border-cyan-900/40 bg-[#0d1b2a] p-5 w-full">
+      {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-cyan-400 text-sm font-semibold tracking-widest uppercase">
           {title}
@@ -120,39 +118,52 @@ const ContributionChart: React.FC<ContributionChartProps> = ({
         </span>
       </div>
 
-      <div className="overflow-x-auto">
-        <div className="min-w-max">
-          {/* Month labels */}
-          <div className="flex mb-1 ml-8">
-            {grid.map((_, wi) => {
-              const label = monthLabels.find((m) => m.weekIndex === wi);
-              return (
-                <div key={wi} className="w-[13px] mr-[2px] text-[9px] text-gray-500 truncate">
-                  {label ? label.label : ""}
-                </div>
-              );
-            })}
+      {/* Chart - full width */}
+      <div className="w-full">
+        {/* Month labels row */}
+        <div className="flex w-full mb-1 pl-8">
+          {grid.map((_, wi) => {
+            const label = monthLabels.find((m) => m.weekIndex === wi);
+            return (
+              <div
+                key={wi}
+                style={{ width: `${100 / totalWeeks}%` }}
+                className="text-[9px] text-gray-500 truncate"
+              >
+                {label ? label.label : ""}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Grid rows */}
+        <div className="flex w-full">
+          {/* Day labels */}
+          <div className="flex flex-col mr-2 shrink-0">
+            {[0,1,2,3,4,5,6].map((d) => (
+              <div
+                key={d}
+                className="text-[9px] text-gray-500 w-6 flex items-center"
+                style={{ height: "calc((100% - 24px) / 7)", marginBottom: "2px", minHeight: "13px" }}
+              >
+                {d % 2 === 1 ? DAYS[d].slice(0, 3) : ""}
+              </div>
+            ))}
           </div>
 
-          <div className="flex">
-            {/* Day labels */}
-            <div className="flex flex-col mr-2">
-              {[0,1,2,3,4,5,6].map((d) => (
-                <div key={d} className="h-[13px] mb-[2px] text-[9px] text-gray-500 w-6 flex items-center">
-                  {d % 2 === 1 ? DAYS[d].slice(0,3) : ""}
-                </div>
-              ))}
-            </div>
-
-            {/* Cells */}
+          {/* Week columns - stretch to fill */}
+          <div className="flex w-full gap-[2px]">
             {grid.map((week, wi) => (
-              <div key={wi} className="flex flex-col mr-[2px]">
+              <div
+                key={wi}
+                className="flex flex-col gap-[2px] flex-1"
+              >
                 {week.map((day, di) => (
                   <div
                     key={di}
                     title={day ? `${day.date}: ${day.count} sessions` : ""}
-                    style={day ? getColor(day.count) : {}}
-                    className={`w-[13px] h-[13px] mb-[2px] rounded-[2px] transition-all duration-150 hover:ring-1 hover:ring-cyan-400/60 ${
+                    style={day ? { ...getColor(day.count), aspectRatio: "1" } : { aspectRatio: "1" }}
+                    className={`w-full rounded-[2px] transition-all duration-150 hover:ring-1 hover:ring-cyan-400/60 ${
                       !day ? "opacity-0 pointer-events-none" : ""
                     }`}
                   />
@@ -160,15 +171,19 @@ const ContributionChart: React.FC<ContributionChartProps> = ({
               </div>
             ))}
           </div>
+        </div>
 
-          {/* Legend */}
-          <div className="flex items-center justify-end gap-1 mt-3">
-            <span className="text-[10px] text-gray-500 mr-1">Less</span>
-            {[0,1,2,3,4].map((c) => (
-              <div key={c} style={getColor(c)} className="w-[13px] h-[13px] rounded-[2px]" />
-            ))}
-            <span className="text-[10px] text-gray-500 ml-1">More</span>
-          </div>
+        {/* Legend */}
+        <div className="flex items-center justify-end gap-1 mt-3">
+          <span className="text-[10px] text-gray-500 mr-1">Less</span>
+          {[0,1,2,3,4].map((c) => (
+            <div
+              key={c}
+              style={getColor(c)}
+              className="w-[13px] h-[13px] rounded-[2px]"
+            />
+          ))}
+          <span className="text-[10px] text-gray-500 ml-1">More</span>
         </div>
       </div>
     </div>
