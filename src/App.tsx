@@ -178,6 +178,16 @@ const App = () => (
                 } 
               />
 
+              {/* Leaderboard */}
+              <Route 
+                path="/leaderboard" 
+                element={
+                  <ProtectedRoute>
+                    <Leaderboard />
+                  </ProtectedRoute>
+                } 
+              />
+
               {/* Initial Mandatory Assessment */}
               <Route 
                 path="/assessment" 
