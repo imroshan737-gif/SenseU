@@ -17,6 +17,7 @@ const Auth = lazy(() => import("./pages/Auth"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Assessment = lazy(() => import("./pages/Assessment"));
 const NotFound = lazy(() => import("./pages/NotFound"));
+const Leaderboard = lazy(() => import("./pages/Leaderboard"));
 
 // Loading fallback component
 const PageLoader = () => (
