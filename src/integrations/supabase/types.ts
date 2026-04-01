@@ -14,7 +14,114 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      leaderboard_stats: {
+        Row: {
+          best_streak: number
+          breathe_sessions: number
+          created_at: string
+          current_streak: number
+          focus_sessions: number
+          id: string
+          last_session_at: string | null
+          relax_sessions: number
+          rest_sessions: number
+          total_points: number
+          total_sessions: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          best_streak?: number
+          breathe_sessions?: number
+          created_at?: string
+          current_streak?: number
+          focus_sessions?: number
+          id?: string
+          last_session_at?: string | null
+          relax_sessions?: number
+          rest_sessions?: number
+          total_points?: number
+          total_sessions?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          best_streak?: number
+          breathe_sessions?: number
+          created_at?: string
+          current_streak?: number
+          focus_sessions?: number
+          id?: string
+          last_session_at?: string | null
+          relax_sessions?: number
+          rest_sessions?: number
+          total_points?: number
+          total_sessions?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          display_name: string | null
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_achievements: {
+        Row: {
+          achievement_id: string
+          description: string | null
+          earned_at: string
+          icon: string | null
+          id: string
+          points: number
+          title: string
+          user_id: string
+        }
+        Insert: {
+          achievement_id: string
+          description?: string | null
+          earned_at?: string
+          icon?: string | null
+          id?: string
+          points?: number
+          title: string
+          user_id: string
+        }
+        Update: {
+          achievement_id?: string
+          description?: string | null
+          earned_at?: string
+          icon?: string | null
+          id?: string
+          points?: number
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
