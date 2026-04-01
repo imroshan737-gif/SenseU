@@ -120,6 +120,7 @@ const Dashboard = () => {
   const [showAchievements, setShowAchievements] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
   const [showEmergencySOS, setShowEmergencySOS] = useState(false);
+  const [showLeaderboard, setShowLeaderboard] = useState(false);
   const [showPrivacy, setShowPrivacy] = useState(false);
   const [showTerms, setShowTerms] = useState(false);
   const [showContact, setShowContact] = useState(false);
