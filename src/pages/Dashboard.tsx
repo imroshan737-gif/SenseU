@@ -257,7 +257,7 @@ const Dashboard = () => {
       </nav>
 
       {/* Main Content */}
-      <div className="relative z-10 p-6 max-w-[1600px] mx-auto">
+      <div className="relative z-10 p-6 max-w-full mx-auto">
         <div className="grid grid-cols-12 gap-6">
           {/* Left Panel - Live Vitals */}
           <VitalsSection vitals={vitals} onImprove={handleImprove} />
@@ -384,22 +384,22 @@ const Dashboard = () => {
 
         {/* Contribution Chart + Box Breathing Row */}
 <div className="grid grid-cols-12 gap-6 mt-6">
-  <div className="col-span-12 lg:col-span-8">
+  <div className="col-span-12 lg:col-span-9">
     <ContributionChart title="Wellness Activity" />
   </div>
-  <div className="col-span-12 lg:col-span-4">
+  <div className="col-span-12 lg:col-span-3">
     <InterventionCard title="Box Breathing" description="4-4-4-4 pattern for instant calm" duration="2 min" icon={Leaf} type="micro" onStart={() => handleStartSession("breathe", "Box Breathing", 120)} />
   </div>
 </div>
 
 {/* Bottom Section - Emotional Timeline + SOS */}
 <div className="grid grid-cols-12 gap-6 mt-6">
-  <div className="col-span-12 lg:col-span-8">
+  <div className="col-span-12 lg:col-span-9">
     <GlassCard className="h-full">
       <EmotionalTimeline data={timelineData} />
     </GlassCard>
   </div>
-  <div className="col-span-12 lg:col-span-4">
+  <div className="col-span-12 lg:col-span-3">
     <InterventionCard 
       title="Emergency SOS" 
       description="Immediate AI crisis support" 
@@ -411,7 +411,6 @@ const Dashboard = () => {
     />
   </div>
 </div>
-
         {/* Hobby Link Section */}
         <div className="mt-6">
           <GlassCard className="text-center py-4">
