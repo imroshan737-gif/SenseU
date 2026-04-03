@@ -99,7 +99,7 @@ const InterventionCard = ({
           </div>
         </div>
 
-        <p className="text-sm text-muted-foreground leading-relaxed flex-1">
+        <p className="text-sm text-muted-foreground leading-relaxed flex-1 py-3">
           {description}
         </p>
 
