@@ -229,12 +229,7 @@ const ParticleBackground = memo(() => {
         ctx.beginPath();
         ctx.arc(projectedX, projectedY, projectedSize, 0, Math.PI * 2);
 
-        if (node.z < 300) {
-          ctx.shadowBlur = 6 * scale;
-          ctx.shadowColor = "rgba(100, 200, 255, 0.4)";
-        } else {
-          ctx.shadowBlur = 0;
-        }
+        ctx.shadowBlur = 0;
 
         ctx.fillStyle = `rgba(140, 200, 240, ${depthOpacity})`;
         ctx.fill();
