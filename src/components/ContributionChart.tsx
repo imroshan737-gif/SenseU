@@ -8,6 +8,7 @@ interface ContributionDay {
 
 interface ContributionChartProps {
   title?: string;
+  refreshKey?: string;
 }
 
 function getColor(count: number): React.CSSProperties {
@@ -50,6 +51,7 @@ function buildYearGrid(data: ContributionDay[]) {
 
 const ContributionChart: React.FC<ContributionChartProps> = ({
   title = "Wellness Activity",
+  refreshKey,
 }) => {
   const [contributions, setContributions] = useState<ContributionDay[]>([]);
   const [loading, setLoading] = useState(true);
@@ -83,7 +85,7 @@ const ContributionChart: React.FC<ContributionChartProps> = ({
     };
 
     fetchSessions();
-  }, []);
+  }, [refreshKey]);
 
   const { days, grid } = useMemo(() => buildYearGrid(contributions), [contributions]);
 
