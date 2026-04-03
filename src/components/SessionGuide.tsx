@@ -224,12 +224,18 @@ export default function SessionGuide({
   const handleComplete = async () => {
   try {
     const userId = localStorage.getItem("neuroaura_user_id") || "anonymous";
-    await supabase.from("sessions").insert({
+    console.log("Saving session for user:", userId);
+    const { data, error } = await supabase.from("sessions").insert({
       user_id: userId,
       session_type: sessionType,
       title: title,
       completed_at: new Date().toISOString().split("T")[0],
     });
+    if (error) {
+      console.error("Supabase error:", error);
+    } else {
+      console.log("Session saved successfully:", data);
+    }
   } catch (err) {
     console.error("Failed to save session:", err);
   }
