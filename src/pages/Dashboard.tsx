@@ -77,7 +77,7 @@ const VitalsSection = memo(({
   vitals: { stress: number; focus: number; energy: number }; 
   onImprove: (type: "stress" | "focus" | "energy") => void;
 }) => (
-  <div className="col-span-12 lg:col-span-3 space-y-4">
+  <div className="col-span-12 lg:col-span-3 flex flex-col">
     <h3 className="text-sm font-orbitron uppercase tracking-wider text-muted-foreground mb-4">Live Vitals</h3>
     {[
       { title: "Stress Score", value: vitals.stress, unit: "%", icon: Brain, color: "violet" as const, type: "stress" as const },
@@ -386,10 +386,12 @@ const Dashboard = () => {
                 </button>
               </div>
             </div>
-
-            <InterventionCard title="Grounding Breath" description="Deep grounding breathing to calm your nervous system" duration="3 min" icon={Leaf} type="micro" onStart={() => handleStartSession("breathe", "Grounding Breath", 180)} />
-            <InterventionCard title="Shoulder & Jaw Release" description="Release tension with gentle stretches + breathing" duration="4 min" icon={Leaf} type="recovery" onStart={() => handleStartSession("rest", "Shoulder & Jaw Release", 240)} />
-            <InterventionCard title="Deep Focus" description="Pomodoro focus timer" duration="15 min" icon={Target} type="focus" onStart={() => handleStartSession("focus", "Deep Focus", 900)} />
+            
+<div className="flex flex-col gap-3 flex-1">
+  <InterventionCard title="Grounding Breath" description="Deep grounding breathing to calm your nervous system" duration="3 min" icon={Leaf} type="micro" className="flex-1" onStart={() => handleStartSession("breathe", "Grounding Breath", 180)} />
+  <InterventionCard title="Shoulder & Jaw Release" description="Release tension with gentle stretches + breathing" duration="4 min" icon={Leaf} type="recovery" className="flex-1" onStart={() => handleStartSession("rest", "Shoulder & Jaw Release", 240)} />
+  <InterventionCard title="Deep Focus" description="Pomodoro focus timer" duration="15 min" icon={Target} type="focus" className="flex-1" onStart={() => handleStartSession("focus", "Deep Focus", 900)} />
+</div>
           </div>
         </div>
 
