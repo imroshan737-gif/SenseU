@@ -396,7 +396,7 @@ const Dashboard = () => {
         {/* Contribution Chart + Box Breathing Row */}
 <div className="grid grid-cols-12 gap-6 mt-6">
   <div className="col-span-12 lg:col-span-9">
-    <ContributionChart title="Wellness Activity" />
+    <ContributionChart title="Wellness Activity" refreshKey={completedSession?.title} />
   </div>
   <div className="col-span-12 lg:col-span-3 flex flex-col">
     <InterventionCard title="Box Breathing" description="4-4-4-4 pattern for instant calm" duration="2 min" icon={Leaf} type="micro" className="flex-1 h-full" onStart={() => handleStartSession("breathe", "Box Breathing", 120)} />
