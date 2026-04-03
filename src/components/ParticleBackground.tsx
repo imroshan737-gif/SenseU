@@ -1,9 +1,9 @@
 import { useEffect, useRef, memo } from "react";
 
-interface Particle {
+interface Node {
   x: number;
   y: number;
-  z: number; // For 3D depth
+  z: number;
   size: number;
   speedX: number;
   speedY: number;
@@ -11,14 +11,24 @@ interface Particle {
   opacity: number;
 }
 
+interface Star {
+  x: number;
+  y: number;
+  size: number;
+  opacity: number;
+  twinkleSpeed: number;
+  twinklePhase: number;
+}
+
 const ParticleBackground = memo(() => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number>();
   const isVisibleRef = useRef(true);
-  const particlesRef = useRef<Particle[]>([]);
+  const nodesRef = useRef<Node[]>([]);
+  const starsRef = useRef<Star[]>([]);
   const lastTimeRef = useRef(0);
   const mouseRef = useRef({ x: 0, y: 0, active: false });
-  const FPS = 45; // Slightly higher for smoother 3D
+  const FPS = 45;
   const frameInterval = 1000 / FPS;
 
   useEffect(() => {
@@ -29,7 +39,7 @@ const ParticleBackground = memo(() => {
     if (!ctx) return;
 
     const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-    
+
     const resizeCanvas = () => {
       const width = window.innerWidth;
       const height = window.innerHeight;
@@ -38,30 +48,48 @@ const ParticleBackground = memo(() => {
       canvas.style.width = `${width}px`;
       canvas.style.height = `${height}px`;
       ctx.scale(dpr, dpr);
-      
-      initParticles(width, height);
+      initNodes(width, height);
+      initStars(width, height);
     };
 
-    const initParticles = (width: number, height: number) => {
-      const particleCount = Math.min(60, Math.floor((width * height) / 30000));
-      particlesRef.current = [];
-      
-      for (let i = 0; i < particleCount; i++) {
-        particlesRef.current.push({
+    const initNodes = (width: number, height: number) => {
+      // More nodes, widely spread
+      const nodeCount = Math.min(90, Math.floor((width * height) / 18000));
+      nodesRef.current = [];
+
+      for (let i = 0; i < nodeCount; i++) {
+        nodesRef.current.push({
           x: Math.random() * width,
           y: Math.random() * height,
-          z: Math.random() * 1000, // Depth from 0 to 1000
-          size: Math.random() * 2 + 0.5,
-          speedX: (Math.random() - 0.5) * 0.3,
-          speedY: (Math.random() - 0.5) * 0.3,
-          speedZ: (Math.random() - 0.5) * 2,
-          opacity: Math.random() * 0.5 + 0.2,
+          z: Math.random() * 800,
+          size: Math.random() * 2.5 + 1,
+          speedX: (Math.random() - 0.5) * 0.25,
+          speedY: (Math.random() - 0.5) * 0.25,
+          speedZ: (Math.random() - 0.5) * 1.5,
+          opacity: Math.random() * 0.6 + 0.3,
+        });
+      }
+    };
+
+    const initStars = (width: number, height: number) => {
+      // Tiny twinkling star particles
+      const starCount = Math.min(120, Math.floor((width * height) / 12000));
+      starsRef.current = [];
+
+      for (let i = 0; i < starCount; i++) {
+        starsRef.current.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          size: Math.random() * 1.2 + 0.3,
+          opacity: Math.random() * 0.4 + 0.1,
+          twinkleSpeed: Math.random() * 0.02 + 0.005,
+          twinklePhase: Math.random() * Math.PI * 2,
         });
       }
     };
 
     resizeCanvas();
-    
+
     let resizeTimeout: ReturnType<typeof setTimeout>;
     const handleResize = () => {
       clearTimeout(resizeTimeout);
@@ -69,7 +97,6 @@ const ParticleBackground = memo(() => {
     };
     window.addEventListener("resize", handleResize);
 
-    // Mouse interaction
     const handleMouseMove = (e: MouseEvent) => {
       mouseRef.current = { x: e.clientX, y: e.clientY, active: true };
     };
@@ -105,83 +132,44 @@ const ParticleBackground = memo(() => {
       const centerX = width / 2;
       const centerY = height / 2;
 
-      // Clear with subtle trail effect
-      ctx.fillStyle = "rgba(8, 12, 21, 0.12)";
+      // Clear with trail effect for smooth motion
+      ctx.fillStyle = "rgba(8, 12, 21, 0.15)";
       ctx.fillRect(0, 0, width, height);
 
-      const particles = particlesRef.current;
+      const nodes = nodesRef.current;
+      const stars = starsRef.current;
       const mouse = mouseRef.current;
 
-      // Sort by z for proper depth rendering
-      particles.sort((a, b) => b.z - a.z);
-      
-      // Draw and update particles
-      for (let i = 0; i < particles.length; i++) {
-        const particle = particles[i];
-        
-        // Mouse interaction
-        if (mouse.active) {
-          const dx = mouse.x - particle.x;
-          const dy = mouse.y - particle.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 150) {
-            const force = (150 - dist) / 150;
-            particle.x -= dx * force * 0.02;
-            particle.y -= dy * force * 0.02;
-          }
-        }
+      // === Draw twinkling stars ===
+      for (let i = 0; i < stars.length; i++) {
+        const star = stars[i];
+        star.twinklePhase += star.twinkleSpeed;
+        const twinkle = (Math.sin(star.twinklePhase) + 1) / 2;
+        const alpha = star.opacity * (0.3 + twinkle * 0.7);
 
-        // Update position with 3D movement
-        particle.x += particle.speedX;
-        particle.y += particle.speedY;
-        particle.z += particle.speedZ;
-
-        // Wrap around
-        if (particle.x > width) particle.x = 0;
-        if (particle.x < 0) particle.x = width;
-        if (particle.y > height) particle.y = 0;
-        if (particle.y < 0) particle.y = height;
-        if (particle.z > 1000) particle.z = 0;
-        if (particle.z < 0) particle.z = 1000;
-
-        // Calculate 3D perspective
-        const perspective = 600;
-        const scale = perspective / (perspective + particle.z);
-        const projectedX = centerX + (particle.x - centerX) * scale;
-        const projectedY = centerY + (particle.y - centerY) * scale;
-        const projectedSize = particle.size * scale;
-        const depthOpacity = particle.opacity * scale;
-
-        // Draw particle with glow
         ctx.beginPath();
-        ctx.arc(projectedX, projectedY, projectedSize, 0, Math.PI * 2);
-        
-        // Add subtle glow for closer particles
-        if (particle.z < 400) {
-          ctx.shadowBlur = 8 * scale;
-          ctx.shadowColor = "rgba(0, 240, 255, 0.5)";
-        } else {
-          ctx.shadowBlur = 0;
-        }
-        
-        ctx.fillStyle = `rgba(0, 240, 255, ${depthOpacity})`;
+        ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(200, 220, 255, ${alpha})`;
         ctx.fill();
       }
 
-      // Reset shadow for connections
-      ctx.shadowBlur = 0;
+      // Sort nodes by z for depth
+      nodes.sort((a, b) => b.z - a.z);
 
-      // Draw 3D connections
-      ctx.lineWidth = 0.4;
-      for (let i = 0; i < particles.length; i += 2) {
-        const p1 = particles[i];
-        const scale1 = 600 / (600 + p1.z);
+      // === Draw network connections (thin lines) ===
+      ctx.shadowBlur = 0;
+      const perspective = 600;
+      const maxConnectionDist = 22000; // wider connection range
+
+      for (let i = 0; i < nodes.length; i++) {
+        const p1 = nodes[i];
+        const scale1 = perspective / (perspective + p1.z);
         const x1 = centerX + (p1.x - centerX) * scale1;
         const y1 = centerY + (p1.y - centerY) * scale1;
 
-        for (let j = i + 2; j < particles.length; j += 2) {
-          const p2 = particles[j];
-          const scale2 = 600 / (600 + p2.z);
+        for (let j = i + 1; j < nodes.length; j++) {
+          const p2 = nodes[j];
+          const scale2 = perspective / (perspective + p2.z);
           const x2 = centerX + (p2.x - centerX) * scale2;
           const y2 = centerY + (p2.y - centerY) * scale2;
 
@@ -189,17 +177,71 @@ const ParticleBackground = memo(() => {
           const dy = y1 - y2;
           const distSq = dx * dx + dy * dy;
 
-          if (distSq < 15000) {
+          if (distSq < maxConnectionDist) {
             const avgScale = (scale1 + scale2) / 2;
-            const alpha = 0.1 * (1 - distSq / 15000) * avgScale;
+            const alpha = 0.12 * (1 - distSq / maxConnectionDist) * avgScale;
             ctx.beginPath();
-            ctx.strokeStyle = `rgba(0, 240, 255, ${alpha})`;
+            ctx.lineWidth = 0.5 * avgScale;
+            ctx.strokeStyle = `rgba(100, 180, 220, ${alpha})`;
             ctx.moveTo(x1, y1);
             ctx.lineTo(x2, y2);
             ctx.stroke();
           }
         }
       }
+
+      // === Draw and update nodes ===
+      for (let i = 0; i < nodes.length; i++) {
+        const node = nodes[i];
+
+        // Mouse interaction - gentle push
+        if (mouse.active) {
+          const dx = mouse.x - node.x;
+          const dy = mouse.y - node.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 180) {
+            const force = (180 - dist) / 180;
+            node.x -= dx * force * 0.015;
+            node.y -= dy * force * 0.015;
+          }
+        }
+
+        // Update position
+        node.x += node.speedX;
+        node.y += node.speedY;
+        node.z += node.speedZ;
+
+        // Wrap around
+        if (node.x > width) node.x = 0;
+        if (node.x < 0) node.x = width;
+        if (node.y > height) node.y = 0;
+        if (node.y < 0) node.y = height;
+        if (node.z > 800) node.z = 0;
+        if (node.z < 0) node.z = 800;
+
+        // 3D projection
+        const scale = perspective / (perspective + node.z);
+        const projectedX = centerX + (node.x - centerX) * scale;
+        const projectedY = centerY + (node.y - centerY) * scale;
+        const projectedSize = node.size * scale;
+        const depthOpacity = node.opacity * scale;
+
+        // Draw node dot with subtle glow
+        ctx.beginPath();
+        ctx.arc(projectedX, projectedY, projectedSize, 0, Math.PI * 2);
+
+        if (node.z < 300) {
+          ctx.shadowBlur = 6 * scale;
+          ctx.shadowColor = "rgba(100, 200, 255, 0.4)";
+        } else {
+          ctx.shadowBlur = 0;
+        }
+
+        ctx.fillStyle = `rgba(140, 200, 240, ${depthOpacity})`;
+        ctx.fill();
+      }
+
+      ctx.shadowBlur = 0;
     };
 
     animate(performance.now());
