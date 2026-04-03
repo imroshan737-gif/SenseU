@@ -70,7 +70,7 @@ export default function Leaderboard() {
         ) : (
           <div className="space-y-3">
             {/* Top 3 podium (first page only) */}
-            {page === 1 && entries.length >= 3 && (
+            {page === 1 && entries.length >= 1 && (
               <div className="grid grid-cols-3 gap-3 mb-8">
                 {[1, 0, 2].map((idx) => {
                   const entry = entries[idx];
