@@ -70,9 +70,9 @@ export default function Leaderboard() {
         ) : (
           <div className="space-y-3">
             {/* Top 3 podium (first page only) */}
-            {page === 1 && entries.length >= 3 && (
-              <div className="grid grid-cols-3 gap-3 mb-8">
-                {[1, 0, 2].map((idx) => {
+            {page === 1 && entries.length >= 1 && (
+              <div className={cn("grid gap-3 mb-8", entries.length >= 3 ? "grid-cols-3" : entries.length === 2 ? "grid-cols-2 max-w-lg mx-auto" : "grid-cols-1 max-w-xs mx-auto")}>
+                {(entries.length >= 3 ? [1, 0, 2] : entries.length === 2 ? [0, 1] : [0]).map((idx) => {
                   const entry = entries[idx];
                   if (!entry) return null;
                   const rank = idx + 1;
@@ -116,7 +116,7 @@ export default function Leaderboard() {
             {entries.map((entry, i) => {
               const rank = getRank(i);
               // Skip top 3 on first page (shown in podium)
-              if (page === 1 && rank <= 3) return null;
+              if (page === 1 && rank <= Math.min(3, entries.length)) return null;
               const isTopThree = rank <= 3;
               const RankIcon = isTopThree ? rankIcons[rank - 1] : null;
 

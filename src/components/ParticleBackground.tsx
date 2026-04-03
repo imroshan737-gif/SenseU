@@ -132,9 +132,8 @@ const ParticleBackground = memo(() => {
       const centerX = width / 2;
       const centerY = height / 2;
 
-      // Clear with trail effect for smooth motion
-      ctx.fillStyle = "rgba(8, 12, 21, 0.15)";
-      ctx.fillRect(0, 0, width, height);
+      // Clear fully each frame - no trail effect
+      ctx.clearRect(0, 0, width, height);
 
       const nodes = nodesRef.current;
       const stars = starsRef.current;
@@ -230,12 +229,7 @@ const ParticleBackground = memo(() => {
         ctx.beginPath();
         ctx.arc(projectedX, projectedY, projectedSize, 0, Math.PI * 2);
 
-        if (node.z < 300) {
-          ctx.shadowBlur = 6 * scale;
-          ctx.shadowColor = "rgba(100, 200, 255, 0.4)";
-        } else {
-          ctx.shadowBlur = 0;
-        }
+        ctx.shadowBlur = 0;
 
         ctx.fillStyle = `rgba(140, 200, 240, ${depthOpacity})`;
         ctx.fill();
