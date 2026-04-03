@@ -71,8 +71,8 @@ export default function Leaderboard() {
           <div className="space-y-3">
             {/* Top 3 podium (first page only) */}
             {page === 1 && entries.length >= 1 && (
-              <div className="grid grid-cols-3 gap-3 mb-8">
-                {[1, 0, 2].map((idx) => {
+              <div className={cn("grid gap-3 mb-8", entries.length >= 3 ? "grid-cols-3" : entries.length === 2 ? "grid-cols-2 max-w-lg mx-auto" : "grid-cols-1 max-w-xs mx-auto")}>
+                {(entries.length >= 3 ? [1, 0, 2] : entries.length === 2 ? [0, 1] : [0]).map((idx) => {
                   const entry = entries[idx];
                   if (!entry) return null;
                   const rank = idx + 1;
