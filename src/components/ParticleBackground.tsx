@@ -132,9 +132,8 @@ const ParticleBackground = memo(() => {
       const centerX = width / 2;
       const centerY = height / 2;
 
-      // Clear with trail effect for smooth motion
-      ctx.fillStyle = "rgba(8, 12, 21, 0.15)";
-      ctx.fillRect(0, 0, width, height);
+      // Clear fully each frame - no trail effect
+      ctx.clearRect(0, 0, width, height);
 
       const nodes = nodesRef.current;
       const stars = starsRef.current;

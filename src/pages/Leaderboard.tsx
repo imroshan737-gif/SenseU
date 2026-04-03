@@ -116,7 +116,7 @@ export default function Leaderboard() {
             {entries.map((entry, i) => {
               const rank = getRank(i);
               // Skip top 3 on first page (shown in podium)
-              if (page === 1 && rank <= 3) return null;
+              if (page === 1 && rank <= Math.min(3, entries.length)) return null;
               const isTopThree = rank <= 3;
               const RankIcon = isTopThree ? rankIcons[rank - 1] : null;
 
