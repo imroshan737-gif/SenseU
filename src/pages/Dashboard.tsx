@@ -72,10 +72,12 @@ const getAssessmentVitals = () => {
 // Memoized vitals display
 const VitalsSection = memo(({ 
   vitals, 
-  onImprove 
+  onImprove,
+  onStartSession
 }: { 
   vitals: { stress: number; focus: number; energy: number }; 
   onImprove: (type: "stress" | "focus" | "energy") => void;
+  onStartSession: (type: "breathe" | "focus" | "rest", title: string, duration: number) => void;
 }) => (
   <div className="col-span-12 lg:col-span-3 flex flex-col">
     <h3 className="text-sm font-orbitron uppercase tracking-wider text-muted-foreground mb-4">Live Vitals</h3>
@@ -95,6 +97,14 @@ const VitalsSection = memo(({
           </button>
         </div>
       ))}
+    </div>
+    
+    {/* Quick Sessions */}
+    <div className="space-y-3 mt-4">
+      <h4 className="text-xs font-orbitron uppercase tracking-wider text-muted-foreground/70">Quick Sessions</h4>
+      <InterventionCard title="Box Breathing" description="4-4-4-4 breathing technique for instant calm" duration="2 min" icon={Leaf} type="micro" onStart={() => onStartSession("breathe", "Box Breathing", 120)} />
+      <InterventionCard title="Mindful Reset" description="Quick mindfulness reset to refocus your mind" duration="3 min" icon={Brain} type="recovery" onStart={() => onStartSession("rest", "Mindful Reset", 180)} />
+      <InterventionCard title="Power Focus" description="Short burst focus session for productivity" duration="5 min" icon={Target} type="focus" onStart={() => onStartSession("focus", "Power Focus", 300)} />
     </div>
   </div>
 ));
@@ -273,7 +283,7 @@ const Dashboard = () => {
       <div className="relative z-10 p-6 max-w-full mx-auto">
         <div className="grid grid-cols-12 gap-6">
           {/* Left Panel - Live Vitals */}
-          <VitalsSection vitals={vitals} onImprove={handleImprove} />
+          <VitalsSection vitals={vitals} onImprove={handleImprove} onStartSession={handleStartSession} />
 
           {/* Center Panel */}
           <div className="col-span-12 lg:col-span-6">
@@ -342,13 +352,6 @@ const Dashboard = () => {
 
           {/* Right Panel */}
           <div className="col-span-12 lg:col-span-3 space-y-4">
-            {/* Quick Sessions */}
-            <div className="space-y-3">
-              <h4 className="text-xs font-orbitron uppercase tracking-wider text-muted-foreground/70">Quick Sessions</h4>
-              <InterventionCard title="Box Breathing" description="4-4-4-4 breathing technique for instant calm" duration="2 min" icon={Leaf} type="micro" onStart={() => handleStartSession("breathe", "Box Breathing", 120)} />
-              <InterventionCard title="Mindful Reset" description="Quick mindfulness reset to refocus your mind" duration="3 min" icon={Brain} type="recovery" onStart={() => handleStartSession("rest", "Mindful Reset", 180)} />
-              <InterventionCard title="Power Focus" description="Short burst focus session for productivity" duration="5 min" icon={Target} type="focus" onStart={() => handleStartSession("focus", "Power Focus", 300)} />
-            </div>
             
             {/* --- NEW CLINICAL ASSESSMENTS CARD START --- */}
             {/* Wrapper div to handle the click event */}
