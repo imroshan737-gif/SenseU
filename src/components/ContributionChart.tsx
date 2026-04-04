@@ -12,11 +12,11 @@ interface ContributionChartProps {
 }
 
 function getColor(count: number): React.CSSProperties {
-  if (count === 0) return { backgroundColor: "#1a2535" };
-  if (count === 1) return { backgroundColor: "#0e4429" };
-  if (count === 2) return { backgroundColor: "#006d32" };
-  if (count === 3) return { backgroundColor: "#26a641" };
-  return { backgroundColor: "#39d353" };
+  if (count === 0) return { backgroundColor: "#0d1f2d" };
+  if (count === 1) return { backgroundColor: "#003d4d" };
+  if (count === 2) return { backgroundColor: "#006d7a" };
+  if (count === 3) return { backgroundColor: "#00a8b5" };
+  return { backgroundColor: "#00f0ff" };
 }
 
 const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
@@ -109,7 +109,7 @@ const ContributionChart: React.FC<ContributionChartProps> = ({
   const totalWeeks = grid.length;
 
   return (
-    <div className="rounded-2xl border border-cyan-900/40 bg-[#0d1b2a] p-5 w-full">
+    <div className="rounded-2xl border border-cyan-900/40 bg-[#0d1b2a] p-4 w-full">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-cyan-400 text-sm font-semibold tracking-widest uppercase">
@@ -146,7 +146,7 @@ const ContributionChart: React.FC<ContributionChartProps> = ({
               <div
                 key={d}
                 className="text-[9px] text-gray-500 w-6 flex items-center"
-                style={{ height: "calc((100% - 24px) / 7)", marginBottom: "2px", minHeight: "13px" }}
+                style={{ height: "calc((100% - 24px) / 7)", marginBottom: "2px", minHeight: "11px" }}
               >
                 {d % 2 === 1 ? DAYS[d].slice(0, 3) : ""}
               </div>
@@ -164,7 +164,7 @@ const ContributionChart: React.FC<ContributionChartProps> = ({
                   <div
                     key={di}
                     title={day ? `${day.date}: ${day.count} sessions` : ""}
-                    style={day ? { ...getColor(day.count), aspectRatio: "1" } : { aspectRatio: "1" }}
+                    style={day ? { ...getColor(day.count), aspectRatio: "1", maxHeight: "11px" } : { aspectRatio: "1", maxHeight: "11px" }}
                     className={`w-full rounded-[2px] transition-all duration-150 hover:ring-1 hover:ring-cyan-400/60 ${
                       !day ? "opacity-0 pointer-events-none" : ""
                     }`}
