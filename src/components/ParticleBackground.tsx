@@ -73,16 +73,16 @@ const ParticleBackground = memo(() => {
 
     const initStars = (width: number, height: number) => {
       // Tiny twinkling star particles
-      const starCount = Math.min(120, Math.floor((width * height) / 12000));
+      const starCount = Math.min(40, Math.floor((width * height) / 30000));
       starsRef.current = [];
 
       for (let i = 0; i < starCount; i++) {
         starsRef.current.push({
           x: Math.random() * width,
           y: Math.random() * height,
-          size: Math.random() * 1.2 + 0.3,
-          opacity: Math.random() * 0.4 + 0.1,
-          twinkleSpeed: Math.random() * 0.02 + 0.005,
+          size: Math.random() * 0.6 + 0.2,
+          opacity: Math.random() * 0.15 + 0.05,
+          twinkleSpeed: Math.random() * 0.01 + 0.003,
           twinklePhase: Math.random() * Math.PI * 2,
         });
       }
