@@ -134,7 +134,16 @@ export default function Assessment() {
     if (currentQuestion.type === "mcq" || currentQuestion.type === "slider") {
       choiceLatency.recordChoice(currentQuestion.id, String(value));
     }
-  }, [currentQuestion, choiceLatency]);
+
+    // Auto-advance for MCQ selections
+    if (currentQuestion.type === "mcq") {
+      setTimeout(() => {
+        if (currentStep < questions.length - 1) {
+          setCurrentStep(prev => prev + 1);
+        }
+      }, 300);
+    }
+  }, [currentQuestion, choiceLatency, currentStep]);
 
   const handleNext = async () => {
     if (isLastQuestion) {
