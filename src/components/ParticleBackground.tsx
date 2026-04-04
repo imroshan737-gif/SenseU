@@ -148,7 +148,7 @@ const ParticleBackground = memo(() => {
 
         ctx.beginPath();
         ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(200, 220, 255, ${alpha})`;
+        ctx.fillStyle = `rgba(200, 220, 255, ${alpha * 0.5})`;
         ctx.fill();
       }
 

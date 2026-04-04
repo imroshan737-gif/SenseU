@@ -334,6 +334,14 @@ const Dashboard = () => {
                   </button>
                 ))}
               </div>
+
+              {/* Quick Sessions below Energy */}
+              <div className="mt-6 space-y-3">
+                <h4 className="text-xs font-orbitron uppercase tracking-wider text-muted-foreground/70">Quick Sessions</h4>
+                <InterventionCard title="Box Breathing" description="4-4-4-4 breathing technique for instant calm" duration="2 min" icon={Leaf} type="micro" onStart={() => handleStartSession("breathe", "Box Breathing", 120)} />
+                <InterventionCard title="Mindful Reset" description="Quick mindfulness reset to refocus your mind" duration="3 min" icon={Brain} type="recovery" onStart={() => handleStartSession("rest", "Mindful Reset", 180)} />
+                <InterventionCard title="Power Focus" description="Short burst focus session for productivity" duration="5 min" icon={Target} type="focus" onStart={() => handleStartSession("focus", "Power Focus", 300)} />
+              </div>
             </GlassCard>
           </div>
 
