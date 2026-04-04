@@ -315,7 +315,12 @@ export default function Assessment() {
       <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/5 rounded-full blur-[80px]" />
       <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-secondary/5 rounded-full blur-[80px]" />
 
-      <div className="relative z-10 w-full max-w-2xl">
+      <div className="relative z-10 w-full max-w-2xl" onKeyDown={(e) => {
+        if (e.key === "Enter" && !e.shiftKey && canProceed) {
+          e.preventDefault();
+          handleNext();
+        }
+      }}>
         {/* Progress */}
         <div className="flex justify-center mb-8">
           <AssessmentProgress 
