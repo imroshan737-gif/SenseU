@@ -283,7 +283,7 @@ const Dashboard = () => {
       <div className="relative z-10 p-6 max-w-full mx-auto">
         <div className="grid grid-cols-12 gap-6">
           {/* Left Panel - Live Vitals */}
-          <VitalsSection vitals={vitals} onImprove={handleImprove} />
+          <VitalsSection vitals={vitals} onImprove={handleImprove} onStartSession={handleStartSession} />
 
           {/* Center Panel */}
           <div className="col-span-12 lg:col-span-6">
