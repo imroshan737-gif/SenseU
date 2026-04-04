@@ -63,9 +63,9 @@ const ParticleBackground = memo(() => {
           y: Math.random() * height,
           z: Math.random() * 800,
           size: Math.random() * 2.5 + 1,
-          speedX: (Math.random() - 0.5) * 0.25,
-          speedY: (Math.random() - 0.5) * 0.25,
-          speedZ: (Math.random() - 0.5) * 1.5,
+          speedX: (Math.random() - 0.5) * 0.6,
+          speedY: (Math.random() - 0.5) * 0.6,
+          speedZ: (Math.random() - 0.5) * 0.8,
           opacity: Math.random() * 0.6 + 0.3,
         });
       }
