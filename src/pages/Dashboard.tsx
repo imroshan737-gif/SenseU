@@ -79,21 +79,23 @@ const VitalsSection = memo(({
 }) => (
   <div className="col-span-12 lg:col-span-3 flex flex-col">
     <h3 className="text-sm font-orbitron uppercase tracking-wider text-muted-foreground mb-4">Live Vitals</h3>
-    {[
-      { title: "Stress Score", value: vitals.stress, unit: "%", icon: Brain, color: "violet" as const, type: "stress" as const },
-      { title: "Focus Level", value: vitals.focus, unit: "%", icon: Target, color: "green" as const, type: "focus" as const },
-      { title: "Energy Level", value: vitals.energy, unit: "%", icon: Zap, color: "amber" as const, type: "energy" as const },
-    ].map((vital) => (
-      <div key={vital.title} className="relative group">
-        <VitalsTile title={vital.title} value={vital.value} unit={vital.unit} icon={vital.icon} trend="stable" color={vital.color} />
-        <button 
-          onClick={() => onImprove(vital.type)} 
-          className="absolute top-2 right-2 px-2 py-1 rounded-md bg-primary/20 text-primary text-xs font-orbitron opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1"
-        >
-          <TrendingUp className="w-3 h-3" /> Improve
-        </button>
-      </div>
-    ))}
+    <div className="flex flex-col gap-4">
+      {[
+        { title: "Stress Score", value: vitals.stress, unit: "%", icon: Brain, color: "violet" as const, type: "stress" as const },
+        { title: "Focus Level", value: vitals.focus, unit: "%", icon: Target, color: "green" as const, type: "focus" as const },
+        { title: "Energy Level", value: vitals.energy, unit: "%", icon: Zap, color: "amber" as const, type: "energy" as const },
+      ].map((vital) => (
+        <div key={vital.title} className="relative group">
+          <VitalsTile title={vital.title} value={vital.value} unit={vital.unit} icon={vital.icon} trend="stable" color={vital.color} />
+          <button 
+            onClick={() => onImprove(vital.type)} 
+            className="absolute top-2 right-2 px-2 py-1 rounded-md bg-primary/20 text-primary text-xs font-orbitron opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1"
+          >
+            <TrendingUp className="w-3 h-3" /> Improve
+          </button>
+        </div>
+      ))}
+    </div>
   </div>
 ));
 
