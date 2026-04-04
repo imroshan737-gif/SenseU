@@ -311,7 +311,7 @@ const Dashboard = () => {
                   </p>
                 </div>
                 
-                <div className="grid grid-cols-3 gap-4 mt-4 text-center">
+                <div className="grid grid-cols-3 gap-6 mt-4 text-center">
                   <div className="p-3 rounded-xl bg-muted/20 border border-border/30">
                     <p className="text-2xl font-orbitron font-bold text-primary">{vitals.stress}%</p>
                     <p className="text-xs text-muted-foreground">Stress</p>
