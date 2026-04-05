@@ -103,6 +103,7 @@ const VitalsSection = memo(({
     <div className="space-y-3 mt-4 flex-1 flex flex-col">
       <h4 className="text-xs font-orbitron uppercase tracking-wider text-muted-foreground/70">Quick Sessions</h4>
       <InterventionCard title="Mindful Reset" description="Quick mindfulness reset to refocus your mind" duration="3 min" icon={Brain} type="recovery" className="flex-1" onStart={() => onStartSession("rest", "Mindful Reset", 180)} />
+      <InterventionCard title="Stress Relief" description="Calm your mind and release tension in 10 minutes" duration="10 min" icon={Leaf} type="micro" className="flex-1" onStart={() => onStartSession("breathe", "Stress Relief", 600)} />
     </div>
   </div>
 ));
