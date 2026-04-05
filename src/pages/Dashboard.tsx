@@ -105,7 +105,7 @@ const VitalsSection = memo(({
       <InterventionCard title="Box Breathing" description="4-4-4-4 breathing technique for instant calm" duration="2 min" icon={Leaf} type="micro" onStart={() => onStartSession("breathe", "Box Breathing", 120)} />
       <InterventionCard title="Mindful Reset" description="Quick mindfulness reset to refocus your mind" duration="3 min" icon={Brain} type="recovery" onStart={() => onStartSession("rest", "Mindful Reset", 180)} />
       <InterventionCard title="Power Focus" description="Short burst focus session for productivity" duration="5 min" icon={Target} type="focus" onStart={() => onStartSession("focus", "Power Focus", 300)} />
-    </div>
+    </div> 
   </div>
 ));
 
