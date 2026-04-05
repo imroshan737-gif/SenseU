@@ -100,12 +100,10 @@ const VitalsSection = memo(({
     </div>
     
     {/* Quick Sessions */}
-    <div className="space-y-3 mt-4">
+    <div className="space-y-3 mt-4 flex-1 flex flex-col">
       <h4 className="text-xs font-orbitron uppercase tracking-wider text-muted-foreground/70">Quick Sessions</h4>
-      <InterventionCard title="Box Breathing" description="4-4-4-4 breathing technique for instant calm" duration="2 min" icon={Leaf} type="micro" onStart={() => onStartSession("breathe", "Box Breathing", 120)} />
-      <InterventionCard title="Mindful Reset" description="Quick mindfulness reset to refocus your mind" duration="3 min" icon={Brain} type="recovery" onStart={() => onStartSession("rest", "Mindful Reset", 180)} />
-      <InterventionCard title="Power Focus" description="Short burst focus session for productivity" duration="5 min" icon={Target} type="focus" onStart={() => onStartSession("focus", "Power Focus", 300)} />
-    </div> 
+      <InterventionCard title="Mindful Reset" description="Quick mindfulness reset to refocus your mind" duration="3 min" icon={Brain} type="recovery" className="flex-1" onStart={() => onStartSession("rest", "Mindful Reset", 180)} />
+    </div>
   </div>
 ));
 
