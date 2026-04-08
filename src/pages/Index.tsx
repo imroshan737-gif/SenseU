@@ -18,7 +18,7 @@ import ParticleBackground from "@/components/ParticleBackground";
 import NeonButton from "@/components/NeonButton";
 import DemoPreview from "@/components/DemoPreview";
 import { PrivacyModal, TermsModal, ContactModal } from "@/components/FooterModals";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -28,6 +28,22 @@ const Index = () => {
   const [showTerms, setShowTerms] = useState(false);
   const [showContact, setShowContact] = useState(false);
   const featuresRef = useRef<HTMLDivElement>(null);
+  const [navVisible, setNavVisible] = useState(true);
+  const lastScrollY = useRef(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentY = window.scrollY;
+      if (currentY > lastScrollY.current && currentY > 80) {
+        setNavVisible(false);
+      } else {
+        setNavVisible(true);
+      }
+      lastScrollY.current = currentY;
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     if (searchParams.get("signup") === "true") {
