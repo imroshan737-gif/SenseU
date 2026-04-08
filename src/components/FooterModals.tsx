@@ -194,8 +194,8 @@ export function ContactModal({ open, onOpenChange }: FooterModalProps) {
           <div className="text-center p-4 rounded-xl bg-gradient-to-br from-primary/10 to-secondary/10 border border-primary/30">
             <h3 className="text-lg font-orbitron font-bold text-gradient mb-4">My Team</h3>
             <ul className="space-y-3 text-base">
-              <li><a href="https://www.linkedin.com/in/harsimran-kaur-652307382/" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary/80 font-medium underline underline-offset-4 transition-colors">Nimish Sharma</a></li>
-              <li><a href="https://www.linkedin.com/in/milind-gopala/" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary/80 font-medium underline underline-offset-4 transition-colors">Maneesha G</a></li>
+              <li><a href="https://www.linkedin.com/in/nimish-sharma-b40414386/" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary/80 font-medium underline underline-offset-4 transition-colors">Nimish Sharma</a></li>
+              <li><a href="https://www.linkedin.com/in/maneesha-g-6b29ba353/" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary/80 font-medium underline underline-offset-4 transition-colors">Maneesha G</a></li>
               <li><a href="https://www.linkedin.com/in/monalisa-k-0a06323a2/" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary/80 font-medium underline underline-offset-4 transition-colors">Monalisa K</a></li>
             </ul>
           </div>
