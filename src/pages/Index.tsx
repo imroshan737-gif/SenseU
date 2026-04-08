@@ -123,7 +123,7 @@ const Index = () => {
       <ParticleBackground />
 
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-background/60 border-b border-border/20">
+      <nav className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-background/40 border-b border-border/10 transition-transform duration-300 ease-in-out ${navVisible ? 'translate-y-0' : '-translate-y-full'}`}>
         <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
