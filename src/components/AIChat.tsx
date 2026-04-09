@@ -176,8 +176,8 @@ export default function AIChat({ isOpen, onClose, isDemo = false }: AIChatProps)
   if (!isOpen) return null;
 
   return (
-    <div className="fixed bottom-28 right-8 z-50 w-80 md:w-96 animate-scale-in">
-      <div className="rounded-2xl overflow-hidden border border-border/50 shadow-2xl shadow-primary/10 bg-card flex flex-col max-h-[80vh] h-[600px]">
+    <div className="fixed bottom-0 right-8 z-50 w-80 md:w-96 animate-scale-in">
+      <div className="rounded-t-2xl overflow-hidden border border-border/50 border-b-0 shadow-2xl shadow-primary/10 bg-card flex flex-col h-[calc(100vh-64px)]">
         {/* Header */}
         <div className="flex items-center justify-between px-5 py-4 bg-gradient-to-r from-primary/15 via-secondary/10 to-primary/15 border-b border-border/30">
           <div className="flex items-center gap-3">
