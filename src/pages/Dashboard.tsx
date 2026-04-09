@@ -489,10 +489,12 @@ const Dashboard = () => {
         </footer>
       </div>
 
-      {/* Floating AI Orb */}
-      <div className="fixed bottom-8 right-8 z-50">
-        <AIGuardianOrb stressLevel={getStressState()} size="lg" onClick={() => setShowGuardianChat(!showGuardianChat)} />
-      </div>
+      {/* Floating AI Orb - hidden when chat is open */}
+      {!showGuardianChat && (
+        <div className="fixed bottom-8 right-8 z-50">
+          <AIGuardianOrb stressLevel={getStressState()} size="lg" onClick={() => setShowGuardianChat(true)} />
+        </div>
+      )}
 
       {/* Sheets and Dialogs */}
       <AIChat isOpen={showGuardianChat} onClose={() => setShowGuardianChat(false)} isDemo={isDemo} />
