@@ -187,8 +187,8 @@ const Dashboard = () => {
     setSessionGuide({ open: true, type, title, duration });
   }, []);
   
-  const handleSessionComplete = useCallback((title: string, type: string) => {
-    setCompletedSession({ title, type });
+  const handleSessionComplete = useCallback((title: string, type: string, duration: number) => {
+    setCompletedSession({ title, type, duration });
     setShowFeedback(true);
   }, []);
 
@@ -196,8 +196,17 @@ const Dashboard = () => {
     const sessionPoints = completedSession?.type === "focus" ? 25 : completedSession?.type === "breathe" ? 15 : 20;
     addPoints(sessionPoints, `Completed ${completedSession?.title}`);
     
-    // Reduce stress when session is completed
-    const stressReduction = completedSession?.type === "focus" ? 8 : completedSession?.type === "breathe" ? 12 : 10;
+    // Stress reduction scales with session duration (longer = more relief)
+    // Base rate per minute by type, capped to keep things gradual
+    const durationSec = completedSession?.duration ?? 60;
+    const durationMin = durationSec / 60;
+    const ratePerMin =
+      completedSession?.type === "breathe" ? 3 :
+      completedSession?.type === "focus" ? 2 :
+      2.5; // rest / other
+    // Small fixed completion bonus + scaled portion, capped at 15%
+    const raw = 0.5 + ratePerMin * durationMin;
+    const stressReduction = Math.min(15, Math.max(1, Math.round(raw)));
     reduceStressFromSession(stressReduction);
     
     // Sync to leaderboard database
