@@ -517,7 +517,7 @@ const Dashboard = () => {
         sessionType={sessionGuide.type} 
         title={sessionGuide.title} 
         duration={sessionGuide.duration}
-        onComplete={() => handleSessionComplete(sessionGuide.title, sessionGuide.type)}
+        onComplete={() => handleSessionComplete(sessionGuide.title, sessionGuide.type, sessionGuide.duration)}
       />
       <SearchDialog open={showSearch} onOpenChange={setShowSearch} onOpenProfile={() => setShowProfile(true)} onOpenSettings={() => setShowSettings(true)} onOpenNotifications={() => setShowNotifications(true)} onStartSession={handleStartSession} onImprove={handleImprove} />
       <AllSessionsSheet 
