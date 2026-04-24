@@ -135,7 +135,7 @@ const Dashboard = () => {
   const [showPrivacy, setShowPrivacy] = useState(false);
   const [showTerms, setShowTerms] = useState(false);
   const [showContact, setShowContact] = useState(false);
-  const [completedSession, setCompletedSession] = useState<{ title: string; type: string } | null>(null);
+  const [completedSession, setCompletedSession] = useState<{ title: string; type: string; duration: number } | null>(null);
   const [improvementSheet, setImprovementSheet] = useState<{
     open: boolean;
     type: "stress" | "focus" | "energy" | "sleep" | "mood";
