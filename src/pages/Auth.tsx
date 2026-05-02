@@ -182,8 +182,21 @@ const Auth = () => {
     <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden bg-background">
       <ParticleBackground />
 
-      <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/5 rounded-full blur-[80px]" />
-      <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-secondary/5 rounded-full blur-[80px]" />
+      {/* Animated orbital rings behind card */}
+      <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+        <div className="relative w-[700px] h-[700px] max-w-[90vw] max-h-[90vw]">
+          <div className="absolute inset-0 rounded-full border border-primary/10 animate-[spin_40s_linear_infinite]" />
+          <div className="absolute inset-12 rounded-full border border-secondary/10 animate-[spin_55s_linear_infinite_reverse]" />
+          <div className="absolute inset-24 rounded-full border border-accent/10 animate-[spin_70s_linear_infinite]" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-primary shadow-[0_0_20px_hsl(var(--primary))]" />
+          <div className="absolute bottom-12 right-12 w-2 h-2 rounded-full bg-secondary shadow-[0_0_15px_hsl(var(--secondary))]" />
+        </div>
+      </div>
+
+      {/* Ambient gradient orbs */}
+      <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-primary/10 rounded-full blur-[100px] animate-pulse" />
+      <div className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-secondary/10 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1.5s' }} />
+      <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-accent/5 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2" />
 
       {showVerified && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/95">
