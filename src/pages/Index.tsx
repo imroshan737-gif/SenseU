@@ -150,14 +150,7 @@ const Index = () => {
 
       {/* Hero Section - Full viewport */}
       <section className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 text-center pt-20">
-        {/* Floating orb behind hero */}
-        <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-          <div className="relative w-[500px] h-[500px]">
-            <div className="absolute inset-0 rounded-full border border-primary/10 animate-[spin_30s_linear_infinite]" />
-            <div className="absolute inset-8 rounded-full border border-secondary/10 animate-[spin_45s_linear_infinite_reverse]" />
-            <div className="absolute inset-20 rounded-full border border-accent/10 animate-[spin_60s_linear_infinite]" />
-          </div>
-        </div>
+
 
         <div className="max-w-5xl mx-auto space-y-8 relative">
           {/* Tag */}
