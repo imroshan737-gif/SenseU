@@ -122,26 +122,8 @@ const Index = () => {
     <div className="min-h-screen relative bg-background overflow-x-hidden">
       <ParticleBackground />
 
-      {/* Ambient gradient orbs */}
-      <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
-        <div className="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full bg-primary/10 blur-[120px] animate-pulse" />
-        <div className="absolute top-1/3 -right-40 w-[600px] h-[600px] rounded-full bg-secondary/10 blur-[140px] animate-pulse" style={{ animationDelay: '1.5s' }} />
-        <div className="absolute bottom-0 left-1/3 w-[500px] h-[500px] rounded-full bg-accent/10 blur-[130px] animate-pulse" style={{ animationDelay: '3s' }} />
-      </div>
-
-      {/* Subtle grid overlay */}
-      <div
-        className="pointer-events-none fixed inset-0 z-0 opacity-[0.04]"
-        style={{
-          backgroundImage:
-            'linear-gradient(hsl(var(--primary)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--primary)) 1px, transparent 1px)',
-          backgroundSize: '60px 60px',
-          maskImage: 'radial-gradient(ellipse at center, black 30%, transparent 75%)',
-        }}
-      />
-
       {/* Navigation */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-2xl bg-background/30 border-b border-primary/10 shadow-[0_4px_30px_-10px_hsl(var(--primary)/0.3)] transition-transform duration-500 ease-out ${navVisible ? 'translate-y-0' : '-translate-y-full'}`}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 bg-transparent transition-transform duration-500 ease-out ${navVisible ? 'translate-y-0' : '-translate-y-full'}`}>
         <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
@@ -168,14 +150,7 @@ const Index = () => {
 
       {/* Hero Section - Full viewport */}
       <section className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 text-center pt-20">
-        {/* Floating orb behind hero */}
-        <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-          <div className="relative w-[500px] h-[500px]">
-            <div className="absolute inset-0 rounded-full border border-primary/10 animate-[spin_30s_linear_infinite]" />
-            <div className="absolute inset-8 rounded-full border border-secondary/10 animate-[spin_45s_linear_infinite_reverse]" />
-            <div className="absolute inset-20 rounded-full border border-accent/10 animate-[spin_60s_linear_infinite]" />
-          </div>
-        </div>
+
 
         <div className="max-w-5xl mx-auto space-y-8 relative">
           {/* Tag */}
