@@ -1,71 +1,110 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Shield, FileText, Mail, User } from "lucide-react";
+import { Shield, FileText, Mail, User, Lock, Database, Eye, Sparkles, Brain, Cookie, AlertTriangle, CheckCircle2, BookOpen, Scale, Linkedin, ExternalLink, Heart } from "lucide-react";
 
 interface FooterModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
+interface SectionProps {
+  icon: React.ElementType;
+  title: string;
+  iconColor?: string;
+  children: React.ReactNode;
+}
+
+function Section({ icon: Icon, title, iconColor = "text-primary", children }: SectionProps) {
+  return (
+    <div className="group relative p-5 rounded-2xl bg-gradient-to-br from-card/80 to-card/40 border border-primary/10 hover:border-primary/30 transition-all duration-500 hover:shadow-[0_0_30px_-10px_hsl(var(--primary)/0.5)]">
+      <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+      <div className="relative">
+        <div className="flex items-center gap-3 mb-3">
+          <div className={`w-10 h-10 rounded-xl bg-gradient-to-br from-primary/20 to-secondary/20 border border-primary/30 flex items-center justify-center ${iconColor}`}>
+            <Icon className="w-5 h-5" />
+          </div>
+          <h3 className="text-foreground font-orbitron font-semibold text-base">{title}</h3>
+        </div>
+        <div className="text-sm text-muted-foreground leading-relaxed pl-1">{children}</div>
+      </div>
+    </div>
+  );
+}
+
+function ModalHeader({ icon: Icon, title, subtitle }: { icon: React.ElementType; title: string; subtitle: string }) {
+  return (
+    <div className="relative -mx-6 -mt-6 px-6 pt-8 pb-6 mb-2 overflow-hidden border-b border-primary/20">
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/15 via-secondary/10 to-transparent" />
+      <div className="absolute -top-10 -right-10 w-40 h-40 bg-primary/20 rounded-full blur-3xl" />
+      <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-secondary/20 rounded-full blur-3xl" />
+      <div className="relative flex items-center gap-4">
+        <div className="relative">
+          <div className="absolute inset-0 bg-primary/30 rounded-2xl blur-xl animate-pulse" />
+          <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-[0_0_30px_hsl(var(--primary)/0.5)]">
+            <Icon className="w-7 h-7 text-background" />
+          </div>
+        </div>
+        <div>
+          <h2 className="text-2xl font-orbitron font-bold text-gradient">{title}</h2>
+          <p className="text-xs text-muted-foreground mt-1 tracking-wider uppercase">{subtitle}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function PrivacyModal({ open, onOpenChange }: FooterModalProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-background/95 backdrop-blur-xl border border-primary/20 max-w-2xl">
+      <DialogContent className="bg-background/95 backdrop-blur-2xl border border-primary/30 max-w-3xl p-6 shadow-[0_0_60px_-15px_hsl(var(--primary)/0.4)]">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2 font-orbitron text-gradient">
-            <Shield className="w-5 h-5 text-primary" />
-            Privacy Policy
-          </DialogTitle>
+          <DialogTitle className="sr-only">Privacy Policy</DialogTitle>
         </DialogHeader>
-        <ScrollArea className="max-h-[60vh] pr-4">
-          <div className="space-y-4 text-sm text-muted-foreground">
-            <section>
-              <h3 className="text-foreground font-semibold mb-2">Your Privacy Matters</h3>
-              <p>At NeuroAura, we take your privacy seriously. This policy outlines how we collect, use, and protect your personal information.</p>
-            </section>
+        <ModalHeader icon={Shield} title="Privacy Policy" subtitle="Your trust, encrypted" />
+        <ScrollArea className="max-h-[65vh] pr-4 -mr-2">
+          <div className="space-y-4">
+            <div className="p-5 rounded-2xl bg-gradient-to-r from-primary/10 to-secondary/10 border border-primary/30 relative overflow-hidden">
+              <Sparkles className="absolute top-3 right-3 w-5 h-5 text-primary/40" />
+              <p className="text-sm text-foreground/90 italic leading-relaxed">
+                "Your mind is sacred. Your data is yours. We exist to protect both."
+              </p>
+            </div>
 
-            <section>
-              <h3 className="text-foreground font-semibold mb-2">Data Collection</h3>
-              <ul className="list-disc list-inside space-y-1">
-                <li>We collect only essential information needed to provide our wellness services</li>
-                <li>Stress assessments and mood data are stored securely and encrypted</li>
-                <li>We never sell your personal data to third parties</li>
-                <li>Analytics data is anonymized and used only to improve our services</li>
+            <Section icon={Database} title="Data Collection" iconColor="text-cyan-400">
+              <ul className="space-y-2">
+                <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-primary mt-0.5 shrink-0" />Only essential information needed for wellness services</li>
+                <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-primary mt-0.5 shrink-0" />Stress assessments encrypted at rest and in transit</li>
+                <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-primary mt-0.5 shrink-0" />We never sell your data — ever</li>
+                <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-primary mt-0.5 shrink-0" />Analytics anonymized to improve experience</li>
               </ul>
-            </section>
+            </Section>
 
-            <section>
-              <h3 className="text-foreground font-semibold mb-2">Data Security</h3>
-              <ul className="list-disc list-inside space-y-1">
-                <li>All data is encrypted in transit and at rest using industry-standard encryption</li>
-                <li>We use secure cloud infrastructure with regular security audits</li>
-                <li>Access to user data is strictly limited to authorized personnel</li>
-                <li>We implement multi-factor authentication for all admin access</li>
+            <Section icon={Lock} title="Data Security" iconColor="text-violet-400">
+              <ul className="space-y-2">
+                <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-primary mt-0.5 shrink-0" />Industry-standard end-to-end encryption</li>
+                <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-primary mt-0.5 shrink-0" />Secure cloud with regular security audits</li>
+                <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-primary mt-0.5 shrink-0" />Multi-factor authentication for admin access</li>
               </ul>
-            </section>
+            </Section>
 
-            <section>
-              <h3 className="text-foreground font-semibold mb-2">Your Rights</h3>
-              <ul className="list-disc list-inside space-y-1">
-                <li>You can request a copy of your data at any time</li>
-                <li>You have the right to delete your account and all associated data</li>
-                <li>You can opt-out of marketing communications</li>
-                <li>You can update your privacy preferences in settings</li>
+            <Section icon={Eye} title="Your Rights" iconColor="text-emerald-400">
+              <ul className="space-y-2">
+                <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-primary mt-0.5 shrink-0" />Request a copy of your data anytime</li>
+                <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-primary mt-0.5 shrink-0" />Delete your account and all data instantly</li>
+                <li className="flex gap-2"><CheckCircle2 className="w-4 h-4 text-primary mt-0.5 shrink-0" />Opt-out of any communications</li>
               </ul>
-            </section>
+            </Section>
 
-            <section>
-              <h3 className="text-foreground font-semibold mb-2">AI & Mental Health Data</h3>
-              <p>Our AI Guardian processes your stress and wellness data locally when possible. Conversations with the AI are used to provide personalized support but are never used for advertising purposes.</p>
-            </section>
+            <Section icon={Brain} title="AI & Mental Health" iconColor="text-rose-400">
+              Aurora AI processes wellness data locally when possible. Your conversations stay yours — never used for advertising, never sold.
+            </Section>
 
-            <section>
-              <h3 className="text-foreground font-semibold mb-2">Cookies & Tracking</h3>
-              <p>We use essential cookies for authentication and preferences. We do not use third-party tracking cookies for advertising.</p>
-            </section>
+            <Section icon={Cookie} title="Cookies" iconColor="text-amber-400">
+              Only essential cookies for authentication and preferences. Zero third-party tracking.
+            </Section>
 
-            <p className="text-xs text-muted-foreground/70 pt-4">
-              Last updated: January 2026. For questions, contact us at roshangowda737@gmail.com
+            <p className="text-xs text-center text-muted-foreground/60 pt-4 font-orbitron tracking-wider">
+              LAST UPDATED · JANUARY 2026 · roshangowda737@gmail.com
             </p>
           </div>
         </ScrollArea>
@@ -75,64 +114,46 @@ export function PrivacyModal({ open, onOpenChange }: FooterModalProps) {
 }
 
 export function TermsModal({ open, onOpenChange }: FooterModalProps) {
+  const terms = [
+    { icon: CheckCircle2, title: "Acceptance", color: "text-cyan-400", body: "By accessing NeuroAura, you agree to these terms. If not, please don't use our services." },
+    { icon: Sparkles, title: "Service", color: "text-violet-400", body: "A mental wellness platform helping students manage stress, focus, and wellbeing through AI." },
+    { icon: AlertTriangle, title: "Not Medical Advice", color: "text-amber-400", body: "NeuroAura is not a substitute for professional medical care. In a crisis, contact emergency services immediately.", warn: true },
+    { icon: User, title: "Your Responsibilities", color: "text-emerald-400", body: "Be 13+, secure your account, don't misuse the platform, provide accurate info." },
+    { icon: BookOpen, title: "Intellectual Property", color: "text-pink-400", body: "All NeuroAura content is protected by international copyright and trademark laws." },
+    { icon: Scale, title: "Limitation of Liability", color: "text-blue-400", body: "Service provided 'as is'. We're not liable for damages arising from use." },
+  ];
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-background/95 backdrop-blur-xl border border-primary/20 max-w-2xl">
+      <DialogContent className="bg-background/95 backdrop-blur-2xl border border-primary/30 max-w-3xl p-6 shadow-[0_0_60px_-15px_hsl(var(--primary)/0.4)]">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2 font-orbitron text-gradient">
-            <FileText className="w-5 h-5 text-primary" />
-            Terms & Conditions
-          </DialogTitle>
+          <DialogTitle className="sr-only">Terms & Conditions</DialogTitle>
         </DialogHeader>
-        <ScrollArea className="max-h-[60vh] pr-4">
-          <div className="space-y-4 text-sm text-muted-foreground">
-            <section>
-              <h3 className="text-foreground font-semibold mb-2">1. Acceptance of Terms</h3>
-              <p>By accessing and using NeuroAura, you agree to be bound by these Terms and Conditions. If you do not agree, please do not use our services.</p>
-            </section>
-
-            <section>
-              <h3 className="text-foreground font-semibold mb-2">2. Service Description</h3>
-              <p>NeuroAura is a mental wellness platform designed to help students manage stress, improve focus, and enhance overall wellbeing through AI-powered tools and techniques.</p>
-            </section>
-
-            <section>
-              <h3 className="text-foreground font-semibold mb-2">3. Not Medical Advice</h3>
-              <p className="text-amber-400">Important: NeuroAura is not a substitute for professional medical advice, diagnosis, or treatment. If you are experiencing a mental health crisis, please contact a healthcare professional or emergency services immediately.</p>
-            </section>
-
-            <section>
-              <h3 className="text-foreground font-semibold mb-2">4. User Responsibilities</h3>
-              <ul className="list-disc list-inside space-y-1">
-                <li>You must be at least 13 years old to use NeuroAura</li>
-                <li>You are responsible for maintaining the security of your account</li>
-                <li>You agree not to misuse the platform or attempt to harm other users</li>
-                <li>You will provide accurate information during registration</li>
-              </ul>
-            </section>
-
-            <section>
-              <h3 className="text-foreground font-semibold mb-2">5. Intellectual Property</h3>
-              <p>All content, features, and functionality of NeuroAura are owned by us and protected by international copyright, trademark, and other intellectual property laws.</p>
-            </section>
-
-            <section>
-              <h3 className="text-foreground font-semibold mb-2">6. Limitation of Liability</h3>
-              <p>NeuroAura is provided "as is" without warranties of any kind. We are not liable for any damages arising from the use of our services.</p>
-            </section>
-
-            <section>
-              <h3 className="text-foreground font-semibold mb-2">7. Account Termination</h3>
-              <p>We reserve the right to terminate accounts that violate these terms or engage in harmful behavior.</p>
-            </section>
-
-            <section>
-              <h3 className="text-foreground font-semibold mb-2">8. Changes to Terms</h3>
-              <p>We may update these terms from time to time. Continued use of NeuroAura after changes constitutes acceptance of the new terms.</p>
-            </section>
-
-            <p className="text-xs text-muted-foreground/70 pt-4">
-              Last updated: January 2026. For questions, contact us at roshangowda737@gmail.com
+        <ModalHeader icon={FileText} title="Terms & Conditions" subtitle="The fine print, made beautiful" />
+        <ScrollArea className="max-h-[65vh] pr-4 -mr-2">
+          <div className="space-y-4">
+            {terms.map((t, i) => (
+              <div
+                key={t.title}
+                className={`group relative p-5 rounded-2xl bg-gradient-to-br from-card/80 to-card/40 border ${t.warn ? 'border-amber-400/40 shadow-[0_0_30px_-10px_hsl(45_100%_50%/0.4)]' : 'border-primary/10 hover:border-primary/30'} transition-all duration-500`}
+              >
+                <div className="flex items-start gap-4">
+                  <div className="relative shrink-0">
+                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${t.warn ? 'from-amber-500/30 to-orange-500/20 border-amber-400/40' : 'from-primary/20 to-secondary/20 border-primary/30'} border flex items-center justify-center ${t.color}`}>
+                      <t.icon className="w-6 h-6" />
+                    </div>
+                    <span className="absolute -top-1.5 -right-1.5 w-6 h-6 rounded-full bg-gradient-to-br from-primary to-secondary text-background text-[10px] font-orbitron font-bold flex items-center justify-center">
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                  </div>
+                  <div>
+                    <h3 className={`font-orbitron font-semibold mb-1 ${t.warn ? 'text-amber-400' : 'text-foreground'}`}>{t.title}</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{t.body}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+            <p className="text-xs text-center text-muted-foreground/60 pt-4 font-orbitron tracking-wider">
+              LAST UPDATED · JANUARY 2026
             </p>
           </div>
         </ScrollArea>
@@ -142,62 +163,74 @@ export function TermsModal({ open, onOpenChange }: FooterModalProps) {
 }
 
 export function ContactModal({ open, onOpenChange }: FooterModalProps) {
+  const team = [
+    { name: "Nimish Sharma", url: "https://www.linkedin.com/in/nimish-sharma-b40414386/" },
+    { name: "Maneesha G", url: "https://www.linkedin.com/in/maneesha-g-6b29ba353/" },
+    { name: "Monalisa K", url: "https://www.linkedin.com/in/monalisa-k-0a06323a2/" },
+  ];
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-background/95 backdrop-blur-xl border border-primary/20 max-w-md">
+      <DialogContent className="bg-background/95 backdrop-blur-2xl border border-primary/30 max-w-lg p-6 shadow-[0_0_60px_-15px_hsl(var(--primary)/0.4)]">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2 font-orbitron text-gradient">
-            <Mail className="w-5 h-5 text-primary" />
-            Contact Us
-          </DialogTitle>
+          <DialogTitle className="sr-only">Contact Us</DialogTitle>
         </DialogHeader>
-        <div className="space-y-6 py-4">
-          <div className="text-center">
-            <div className="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-primary/20 to-secondary/20 border border-primary/30 flex items-center justify-center">
-              <User className="w-10 h-10 text-primary" />
+        <ModalHeader icon={Mail} title="Get in Touch" subtitle="We'd love to hear from you" />
+
+        <div className="space-y-5 pt-2">
+          {/* Owner card */}
+          <div className="relative p-6 rounded-2xl bg-gradient-to-br from-primary/15 via-secondary/10 to-accent/10 border border-primary/30 overflow-hidden">
+            <div className="absolute -top-16 -right-16 w-48 h-48 bg-primary/20 rounded-full blur-3xl" />
+            <div className="relative flex items-center gap-5">
+              <div className="relative shrink-0">
+                <div className="absolute inset-0 bg-primary/40 rounded-2xl blur-xl animate-pulse" />
+                <div className="relative w-20 h-20 rounded-2xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-[0_0_30px_hsl(var(--primary)/0.5)]">
+                  <User className="w-10 h-10 text-background" />
+                </div>
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-[10px] text-primary uppercase tracking-[0.2em] mb-1">Founder</p>
+                <h3 className="text-2xl font-orbitron font-bold text-gradient mb-2">Roshan J</h3>
+                <div className="flex flex-col gap-1.5">
+                  <a href="mailto:roshangowda737@gmail.com" className="flex items-center gap-2 text-sm text-foreground/80 hover:text-primary transition-colors group">
+                    <Mail className="w-3.5 h-3.5" />
+                    <span className="truncate">roshangowda737@gmail.com</span>
+                  </a>
+                  <a href="https://www.linkedin.com/in/roshan-gowda" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-foreground/80 hover:text-primary transition-colors">
+                    <Linkedin className="w-3.5 h-3.5" />
+                    <span>Connect on LinkedIn</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div className="space-y-4 text-center">
-            <div>
-              <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">Owner</p>
-              <p className="text-lg font-orbitron text-foreground">Roshan J</p>
+          {/* Team */}
+          <div className="relative p-5 rounded-2xl bg-gradient-to-br from-card/80 to-card/40 border border-secondary/30">
+            <div className="flex items-center gap-2 mb-4">
+              <Heart className="w-4 h-4 text-rose-400" />
+              <h3 className="text-sm font-orbitron font-bold uppercase tracking-[0.2em] text-gradient">My Team</h3>
+              <div className="flex-1 h-px bg-gradient-to-r from-secondary/40 to-transparent" />
             </div>
-
-            <div>
-              <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">E-mail</p>
-              <a 
-                href="mailto:roshangowda737@gmail.com" 
-                className="text-lg font-orbitron text-primary hover:text-primary/80 transition-colors"
-              >
-                roshangowda737@gmail.com
-              </a>
+            <div className="grid grid-cols-1 gap-2">
+              {team.map((m) => (
+                <a
+                  key={m.name}
+                  href={m.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center justify-between p-3 rounded-xl bg-background/40 border border-primary/10 hover:border-primary/40 hover:bg-primary/5 transition-all"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-primary/20 to-secondary/20 border border-primary/20 flex items-center justify-center text-primary font-orbitron font-bold text-sm">
+                      {m.name[0]}
+                    </div>
+                    <span className="font-medium text-foreground group-hover:text-primary transition-colors">{m.name}</span>
+                  </div>
+                  <Linkedin className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                </a>
+              ))}
             </div>
-
-            <div>
-              <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">LinkedIn</p>
-              <a 
-                href="https://www.linkedin.com/in/roshan-gowda" 
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-lg font-orbitron text-primary hover:text-primary/80 transition-colors"
-              >
-                Connect
-              </a>
-            </div>
-          </div>
-
-          {/* Horizontal Line */}
-          <div className="border-t border-primary/30 my-6" />
-
-          {/* Team Section - Dominant */}
-          <div className="text-center p-4 rounded-xl bg-gradient-to-br from-primary/10 to-secondary/10 border border-primary/30">
-            <h3 className="text-lg font-orbitron font-bold text-gradient mb-4">My Team</h3>
-            <ul className="space-y-3 text-base">
-              <li><a href="https://www.linkedin.com/in/nimish-sharma-b40414386/" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary/80 font-medium underline underline-offset-4 transition-colors">Nimish Sharma</a></li>
-              <li><a href="https://www.linkedin.com/in/maneesha-g-6b29ba353/" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary/80 font-medium underline underline-offset-4 transition-colors">Maneesha G</a></li>
-              <li><a href="https://www.linkedin.com/in/monalisa-k-0a06323a2/" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary/80 font-medium underline underline-offset-4 transition-colors">Monalisa K</a></li>
-            </ul>
           </div>
         </div>
       </DialogContent>
