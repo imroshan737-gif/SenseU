@@ -24,8 +24,8 @@ interface AIChatProps {
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-chat`;
 
 const QUICK_PROMPTS = [
-  { emoji: "🧘", label: "Stress tips" },
-  { emoji: "📚", label: "Study help" },
+  { emoji: "🧘", label: "Stress support" },
+  { emoji: "📚", label: "Study tips" },
   { emoji: "💤", label: "Sleep advice" },
 ];
 
