@@ -8,7 +8,6 @@ import NeonButton from "@/components/NeonButton";
 import ForgotPassword from "@/components/ForgotPassword";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { lovable } from "@/integrations/lovable/index";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -140,19 +139,30 @@ const Auth = () => {
     }
   }, [formData, isLogin]);
 
+  // ✅ FIXED: Google Sign-In using Supabase directly
   const handleGoogleSignIn = useCallback(async () => {
     try {
-      const { error } = await lovable.auth.signInWithOAuth("google", {
-        redirect_uri: `${window.location.origin}/auth`,
+      const redirectTo = `${window.location.origin}/assessment`;
+      
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo,
+          queryParams: {
+            access_type: 'offline',
+            prompt: 'consent',
+          },
+        },
       });
 
       if (error) throw error;
+      
+      // The page will redirect to Google; no further code runs here
     } catch (error: any) {
       console.error("Google sign in error:", error);
       toast.error(error.message || "Failed to sign in with Google");
     }
   }, []);
-
 
   if (isCheckingAuth) {
     return (
