@@ -73,6 +73,18 @@
     --sidebar-accent-foreground: 210 30% 96%;
     --sidebar-border: 218 24% 16%;
     --sidebar-ring: 187 92% 52%;
+
+    /* SenseU pre-login (sage/earthy) — used only on pages before login */
+    --sage-bg: 160 18% 3%;            /* #070A09 */
+    --sage-section: 156 16% 6%;       /* #0D1210 */
+    --sage-card: 140 15% 8%;          /* #111713 */
+    --sage-text: 140 12% 96%;         /* #F2F5F2 */
+    --sage-muted: 150 8% 63%;         /* #9AA7A1 */
+    --sage-accent: 150 17% 62%;       /* #8FAF9F */
+    --sage-accent-hover: 153 15% 51%; /* #6F9584 */
+    --sage-surface: 155 21% 11%;      /* #16221D */
+    --sage-line: 150 14% 15%;         /* #202A25 */
+    --sage-line-strong: 150 11% 18%;  /* #2A342F */
   }
 
 }

@@ -70,6 +70,20 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        sage: {
+          bg: "hsl(var(--sage-bg))",
+          section: "hsl(var(--sage-section))",
+          card: "hsl(var(--sage-card))",
+          text: "hsl(var(--sage-text))",
+          muted: "hsl(var(--sage-muted))",
+          accent: {
+            DEFAULT: "hsl(var(--sage-accent))",
+            hover: "hsl(var(--sage-accent-hover))",
+          },
+          surface: "hsl(var(--sage-surface))",
+          line: "hsl(var(--sage-line))",
+          "line-strong": "hsl(var(--sage-line-strong))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
