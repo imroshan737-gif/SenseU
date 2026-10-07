@@ -18,7 +18,7 @@ const AIGuardianOrb = ({ stressLevel = "calm", size = "md", onClick }: AIGuardia
   const sizes = {
     sm: "w-14 h-14",
     md: "w-18 h-18",
-    lg: "w-24 h-24",
+    lg: "w-14 h-14 sm:w-24 sm:h-24",
   };
 
   return (
@@ -34,17 +34,17 @@ const AIGuardianOrb = ({ stressLevel = "calm", size = "md", onClick }: AIGuardia
       {/* Face container */}
       <div className="absolute inset-0 flex items-center justify-center text-background">
         {/* Eyes */}
-        <div className="flex items-center gap-3 -mt-1">
-          <div className="w-2.5 h-2.5 rounded-full bg-current" />
-          <div className="w-2.5 h-2.5 rounded-full bg-current" />
+        <div className="flex items-center gap-2 sm:gap-3 -mt-1">
+          <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-current" />
+          <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-current" />
         </div>
       </div>
       
       {/* Smile */}
-      <div className="absolute bottom-5 left-1/2 -translate-x-1/2">
+      <div className="absolute bottom-3 sm:bottom-5 left-1/2 -translate-x-1/2">
         <svg 
-          width="16" 
-          height="8" 
+          width="14" 
+          height="7" 
           viewBox="0 0 16 8" 
           className="text-background"
         >
@@ -59,7 +59,7 @@ const AIGuardianOrb = ({ stressLevel = "calm", size = "md", onClick }: AIGuardia
       </div>
       
       {/* Label below */}
-      <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap">
+      <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap hidden sm:block">
         <span className="px-3 py-1 text-xs font-orbitron bg-card rounded-lg border border-border text-foreground">
           Aurora
         </span>

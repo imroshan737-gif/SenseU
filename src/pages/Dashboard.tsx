@@ -497,7 +497,7 @@ const Dashboard = () => {
 
       {/* Floating AI Orb - hidden when chat is open */}
       {!showGuardianChat && (
-        <div className="fixed bottom-8 right-8 z-50">
+        <div className="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 z-50">
           <AIGuardianOrb stressLevel={getStressState()} size="lg" onClick={() => setShowGuardianChat(true)} />
         </div>
       )}
