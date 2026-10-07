@@ -31,22 +31,22 @@ export default function SessionGuide({
   const synthRef = useRef<SpeechSynthesis | null>(null);
 
   const breathingSteps = [
-    { instruction: "Breathe In", duration: 4, color: "from-cyan-500 to-blue-500", voice: "Breathe in slowly" },
-    { instruction: "Hold", duration: 4, color: "from-blue-500 to-violet-500", voice: "Hold your breath" },
-    { instruction: "Breathe Out", duration: 6, color: "from-violet-500 to-purple-500", voice: "Breathe out slowly" },
-    { instruction: "Rest", duration: 2, color: "from-purple-500 to-cyan-500", voice: "Rest" },
+    { instruction: "Breathe In", duration: 4, color: "bg-primary/10 text-primary border border-primary/20", voice: "Breathe in slowly" },
+    { instruction: "Hold", duration: 4, color: "bg-primary/10 text-primary border border-primary/20", voice: "Hold your breath" },
+    { instruction: "Breathe Out", duration: 6, color: "bg-primary/10 text-primary border border-primary/20", voice: "Breathe out slowly" },
+    { instruction: "Rest", duration: 2, color: "bg-primary/10 text-primary border border-primary/20", voice: "Rest" },
   ];
 
   const focusSteps = [
-    { instruction: "Close Your Eyes", duration: 10, color: "from-violet-500 to-purple-500", voice: "Close your eyes and relax" },
-    { instruction: "Set Your Intention", duration: 10, color: "from-purple-500 to-pink-500", voice: "Set your intention for this session" },
-    { instruction: "Focus Mode Active", duration: Math.max(duration - 20, 30), color: "from-cyan-500 to-blue-500", voice: "Focus mode is now active. Stay present." },
+    { instruction: "Close Your Eyes", duration: 10, color: "bg-primary/10 text-primary border border-primary/20", voice: "Close your eyes and relax" },
+    { instruction: "Set Your Intention", duration: 10, color: "bg-primary/10 text-primary border border-primary/20", voice: "Set your intention for this session" },
+    { instruction: "Focus Mode Active", duration: Math.max(duration - 20, 30), color: "bg-primary/10 text-primary border border-primary/20", voice: "Focus mode is now active. Stay present." },
   ];
 
   const restSteps = [
-    { instruction: "Close Your Eyes", duration: 5, color: "from-indigo-500 to-violet-500", voice: "Close your eyes gently" },
-    { instruction: "Relax Your Body", duration: 10, color: "from-violet-500 to-purple-500", voice: "Let go of all tension in your body" },
-    { instruction: "Deep Rest Mode", duration: Math.max(duration - 15, 30), color: "from-purple-500 to-indigo-500", voice: "Enter deep rest. Let your mind be still." },
+    { instruction: "Close Your Eyes", duration: 5, color: "bg-primary/10 text-primary border border-primary/20", voice: "Close your eyes gently" },
+    { instruction: "Relax Your Body", duration: 10, color: "bg-primary/10 text-primary border border-primary/20", voice: "Let go of all tension in your body" },
+    { instruction: "Deep Rest Mode", duration: Math.max(duration - 15, 30), color: "bg-primary/10 text-primary border border-primary/20", voice: "Enter deep rest. Let your mind be still." },
   ];
 
   const steps = sessionType === "breathe" ? breathingSteps : sessionType === "focus" ? focusSteps : restSteps;
@@ -268,11 +268,11 @@ export default function SessionGuide({
           {isComplete ? (
             // Completion State
             <div className="text-center space-y-6">
-              <div className="w-24 h-24 rounded-full bg-gradient-to-br from-emerald-500 to-cyan-500 flex items-center justify-center mx-auto">
-                <Check className="w-12 h-12 text-white" />
+              <div className="w-24 h-24 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto">
+                <Check className="w-12 h-12 text-primary" />
               </div>
               <div>
-                <h3 className="text-2xl font-orbitron font-bold text-gradient">Well Done!</h3>
+                <h3 className="text-2xl font-orbitron font-semibold text-foreground">Well Done!</h3>
                 <p className="text-muted-foreground mt-2">You've completed the session</p>
               </div>
               <NeonButton onClick={handleComplete} size="lg">
@@ -317,7 +317,7 @@ export default function SessionGuide({
                 <div
                   className={cn(
                     "w-48 h-48 rounded-full flex flex-col items-center justify-center",
-                    "bg-gradient-to-br transition-all duration-1000",
+                    "transition-transform duration-1000",
                     currentStepData.color
                   )}
                   style={{
@@ -326,10 +326,10 @@ export default function SessionGuide({
                       : "scale(1)",
                   }}
                 >
-                  <span className="font-orbitron text-4xl font-bold text-white drop-shadow-lg">
+                  <span className="font-orbitron text-4xl font-bold text-foreground">
                     {formatTime(timeLeft)}
                   </span>
-                  <span className="text-sm text-white/80 mt-2 font-medium">
+                  <span className="text-sm text-muted-foreground mt-2 font-medium text-center px-4">
                     {currentStepData.instruction}
                   </span>
                 </div>

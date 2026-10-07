@@ -23,34 +23,29 @@ const InterventionCard = ({
 }: InterventionCardProps) => {
   const typeStyles = {
     micro: {
-      gradient: "from-cyan-500/20 to-blue-500/10",
-      border: "border-cyan-500/40",
-      icon: "text-cyan-400",
-      glow: "hover:shadow-[0_0_30px_hsl(180_100%_50%/0.3)]",
+      surface: "bg-primary/5 border-primary/20",
+      iconSurface: "bg-primary/10 border-primary/20",
+      icon: "text-primary",
     },
     focus: {
-      gradient: "from-violet-500/20 to-purple-500/10",
-      border: "border-violet-500/40",
-      icon: "text-violet-400",
-      glow: "hover:shadow-[0_0_30px_hsl(263_70%_58%/0.3)]",
+      surface: "bg-primary/5 border-primary/20",
+      iconSurface: "bg-primary/10 border-primary/20",
+      icon: "text-primary",
     },
     recovery: {
-      gradient: "from-emerald-500/20 to-teal-500/10",
-      border: "border-emerald-500/40",
-      icon: "text-emerald-400",
-      glow: "hover:shadow-[0_0_30px_hsl(142_76%_50%/0.3)]",
+      surface: "bg-primary/5 border-primary/20",
+      iconSurface: "bg-primary/10 border-primary/20",
+      icon: "text-primary",
     },
     social: {
-      gradient: "from-amber-500/20 to-orange-500/10",
-      border: "border-amber-500/40",
-      icon: "text-amber-400",
-      glow: "hover:shadow-[0_0_30px_hsl(45_100%_50%/0.3)]",
+      surface: "bg-primary/5 border-primary/20",
+      iconSurface: "bg-primary/10 border-primary/20",
+      icon: "text-primary",
     },
     emergency: {
-      gradient: "from-red-500/20 to-rose-500/10",
-      border: "border-red-500/40",
+      surface: "bg-destructive/5 border-destructive/30",
+      iconSurface: "bg-destructive/10 border-destructive/30",
       icon: "text-red-400",
-      glow: "hover:shadow-[0_0_30px_hsl(0_84%_60%/0.3)]",
     },
   };
 
@@ -59,36 +54,19 @@ const InterventionCard = ({
   return (
     <div
       className={cn(
-        "relative overflow-hidden rounded-2xl p-5",
-        "bg-gradient-to-br border backdrop-blur-sm",
-        "transition-all duration-500 hover:scale-[1.02]",
+        "relative overflow-hidden rounded-xl p-5 border",
+        "transition-colors duration-200 hover:border-primary/40",
         "group cursor-pointer flex flex-col",
-        style.gradient,
-        style.border,
-        style.glow,
+        style.surface,
         className
       )}
     >
-      {/* Floating icon */}
-      <div
-        className={cn(
-          "absolute -top-2 -right-2 w-20 h-20 rounded-full",
-          "flex items-center justify-center",
-          "bg-gradient-to-br opacity-20 group-hover:opacity-30 transition-opacity",
-          style.gradient
-        )}
-      >
-        <Icon className={cn("w-10 h-10", style.icon)} />
-      </div>
-
       <div className="relative z-10 flex flex-col justify-between h-full">
         <div className="flex items-start gap-3">
           <div
             className={cn(
-              "p-2.5 rounded-xl bg-gradient-to-br",
-              style.gradient,
-              "border",
-              style.border
+              "p-2.5 rounded-lg border",
+              style.iconSurface
             )}
           >
             <Icon className={cn("w-5 h-5", style.icon)} />
@@ -113,15 +91,6 @@ const InterventionCard = ({
         </NeonButton>
       </div>
 
-      {/* Animated border glow */}
-      <div className="absolute inset-0 rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity">
-        <div
-          className="absolute inset-0 rounded-2xl"
-          style={{
-            background: `linear-gradient(135deg, transparent, ${type === "emergency" ? "rgba(239, 68, 68, 0.1)" : "rgba(0, 240, 255, 0.1)"}, transparent)`,
-          }}
-        />
-      </div>
     </div>
   );
 };

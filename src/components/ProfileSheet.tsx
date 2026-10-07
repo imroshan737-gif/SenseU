@@ -111,10 +111,10 @@ export default function ProfileSheet({ open, onOpenChange, isDemo = false, userD
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="bg-background/95 backdrop-blur-xl border-l border-primary/20 w-full sm:max-w-md overflow-y-auto">
+      <SheetContent className="bg-background border-l border-border w-full sm:max-w-md overflow-y-auto">
         <SheetHeader className="space-y-4">
           <div className="flex items-center justify-between">
-            <SheetTitle className="font-orbitron text-xl text-gradient">My Profile</SheetTitle>
+          <SheetTitle className="font-orbitron text-xl text-foreground">My Profile</SheetTitle>
             <button
               onClick={() => setIsEditing(!isEditing)}
               className={cn(
@@ -131,7 +131,7 @@ export default function ProfileSheet({ open, onOpenChange, isDemo = false, userD
           {/* Avatar */}
           <div className="flex flex-col items-center py-6">
             <div className="relative">
-              <div className="w-24 h-24 rounded-full bg-gradient-to-br from-primary/30 to-secondary/30 border-2 border-primary/50 flex items-center justify-center shadow-[0_0_30px_hsl(var(--primary)/0.3)] overflow-hidden">
+              <div className="w-24 h-24 rounded-full bg-primary/10 border-2 border-primary/30 flex items-center justify-center overflow-hidden">
                 {profile.avatarUrl ? (
                   <img src={profile.avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
                 ) : (

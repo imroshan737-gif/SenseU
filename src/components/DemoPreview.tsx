@@ -60,15 +60,15 @@ const DemoPreview = memo(({ open, onOpenChange, onComplete }: DemoPreviewProps) 
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-background/98 backdrop-blur-xl border border-primary/20 max-w-5xl p-0 overflow-hidden max-h-[90vh]">
+      <DialogContent className="bg-background border border-border max-w-5xl p-0 overflow-hidden max-h-[90vh]">
         {/* Simulated Dashboard Header */}
-        <div className="flex items-center justify-between px-4 py-3 border-b border-border/30 bg-background/50">
+        <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-background">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary/30 to-secondary/30 flex items-center justify-center border border-primary/30">
-              <div className="w-3 h-3 rounded-full bg-gradient-to-br from-primary to-secondary" />
+            <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center border border-primary/20">
+              <div className="w-3 h-3 rounded-full bg-primary" />
             </div>
             <div className="text-left">
-              <h1 className="font-orbitron font-bold text-sm text-gradient">NeuroAura</h1>
+              <h1 className="font-orbitron font-bold text-sm text-foreground">NeuroAura</h1>
               <p className="text-[10px] text-muted-foreground">Demo Mode</p>
             </div>
           </div>
@@ -85,7 +85,7 @@ const DemoPreview = memo(({ open, onOpenChange, onComplete }: DemoPreviewProps) 
             <div className="p-1.5 rounded-lg bg-muted/30 border border-border/30">
               <Settings className="w-4 h-4 text-muted-foreground" />
             </div>
-            <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-primary/20 to-secondary/20 border border-primary/30 flex items-center justify-center">
+            <div className="w-7 h-7 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center">
               <span className="text-[10px] font-orbitron text-primary">{demoData.user.initials}</span>
             </div>
           </div>
@@ -102,14 +102,14 @@ const DemoPreview = memo(({ open, onOpenChange, onComplete }: DemoPreviewProps) 
               <div className="p-3 rounded-xl bg-card/50 border border-border/30">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
-                    <Brain className="w-4 h-4 text-violet-400" />
+                    <Brain className="w-4 h-4 text-primary" />
                     <span className="text-xs text-muted-foreground">Stress</span>
                   </div>
-                  <span className="text-sm font-orbitron text-violet-400">{animatedVitals.stress}%</span>
+                  <span className="text-sm font-orbitron text-primary">{animatedVitals.stress}%</span>
                 </div>
                 <div className="h-1.5 bg-muted/30 rounded-full overflow-hidden">
                   <div 
-                    className="h-full bg-gradient-to-r from-violet-500 to-purple-500 rounded-full transition-all duration-1000"
+                    className="h-full bg-primary rounded-full transition-all duration-500"
                     style={{ width: `${animatedVitals.stress}%` }}
                   />
                 </div>
@@ -152,15 +152,15 @@ const DemoPreview = memo(({ open, onOpenChange, onComplete }: DemoPreviewProps) 
 
             {/* Center - Main Display */}
             <div className="col-span-12 md:col-span-6">
-              <div className="rounded-xl bg-card/30 border border-border/30 p-4 text-center min-h-[200px] flex flex-col items-center justify-center">
+                <div className="rounded-xl bg-card border border-border p-4 text-center min-h-[200px] flex flex-col items-center justify-center">
                 {/* Animated Stress Orb */}
                 <div className="relative mb-4">
-                  <div className="w-24 h-24 rounded-full bg-gradient-to-br from-primary/30 to-secondary/30 flex items-center justify-center animate-pulse">
-                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
-                      <Heart className="w-8 h-8 text-white animate-pulse" />
+                  <div className="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center">
+                    <div className="w-16 h-16 rounded-full bg-primary flex items-center justify-center">
+                      <Heart className="w-8 h-8 text-primary-foreground" />
                     </div>
                   </div>
-                  <div className="absolute inset-0 rounded-full border-2 border-primary/50 animate-ping" style={{ animationDuration: "2s" }} />
+                  <div className="absolute inset-0 rounded-full border border-primary/30" />
                 </div>
                 
                 <p className="text-sm text-muted-foreground mb-2">

@@ -18,7 +18,6 @@ import {
   Activity // <--- Added correctly here
 } from "lucide-react";
 import ContributionChart from "@/components/ContributionChart";
-import ParticleBackground from "@/components/ParticleBackground";
 import GlassCard from "@/components/GlassCard";
 import StressAura from "@/components/StressAura";
 import VitalsTile from "@/components/VitalsTile";
@@ -237,19 +236,17 @@ const Dashboard = () => {
   }, [isDemo, userData.name]);
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-background">
-      <ParticleBackground />
-      
+    <div className="min-h-screen relative overflow-x-hidden bg-background">
       {isDemo && <DemoBadge onExit={handleExitDemo} />}
 
       {/* Top Navigation */}
-      <nav className="relative z-20 flex items-center justify-between px-6 py-4 border-b border-border/30 bg-background/50 backdrop-blur-sm">
+      <nav className="relative z-20 flex items-center justify-between gap-3 px-4 py-3 border-b border-border bg-background/95 sm:px-6 sm:py-4">
         <button onClick={() => navigate("/dashboard")} className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/30 to-secondary/30 flex items-center justify-center border border-primary/30">
-            <div className="w-4 h-4 rounded-full bg-gradient-to-br from-primary to-secondary" />
+                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center border border-primary/20">
+            <div className="w-3 h-3 rounded-sm bg-primary" />
           </div>
           <div className="text-left">
-            <h1 className="font-orbitron font-bold text-lg text-gradient">NeuroAura</h1>
+          <h1 className="font-orbitron font-bold text-lg text-foreground">NeuroAura</h1>
             <p className="text-xs text-muted-foreground">AI Wellness System</p>
           </div>
         </button>
@@ -281,14 +278,19 @@ const Dashboard = () => {
           <button onClick={() => setShowSettings(true)} className="p-2 rounded-xl bg-muted/30 border border-border/30 hover:bg-muted/50 transition-colors">
             <Settings className="w-5 h-5 text-muted-foreground" />
           </button>
-          <button onClick={() => setShowProfile(true)} className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/20 to-secondary/20 border border-primary/30 flex items-center justify-center hover:scale-105 transition-transform">
+          <button onClick={() => setShowProfile(true)} className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/30 flex items-center justify-center hover:bg-primary/15 transition-colors">
             <span className="text-sm font-orbitron text-primary">{getInitials()}</span>
           </button>
         </div>
       </nav>
 
       {/* Main Content */}
-      <div className="relative z-10 p-6 max-w-full mx-auto">
+      <div className="relative z-10 p-4 sm:p-6 max-w-full mx-auto">
+        {!showGuardianChat && (
+          <div className="mb-3 flex justify-end sm:hidden">
+            <AIGuardianOrb stressLevel={getStressState()} size="sm" onClick={() => setShowGuardianChat(true)} />
+          </div>
+        )}
         <div className="grid grid-cols-12 gap-6">
           {/* Left Panel - Live Vitals */}
           <VitalsSection vitals={vitals} onImprove={handleImprove} onStartSession={handleStartSession} />
@@ -314,7 +316,7 @@ const Dashboard = () => {
               {/* Welcome Message Section */}
               <div className="text-center space-y-4">
                 <div className="space-y-2">
-                  <h2 className="text-2xl md:text-3xl font-orbitron font-bold text-gradient">
+                  <h2 className="text-2xl md:text-3xl font-orbitron font-bold text-foreground">
                     {isReturningUser ? "Welcome Back" : "Welcome Buddy"}
                   </h2>
                   <p className="text-lg text-muted-foreground">
@@ -322,7 +324,7 @@ const Dashboard = () => {
                     <span className={cn(
                       "font-orbitron font-semibold",
                       vitals.stress <= 20 ? "text-stress-calm" : 
-                      vitals.stress <= 40 ? "text-emerald-400" : 
+                      vitals.stress <= 40 ? "text-stress-balanced" : 
                       vitals.stress <= 60 ? "text-stress-rising" : 
                       "text-stress-high"
                     )}>
@@ -331,13 +333,13 @@ const Dashboard = () => {
                   </p>
                 </div>
                 
-                <div className="grid grid-cols-3 gap-6 mt-4 text-center">
+                <div className="grid grid-cols-3 gap-2 sm:gap-6 mt-4 text-center">
                   <div className="p-3 rounded-xl bg-muted/20 border border-border/30">
                     <p className="text-2xl font-orbitron font-bold text-primary">{vitals.stress}%</p>
                     <p className="text-xs text-muted-foreground">Stress</p>
                   </div>
                   <div className="p-3 rounded-xl bg-muted/20 border border-border/30">
-                    <p className="text-2xl font-orbitron font-bold text-emerald-400">{vitals.focus}%</p>
+                    <p className="text-2xl font-orbitron font-bold text-stress-balanced">{vitals.focus}%</p>
                     <p className="text-xs text-muted-foreground">Focus</p>
                   </div>
                   <div className="p-3 rounded-xl bg-muted/20 border border-border/30">
@@ -470,7 +472,7 @@ const Dashboard = () => {
                 <div className="w-3 h-3 rounded-full bg-gradient-to-br from-primary to-secondary" />
               </div>
               <span className="text-sm text-muted-foreground">
-                <span className="neon-text font-orbitron">NeuroAura</span> — Made to help students thrive
+                <span className="font-orbitron">NeuroAura</span> — Made to help students thrive
               </span>
             </div>
             <div className="flex items-center gap-6">
@@ -500,7 +502,7 @@ const Dashboard = () => {
 
       {/* Floating AI Orb - hidden when chat is open */}
       {!showGuardianChat && (
-        <div className="fixed bottom-8 right-8 z-50">
+        <div className="fixed bottom-8 right-8 z-50 hidden sm:block">
           <AIGuardianOrb stressLevel={getStressState()} size="lg" onClick={() => setShowGuardianChat(true)} />
         </div>
       )}

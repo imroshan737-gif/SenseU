@@ -1,4 +1,7 @@
 import { cn } from "@/lib/utils";
+import type { CSSProperties } from "react";
+
+type StressStyle = CSSProperties & { "--stress-color": string };
 
 interface StressAuraProps {
   level: number; // 0-100
@@ -8,62 +11,59 @@ interface StressAuraProps {
 
 const StressAura = ({ level, size = 280, className }: StressAuraProps) => {
   const getStressColor = () => {
-    if (level <= 20) return { main: "#00f0ff", name: "Calm" };
-    if (level <= 40) return { main: "#22c55e", name: "Balanced" };
-    if (level <= 60) return { main: "#eab308", name: "Rising" };
-    if (level <= 80) return { main: "#f97316", name: "High" };
-    return { main: "#ef4444", name: "Critical" };
+    if (level <= 20) return { color: "var(--stress-calm)", name: "Calm" };
+    if (level <= 40) return { color: "var(--stress-balanced)", name: "Balanced" };
+    if (level <= 60) return { color: "var(--stress-rising)", name: "Rising" };
+    if (level <= 80) return { color: "var(--stress-high)", name: "High" };
+    return { color: "var(--stress-critical)", name: "Critical" };
   };
 
-  const { main, name } = getStressColor();
+  const { color, name } = getStressColor();
 
   return (
     <div
       className={cn("relative flex items-center justify-center", className)}
       style={{ width: size, height: size }}
     >
-      {/* Outer rotating gradient ring */}
+      {/* Restrained status ring */}
       <div
-        className="absolute inset-0 rounded-full animate-rotate-aura"
-        style={{
-          background: `conic-gradient(from 0deg, ${main}00, ${main}80, ${main}00)`,
-          filter: "blur(20px)",
-        }}
+        className="absolute inset-0 rounded-full border border-[hsl(var(--stress-color)/0.3)]"
+        style={{ "--stress-color": color } as StressStyle}
       />
 
       {/* Middle pulsing ring */}
       <div
-        className="absolute rounded-full animate-pulse-glow"
+        className="absolute rounded-full border-2 border-[hsl(var(--stress-color)/0.55)]"
         style={{
+          "--stress-color": color,
           width: size * 0.85,
           height: size * 0.85,
-          border: `2px solid ${main}50`,
-          boxShadow: `0 0 30px ${main}40, inset 0 0 30px ${main}20`,
-        }}
+          boxShadow: "inset 0 0 20px hsl(var(--stress-color) / 0.08)",
+        } as StressStyle}
       />
 
       {/* Inner glow circle */}
       <div
-        className="absolute rounded-full"
+        className="absolute rounded-full bg-[hsl(var(--stress-color)/0.08)]"
         style={{
+          "--stress-color": color,
           width: size * 0.7,
           height: size * 0.7,
-          background: `radial-gradient(circle, ${main}20 0%, transparent 70%)`,
-        }}
+        } as StressStyle}
       />
 
       {/* Center content area */}
       <div
-        className="relative z-10 rounded-full bg-card/80 backdrop-blur-sm flex flex-col items-center justify-center"
+        className="relative z-10 rounded-full bg-card flex flex-col items-center justify-center border border-[hsl(var(--stress-color)/0.35)]"
         style={{
+          "--stress-color": color,
           width: size * 0.55,
           height: size * 0.55,
-          border: `1px solid ${main}30`,
-        }}
+        } as StressStyle}
       >
         <span
-          className="text-4xl font-orbitron font-bold"
-          style={{ color: main, textShadow: `0 0 20px ${main}80` }}
+          className="text-4xl font-orbitron font-bold text-[hsl(var(--stress-color))]"
+          style={{ "--stress-color": color } as StressStyle}
         >
           {level}
         </span>
@@ -86,8 +86,8 @@ const StressAura = ({ level, size = 280, className }: StressAuraProps) => {
             style={{
               left: `calc(50% + ${x}px - 4px)`,
               top: `calc(50% + ${y}px - 4px)`,
-              background: isActive ? main : "#374151",
-              boxShadow: isActive ? `0 0 10px ${main}` : "none",
+              background: isActive ? `hsl(${color})` : "hsl(var(--muted))",
+              boxShadow: "none",
             }}
           />
         );

@@ -14,10 +14,10 @@ import {
   LogIn,
   ChevronDown,
 } from "lucide-react";
-import heroAsset from "@/assets/senseu-hero-neural.png.asset.json";
+import heroBackground from "@/assets/neuroaura-home-background.webp";
 import DemoPreview from "@/components/DemoPreview";
 import { PrivacyModal, TermsModal, ContactModal } from "@/components/FooterModals";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, type CSSProperties } from "react";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -124,35 +124,26 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen relative overflow-x-hidden bg-sage-bg text-sage-text">
-      {/* Hero — neural image as background, pre-login only */}
+    <div
+      className="min-h-screen relative overflow-x-hidden bg-sage-bg text-sage-text"
+      style={{ "--home-image": `url(${heroBackground})` } as CSSProperties}
+    >
+      <div className="homepage-image-layer" aria-hidden="true" />
+      <div className="relative z-10">
+      {/* Neural artwork stays behind the complete pre-login home page. */}
       <section className="relative isolate overflow-hidden">
-        <div className="absolute inset-0 -z-10">
-          <img
-            src={heroAsset.url}
-            alt=""
-            aria-hidden="true"
-            className="h-full w-full object-cover object-[72%_35%]"
-          />
-          {/* Legibility gradients — text side falls to solid #070A09 */}
-          <div className="absolute inset-0 bg-gradient-to-r from-sage-bg via-sage-bg/85 to-transparent" />
-          <div className="absolute inset-0 bg-sage-bg/45 lg:hidden" />
-          <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-b from-transparent to-sage-bg" />
-          <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-sage-bg/80 to-transparent" />
-        </div>
-
         {/* Navigation */}
         <nav
           className={`fixed top-0 left-0 right-0 z-50 bg-transparent transition-transform duration-300 ease-out ${
             navVisible ? "translate-y-0" : "-translate-y-full"
           }`}
         >
-          <div className="mx-auto flex max-w-[1160px] items-center justify-between border-b border-sage-line/60 px-6 py-4 lg:px-10">
+          <div className="mx-auto flex max-w-[1160px] items-center justify-between px-6 py-4 lg:px-10">
             <div className="flex items-center gap-2.5">
               <div className="flex h-7 w-7 items-center justify-center rounded-lg border border-sage-line bg-sage-card">
                 <div className="h-2 w-2 rounded-full bg-sage-accent" />
               </div>
-              <span className="text-[15px] font-semibold tracking-[-0.01em] text-sage-text">
+              <span className="text-[15px] font-semibold text-sage-text">
                 NeuroAura
               </span>
             </div>
@@ -186,7 +177,7 @@ const Index = () => {
               </span>
             </div>
 
-            <h1 className="mt-7 font-exo text-[2.4rem] font-semibold leading-[1.08] tracking-[-0.03em] text-sage-text sm:text-5xl lg:text-[3.5rem]">
+            <h1 className="mt-7 font-exo text-[2.4rem] font-semibold leading-[1.08] text-sage-text sm:text-5xl lg:text-[3.5rem]">
               Your mental wellness{" "}
               <span className="text-sage-accent">guardian, always on.</span>
             </h1>
@@ -229,7 +220,7 @@ const Index = () => {
         <div className="mx-auto grid max-w-[1160px] grid-cols-2 gap-y-8 border-t border-sage-line py-12 sm:grid-cols-4">
           {stats.map((stat) => (
             <div key={stat.label} className="text-center">
-              <div className="font-exo text-[28px] font-semibold tracking-[-0.02em] text-sage-text">
+              <div className="font-exo text-[28px] font-semibold text-sage-text">
                 {stat.value}
               </div>
               <div className="mt-1.5 text-[11.5px] font-medium uppercase tracking-[0.08em] text-sage-muted">
@@ -241,7 +232,7 @@ const Index = () => {
       </section>
 
       {/* Features — editorial hierarchy */}
-      <section ref={featuresRef} className="relative bg-sage-section px-6 py-24 lg:px-10">
+      <section ref={featuresRef} className="relative bg-sage-bg/55 px-6 py-24 lg:px-10">
         <div className="mx-auto max-w-[1160px]">
           <div className="max-w-[620px]">
             <div className="inline-flex items-center gap-2 rounded-full border border-sage-line bg-sage-card px-3 py-1">
@@ -250,7 +241,7 @@ const Index = () => {
                 Features
               </span>
             </div>
-            <h2 className="mt-6 font-exo text-3xl font-semibold leading-[1.12] tracking-[-0.03em] text-sage-text sm:text-[38px]">
+            <h2 className="mt-6 font-exo text-3xl font-semibold leading-[1.12] text-sage-text sm:text-[38px]">
               Intelligent features, quietly working
             </h2>
             <p className="mt-4 text-[15.5px] leading-[1.7] text-sage-muted">
@@ -261,11 +252,11 @@ const Index = () => {
 
           <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
             {/* Featured card */}
-            <div className="group rounded-2xl border border-sage-line bg-sage-card p-8 transition-all duration-200 hover:-translate-y-1 hover:border-sage-accent/40 sm:col-span-2 lg:col-span-3 lg:row-span-2 lg:p-10">
+            <div className="group rounded-xl border border-sage-line bg-sage-card/90 p-8 transition-colors duration-200 hover:border-sage-accent/40 sm:col-span-2 lg:col-span-3 lg:row-span-2 lg:p-10">
               <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-sage-line bg-sage-surface">
                 <Brain className="h-5 w-5 text-sage-accent" />
               </div>
-              <h3 className="mt-6 font-exo text-xl font-semibold tracking-[-0.02em] text-sage-text lg:text-[22px]">
+              <h3 className="mt-6 font-exo text-xl font-semibold text-sage-text lg:text-[22px]">
                 AI Stress Detection
               </h3>
               <p className="mt-3 max-w-[420px] text-[15px] leading-[1.7] text-sage-muted">
@@ -278,14 +269,14 @@ const Index = () => {
             {features.slice(1).map((feature, i) => (
               <div
                 key={feature.title}
-                className={`group rounded-2xl border border-sage-line bg-sage-card p-7 transition-all duration-200 hover:-translate-y-1 hover:border-sage-accent/40 ${
+                className={`group rounded-xl border border-sage-line bg-sage-card/90 p-7 transition-colors duration-200 hover:border-sage-accent/40 ${
                   i < 2 ? "lg:col-span-3" : "lg:col-span-2"
                 }`}
               >
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-sage-line bg-sage-surface">
                   <feature.icon className="h-[18px] w-[18px] text-sage-accent" />
                 </div>
-                <h3 className="mt-5 font-exo text-[16.5px] font-semibold tracking-[-0.02em] text-sage-text">
+                <h3 className="mt-5 font-exo text-[16.5px] font-semibold text-sage-text">
                   {feature.title}
                 </h3>
                 <p className="mt-2.5 text-[14px] leading-[1.65] text-sage-muted">
@@ -301,7 +292,7 @@ const Index = () => {
       <section className="relative px-6 py-24 lg:px-10">
         <div className="mx-auto max-w-[1160px]">
           <div className="max-w-[620px]">
-            <h2 className="font-exo text-3xl font-semibold leading-[1.12] tracking-[-0.03em] text-sage-text sm:text-[38px]">
+            <h2 className="font-exo text-3xl font-semibold leading-[1.12] text-sage-text sm:text-[38px]">
               How it works
             </h2>
             <p className="mt-4 text-[15.5px] leading-[1.7] text-sage-muted">
@@ -319,7 +310,7 @@ const Index = () => {
                   <span className="h-px flex-1 bg-sage-line" />
                   <item.icon className="h-4 w-4 text-sage-muted" />
                 </div>
-                <h3 className="mt-4 font-exo text-[17px] font-semibold tracking-[-0.02em] text-sage-text">
+                <h3 className="mt-4 font-exo text-[17px] font-semibold text-sage-text">
                   {item.title}
                 </h3>
                 <p className="mt-2.5 text-[14px] leading-[1.65] text-sage-muted">
@@ -334,8 +325,8 @@ const Index = () => {
       {/* Final CTA */}
       <section className="relative px-6 pb-24 pt-4 lg:px-10">
         <div className="mx-auto max-w-[1160px]">
-          <div className="rounded-2xl border border-sage-line bg-sage-card px-8 py-12 text-center sm:px-14">
-            <h2 className="mx-auto max-w-[520px] font-exo text-[26px] font-semibold leading-[1.18] tracking-[-0.03em] text-sage-text sm:text-[32px]">
+          <div className="rounded-xl border border-sage-line bg-sage-card/90 px-8 py-12 text-center sm:px-14">
+            <h2 className="mx-auto max-w-[520px] font-exo text-[26px] font-semibold leading-[1.18] text-sage-text sm:text-[32px]">
               Ready to transform your wellness?
             </h2>
             <p className="mx-auto mt-4 max-w-[440px] text-[15px] leading-[1.7] text-sage-muted">
@@ -366,7 +357,7 @@ const Index = () => {
             <div className="flex h-6 w-6 items-center justify-center rounded-lg border border-sage-line bg-sage-card">
               <div className="h-1.5 w-1.5 rounded-full bg-sage-accent" />
             </div>
-            <span className="text-[13px] text-sage-muted">
+              <span className="text-[13px] text-sage-muted">
               <span className="font-semibold text-sage-text">NeuroAura</span> — Made to help
               students thrive
             </span>
@@ -400,6 +391,7 @@ const Index = () => {
       <PrivacyModal open={showPrivacy} onOpenChange={setShowPrivacy} />
       <TermsModal open={showTerms} onOpenChange={setShowTerms} />
       <ContactModal open={showContact} onOpenChange={setShowContact} />
+      </div>
     </div>
   );
 };

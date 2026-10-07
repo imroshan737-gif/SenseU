@@ -22,34 +22,34 @@ const VitalsTile = ({
 }: VitalsTileProps) => {
   const colors = {
     cyan: {
-      bg: "from-cyan-500/10 to-cyan-500/5",
-      border: "border-cyan-500/30",
-      text: "text-cyan-400",
-      glow: "shadow-[0_0_20px_hsl(180_100%_50%/0.2)]",
+      bg: "bg-primary/5",
+      border: "border-primary/20",
+      text: "text-primary",
+      glow: "",
     },
     violet: {
-      bg: "from-violet-500/10 to-violet-500/5",
-      border: "border-violet-500/30",
-      text: "text-violet-400",
-      glow: "shadow-[0_0_20px_hsl(263_70%_58%/0.2)]",
+      bg: "bg-primary/5",
+      border: "border-primary/20",
+      text: "text-primary",
+      glow: "",
     },
     green: {
-      bg: "from-emerald-500/10 to-emerald-500/5",
-      border: "border-emerald-500/30",
-      text: "text-emerald-400",
-      glow: "shadow-[0_0_20px_hsl(142_76%_50%/0.2)]",
+      bg: "bg-stress-balanced/5",
+      border: "border-stress-balanced/25",
+      text: "text-stress-balanced",
+      glow: "",
     },
     amber: {
-      bg: "from-amber-500/10 to-amber-500/5",
-      border: "border-amber-500/30",
-      text: "text-amber-400",
-      glow: "shadow-[0_0_20px_hsl(45_100%_50%/0.2)]",
+      bg: "bg-stress-rising/5",
+      border: "border-stress-rising/25",
+      text: "text-stress-rising",
+      glow: "",
     },
     red: {
-      bg: "from-red-500/10 to-red-500/5",
-      border: "border-red-500/30",
-      text: "text-red-400",
-      glow: "shadow-[0_0_20px_hsl(0_84%_60%/0.2)]",
+      bg: "bg-destructive/5",
+      border: "border-destructive/25",
+      text: "text-destructive",
+      glow: "",
     },
   };
 
@@ -59,8 +59,8 @@ const VitalsTile = ({
     <div
       className={cn(
         "relative overflow-hidden rounded-xl p-4",
-        "bg-gradient-to-br border backdrop-blur-sm",
-        "transition-all duration-300 hover:scale-105",
+        "bg-card border",
+        "transition-colors duration-200 hover:border-primary/30",
         "vitals-wave",
         colorStyle.bg,
         colorStyle.border,
@@ -84,7 +84,7 @@ const VitalsTile = ({
         </div>
         <div
           className={cn(
-            "p-2 rounded-lg bg-gradient-to-br",
+            "p-2 rounded-lg",
             colorStyle.bg,
             colorStyle.border,
             "border"
@@ -99,24 +99,15 @@ const VitalsTile = ({
           <div
             className={cn(
               "w-0 h-0 border-l-4 border-r-4 border-transparent",
-              trend === "up" && "border-b-4 border-b-emerald-400",
-              trend === "down" && "border-t-4 border-t-red-400",
-              trend === "stable" && "w-4 h-0.5 bg-amber-400 border-none"
+              trend === "up" && "border-b-4 border-b-stress-balanced",
+              trend === "down" && "border-t-4 border-t-destructive",
+              trend === "stable" && "w-4 h-0.5 bg-stress-rising border-none"
             )}
           />
           <span className="text-xs text-muted-foreground capitalize">{trend}</span>
         </div>
       )}
 
-      {/* Animated wave overlay */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div
-          className="absolute bottom-0 left-0 right-0 h-1/2 opacity-20"
-          style={{
-            background: `linear-gradient(to top, ${color === "cyan" ? "#00f0ff" : color === "violet" ? "#8b5cf6" : color === "green" ? "#22c55e" : color === "amber" ? "#f59e0b" : "#ef4444"}10, transparent)`,
-          }}
-        />
-      </div>
     </div>
   );
 };

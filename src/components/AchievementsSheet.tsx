@@ -35,8 +35,8 @@ export default function AchievementsSheet({ open, onOpenChange, points, achievem
 
   const getLevel = () => {
     if (points >= 1000) return { name: "Master", color: "text-amber-400", next: null };
-    if (points >= 500) return { name: "Expert", color: "text-violet-400", next: 1000 };
-    if (points >= 200) return { name: "Practitioner", color: "text-cyan-400", next: 500 };
+    if (points >= 500) return { name: "Expert", color: "text-primary", next: 1000 };
+    if (points >= 200) return { name: "Practitioner", color: "text-primary", next: 500 };
     if (points >= 50) return { name: "Beginner", color: "text-emerald-400", next: 200 };
     return { name: "Newcomer", color: "text-muted-foreground", next: 50 };
   };
@@ -45,16 +45,16 @@ export default function AchievementsSheet({ open, onOpenChange, points, achievem
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="bg-background/95 backdrop-blur-xl border-l border-primary/20 w-full sm:max-w-md overflow-y-auto">
+      <SheetContent className="bg-background border-l border-border w-full sm:max-w-md overflow-y-auto">
         <SheetHeader>
-          <SheetTitle className="font-orbitron text-xl text-gradient flex items-center gap-2">
+          <SheetTitle className="font-orbitron text-xl text-foreground flex items-center gap-2">
             <Trophy className="w-5 h-5 text-amber-400" />
             Achievements
           </SheetTitle>
         </SheetHeader>
 
         {/* Points Summary */}
-        <div className="mt-6 p-6 rounded-xl bg-gradient-to-br from-amber-500/20 to-orange-500/20 border border-amber-500/30">
+        <div className="mt-6 p-6 rounded-xl bg-amber-500/5 border border-amber-500/20">
           <div className="flex items-center justify-between mb-4">
             <div>
               <p className="text-xs text-muted-foreground uppercase tracking-wider">Total Points</p>
@@ -74,7 +74,7 @@ export default function AchievementsSheet({ open, onOpenChange, points, achievem
               </div>
               <div className="h-2 rounded-full bg-muted/30 overflow-hidden">
                 <div 
-                  className="h-full rounded-full bg-gradient-to-r from-amber-500 to-orange-500 transition-all"
+                  className="h-full rounded-full bg-amber-500 transition-all"
                   style={{ width: `${(points / level.next) * 100}%` }}
                 />
               </div>
@@ -90,12 +90,12 @@ export default function AchievementsSheet({ open, onOpenChange, points, achievem
             <p className="text-xs text-muted-foreground">Earned</p>
           </div>
           <div className="p-4 rounded-xl bg-muted/20 border border-border/30 text-center">
-            <Zap className="w-5 h-5 text-cyan-400 mx-auto mb-2" />
+            <Zap className="w-5 h-5 text-primary mx-auto mb-2" />
             <p className="text-lg font-orbitron font-bold">{POSSIBLE_ACHIEVEMENTS.length - achievements.length}</p>
             <p className="text-xs text-muted-foreground">Remaining</p>
           </div>
           <div className="p-4 rounded-xl bg-muted/20 border border-border/30 text-center">
-            <Award className="w-5 h-5 text-violet-400 mx-auto mb-2" />
+            <Award className="w-5 h-5 text-primary mx-auto mb-2" />
             <p className="text-lg font-orbitron font-bold">{Math.round((achievements.length / POSSIBLE_ACHIEVEMENTS.length) * 100)}%</p>
             <p className="text-xs text-muted-foreground">Complete</p>
           </div>
@@ -113,7 +113,7 @@ export default function AchievementsSheet({ open, onOpenChange, points, achievem
               <div
                 key={ach.id}
                 className={cn(
-                  "p-4 rounded-xl border transition-all",
+                  "p-4 rounded-lg border transition-colors",
                   isEarned 
                     ? "bg-primary/10 border-primary/30" 
                     : "bg-muted/10 border-border/30 opacity-60"

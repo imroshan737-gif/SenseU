@@ -88,11 +88,11 @@ export default function AssessmentQuestion({
               key={option.value}
               onClick={() => handleMCQSelect(option.value)}
               className={cn(
-                "w-full p-4 rounded-xl border text-left transition-all duration-300",
-                "hover:scale-[1.02] hover:border-primary/50",
+                "w-full p-4 rounded-lg border text-left transition-colors duration-200",
+                "hover:border-primary/50",
                 "focus:outline-none focus:ring-2 focus:ring-primary/50",
                 localValue === option.value
-                  ? "bg-primary/20 border-primary text-foreground shadow-[0_0_20px_hsl(var(--primary)/0.3)]"
+                  ? "bg-primary/10 border-primary text-foreground"
                   : "bg-muted/30 border-border/50 text-muted-foreground hover:text-foreground"
               )}
             >

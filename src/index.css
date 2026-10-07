@@ -1,78 +1,77 @@
-@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Inter:wght@300;400;450;500;600;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 @layer base {
   :root {
-    /* Deep navy foundation */
-    --background: 222 44% 4%;
-    --foreground: 210 30% 96%;
+    /* App-wide SenseU sage theme */
+    --background: 160 18% 4%;
+    --foreground: 140 12% 96%;
 
-    --card: 222 38% 7%;
-    --card-foreground: 210 30% 96%;
+    --card: 140 15% 8%;
+    --card-foreground: 140 12% 96%;
 
-    --popover: 222 40% 6%;
-    --popover-foreground: 210 30% 96%;
+    --popover: 155 16% 7%;
+    --popover-foreground: 140 12% 96%;
 
-    /* Refined cyan primary */
-    --primary: 187 92% 52%;
-    --primary-foreground: 222 47% 5%;
-    --primary-glow: 187 92% 62%;
+    --primary: 150 17% 62%;
+    --primary-foreground: 160 22% 6%;
+    --primary-glow: 150 18% 70%;
 
-    /* Indigo/violet secondary */
-    --secondary: 256 70% 62%;
-    --secondary-foreground: 210 40% 98%;
-    --secondary-glow: 256 78% 70%;
+    --secondary: 155 21% 13%;
+    --secondary-foreground: 140 12% 96%;
+    --secondary-glow: 150 17% 36%;
 
-    /* Muted surfaces */
-    --muted: 220 24% 11%;
-    --muted-foreground: 215 16% 62%;
+    --muted: 155 13% 13%;
+    --muted-foreground: 150 8% 66%;
 
-    /* Accent blue */
-    --accent: 214 90% 60%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 150 17% 47%;
+    --accent-foreground: 140 12% 96%;
 
     --destructive: 0 76% 58%;
     --destructive-foreground: 210 40% 98%;
 
     /* Stress Level Colors */
-    --stress-calm: 187 92% 52%;
-    --stress-balanced: 152 62% 46%;
-    --stress-rising: 42 92% 55%;
-    --stress-high: 24 90% 58%;
-    --stress-critical: 0 76% 58%;
+    --stress-calm: 150 17% 62%;
+    --stress-balanced: 145 34% 48%;
+    --stress-rising: 42 62% 58%;
+    --stress-high: 24 62% 57%;
+    --stress-critical: 0 58% 57%;
 
-    --border: 218 24% 16%;
-    --input: 220 24% 11%;
-    --ring: 187 92% 52%;
+    /* Contribution chart intensity */
+    --activity-0: 155 13% 11%;
+    --activity-1: 150 13% 20%;
+    --activity-2: 149 18% 30%;
+    --activity-3: 148 22% 44%;
+    --activity-4: 149 27% 62%;
+
+    --border: 150 14% 19%;
+    --input: 155 12% 13%;
+    --ring: 150 17% 62%;
 
     --radius: 0.875rem;
 
     /* Surface / glass */
-    --glass-bg: 222 38% 8% / 0.72;
-    --glass-border: 210 30% 96% / 0.07;
-    --glass-glow: 187 92% 52% / 0.08;
+    --glass-bg: 150 14% 8% / 0.96;
+    --glass-border: 150 12% 84% / 0.1;
+    --glass-glow: 150 17% 62% / 0.05;
 
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(187 92% 58%), hsl(256 70% 66%));
-    --gradient-glow: radial-gradient(circle, hsl(187 92% 52% / 0.14), transparent 70%);
-    --gradient-space: radial-gradient(ellipse 120% 80% at 50% -10%, hsl(220 42% 9%), hsl(222 44% 4%) 60%);
+    --gradient-primary: linear-gradient(135deg, hsl(150 17% 62%), hsl(150 17% 70%));
+    --gradient-glow: radial-gradient(circle, hsl(150 17% 62% / 0.08), transparent 70%);
+    --gradient-space: hsl(var(--background));
 
-    /* Elevation — soft depth, no heavy neon */
-    --shadow-neon: 0 0 0 1px hsl(187 92% 52% / 0.18), 0 8px 24px -12px hsl(187 92% 52% / 0.35);
-    --shadow-glow: 0 10px 32px -14px hsl(187 92% 52% / 0.45);
-    --shadow-card: 0 1px 0 0 hsl(210 30% 96% / 0.04) inset, 0 16px 40px -24px hsl(222 60% 2% / 0.9);
+    --shadow-neon: 0 0 0 1px hsl(150 17% 62% / 0.12), 0 8px 24px -16px hsl(150 17% 62% / 0.24);
+    --shadow-glow: 0 8px 24px -18px hsl(150 17% 62% / 0.3);
+    --shadow-card: 0 1px 0 0 hsl(140 12% 96% / 0.025) inset, 0 12px 32px -24px hsl(160 20% 1% / 0.8);
 
     /* Sidebar */
-    --sidebar-background: 222 40% 6%;
-    --sidebar-foreground: 210 30% 96%;
-    --sidebar-primary: 187 92% 52%;
-    --sidebar-primary-foreground: 222 47% 5%;
-    --sidebar-accent: 220 24% 13%;
-    --sidebar-accent-foreground: 210 30% 96%;
-    --sidebar-border: 218 24% 16%;
-    --sidebar-ring: 187 92% 52%;
+    --sidebar-background: 155 16% 7%;
+    --sidebar-foreground: 140 12% 96%;
+    --sidebar-primary: 150 17% 62%;
+    --sidebar-primary-foreground: 160 22% 6%;
+    --sidebar-accent: 155 13% 13%;
+    --sidebar-accent-foreground: 140 12% 96%;
+    --sidebar-border: 150 14% 19%;
+    --sidebar-ring: 150 17% 62%;
 
     /* SenseU pre-login (sage/earthy) — used only on pages before login */
     --sage-bg: 160 18% 3%;            /* #070A09 */
@@ -96,11 +95,10 @@
 
   body {
     @apply bg-background text-foreground font-exo antialiased;
-    background: var(--gradient-space);
-    background-attachment: fixed;
+    background-color: hsl(var(--background));
     min-height: 100vh;
     font-feature-settings: "cv11", "ss01";
-    letter-spacing: -0.01em;
+    letter-spacing: 0;
   }
 
   html {
@@ -110,7 +108,7 @@
 
   h1, h2, h3, h4 {
     @apply font-orbitron;
-    letter-spacing: -0.03em;
+    letter-spacing: 0;
     text-wrap: balance;
   }
 
@@ -131,31 +129,23 @@
 @layer components {
   /* Surface card — soft depth, restrained */
   .glass-card {
-    @apply relative overflow-hidden rounded-2xl;
-    background: hsl(var(--glass-bg));
-    backdrop-filter: blur(16px);
-    border: 1px solid hsl(var(--glass-border));
+    @apply relative overflow-hidden rounded-xl;
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
     box-shadow: var(--shadow-card);
   }
 
   .glass-card::before {
-    content: '';
-    @apply absolute inset-x-0 top-0 h-px pointer-events-none;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      hsl(210 30% 96% / 0.16),
-      transparent
-    );
+    content: none;
   }
 
   /* Restrained luminous text */
   .neon-text {
-    text-shadow: 0 0 24px hsl(var(--primary) / 0.35);
+    text-shadow: none;
   }
 
   .neon-text-secondary {
-    text-shadow: 0 0 24px hsl(var(--secondary) / 0.35);
+    text-shadow: none;
   }
 
 
@@ -166,9 +156,9 @@
   }
 
   .glow-border::after {
-    content: '';
+    content: none;
     @apply absolute inset-0 rounded-inherit pointer-events-none;
-    box-shadow: inset 0 0 20px hsl(180 100% 50% / 0.1);
+    box-shadow: inset 0 0 16px hsl(var(--primary) / 0.04);
   }
 
   /* Floating Animation */
@@ -187,7 +177,7 @@
   }
 
   .stress-aura::before {
-    content: '';
+    content: none;
     @apply absolute inset-0 rounded-full;
     background: conic-gradient(
       from 0deg,
@@ -197,24 +187,15 @@
       hsl(var(--stress-high)) 75%,
       hsl(var(--stress-calm)) 100%
     );
-    filter: blur(30px);
-    opacity: 0.5;
-    animation: rotateAura 10s linear infinite;
+    filter: blur(24px);
+    opacity: 0.2;
   }
 
   /* Orb Effect */
   .orb {
     @apply relative rounded-full;
-    background: radial-gradient(
-      circle at 30% 30%,
-      hsl(180 100% 70%),
-      hsl(180 100% 50%),
-      hsl(263 70% 58%)
-    );
-    box-shadow: 
-      0 0 20px hsl(180 100% 50% / 0.5),
-      0 0 40px hsl(180 100% 50% / 0.3),
-      inset 0 0 20px hsl(0 0% 100% / 0.2);
+    background: hsl(var(--primary));
+    box-shadow: none;
   }
 
   /* Input Glow */
@@ -223,9 +204,7 @@
   }
 
   .input-glow:focus {
-    box-shadow: 
-      0 0 0 2px hsl(var(--primary) / 0.3),
-      0 0 20px hsl(var(--primary) / 0.2);
+    box-shadow: 0 0 0 2px hsl(var(--primary) / 0.2);
   }
 
   /* Vitals Wave */
@@ -234,20 +213,18 @@
   }
 
   .vitals-wave::after {
-    content: '';
-    @apply absolute inset-0;
-    background: linear-gradient(90deg, transparent, hsl(var(--primary) / 0.1), transparent);
-    animation: waveSlide 3s linear infinite;
+    content: none;
   }
 }
 
 @layer utilities {
   .font-orbitron {
-    font-family: 'Sora', system-ui, sans-serif;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    letter-spacing: 0;
   }
 
   .font-exo {
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   }
 
   .rounded-inherit {
@@ -255,8 +232,8 @@
   }
 
   .text-gradient {
-    @apply bg-clip-text text-transparent;
-    background-image: var(--gradient-primary);
+    color: hsl(var(--primary));
+    background-image: none;
   }
 
   .bg-gradient-space {
@@ -273,6 +250,42 @@
 
   .animate-glow-pulse {
     animation: glowPulse 3s ease-in-out infinite;
+  }
+}
+
+@layer components {
+  .homepage-image-layer {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(90deg, hsl(var(--sage-bg) / 0.91) 0%, hsl(var(--sage-bg) / 0.78) 48%, hsl(var(--sage-bg) / 0.47) 100%),
+      linear-gradient(0deg, hsl(var(--sage-bg) / 0.38), hsl(var(--sage-bg) / 0.12)),
+      var(--home-image);
+    background-size: cover, cover, cover;
+    background-position: center, center, 68% center;
+    background-repeat: no-repeat;
+  }
+}
+
+@layer utilities {
+  /* Re-map former decorative cyan/blue/purple accents; retain state colors. */
+  [class*="text-cyan-"], [class*="text-blue-"], [class*="text-violet-"], [class*="text-purple-"], [class*="text-indigo-"] {
+    color: hsl(var(--primary)) !important;
+  }
+  [class*="border-cyan-"], [class*="border-blue-"], [class*="border-violet-"], [class*="border-purple-"], [class*="border-indigo-"] {
+    border-color: hsl(var(--primary) / 0.3) !important;
+  }
+  [class*="bg-cyan-"], [class*="bg-blue-"], [class*="bg-violet-"], [class*="bg-purple-"], [class*="bg-indigo-"] {
+    background-color: hsl(var(--primary) / 0.16) !important;
+  }
+  [class*="from-cyan-"], [class*="from-blue-"], [class*="from-violet-"], [class*="from-purple-"], [class*="from-indigo-"] {
+    --tw-gradient-from: hsl(var(--primary) / 0.2) !important;
+    --tw-gradient-to: hsl(var(--primary) / 0) !important;
+  }
+  [class*="to-cyan-"], [class*="to-blue-"], [class*="to-violet-"], [class*="to-purple-"], [class*="to-indigo-"] {
+    --tw-gradient-to: hsl(var(--primary) / 0.08) !important;
   }
 }
 

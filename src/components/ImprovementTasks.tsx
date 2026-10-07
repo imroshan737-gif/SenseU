@@ -90,18 +90,18 @@ export default function ImprovementTasks({ open, onOpenChange, vitalType }: Impr
   const totalPoints = tasks.filter((t) => t.completed).reduce((sum, t) => sum + t.points, 0);
 
   const typeColors = {
-    stress: "text-violet-400",
-    focus: "text-cyan-400",
-    energy: "text-amber-400",
-    sleep: "text-indigo-400",
-    mood: "text-emerald-400",
+    stress: "text-primary",
+    focus: "text-primary",
+    energy: "text-stress-rising",
+    sleep: "text-primary",
+    mood: "text-stress-balanced",
   };
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="bg-background/95 backdrop-blur-xl border-l border-primary/20 w-full sm:max-w-md overflow-y-auto">
+      <SheetContent className="bg-background border-l border-border w-full sm:max-w-md overflow-y-auto">
         <SheetHeader>
-          <SheetTitle className="font-orbitron text-xl text-gradient flex items-center gap-2">
+          <SheetTitle className="font-orbitron text-xl text-foreground flex items-center gap-2">
             <Zap className="w-5 h-5" />
             Improve Your {vitalType.charAt(0).toUpperCase() + vitalType.slice(1)}
           </SheetTitle>
@@ -117,7 +117,7 @@ export default function ImprovementTasks({ open, onOpenChange, vitalType }: Impr
           </div>
           <div className="h-2 rounded-full bg-muted/30 overflow-hidden">
             <div
-              className="h-full rounded-full bg-gradient-to-r from-primary to-secondary transition-all duration-500"
+              className="h-full rounded-full bg-primary transition-all duration-500"
               style={{ width: `${(completedCount / tasks.length) * 100}%` }}
             />
           </div>
@@ -133,8 +133,8 @@ export default function ImprovementTasks({ open, onOpenChange, vitalType }: Impr
               key={task.id}
               onClick={() => toggleTask(task.id)}
               className={cn(
-                "w-full p-4 rounded-xl border transition-all text-left",
-                "hover:scale-[1.02] hover:shadow-[0_0_20px_hsl(var(--primary)/0.2)]",
+                "w-full p-4 rounded-lg border transition-colors text-left",
+                "hover:border-primary/40",
                 task.completed
                   ? "bg-primary/10 border-primary/30"
                   : "bg-muted/20 border-border/30"

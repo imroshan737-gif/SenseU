@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Mail, Lock, User, ArrowRight, Eye, EyeOff } from "lucide-react";
-import ParticleBackground from "@/components/ParticleBackground";
 import GlassCard from "@/components/GlassCard";
 import NeonInput from "@/components/NeonInput";
 import NeonButton from "@/components/NeonButton";
@@ -180,9 +179,6 @@ const Auth = () => {
   if (showForgotPassword) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden bg-background">
-        <ParticleBackground />
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/5 rounded-full blur-[80px]" />
-        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-secondary/5 rounded-full blur-[80px]" />
         <ForgotPassword onBack={() => setShowForgotPassword(false)} />
       </div>
     );
@@ -190,23 +186,16 @@ const Auth = () => {
 
   return (
     <div className="min-h-[100svh] flex items-center justify-center p-4 sm:p-6 relative overflow-hidden bg-background">
-      <ParticleBackground />
-
-      {/* Soft ambient depth */}
-      <div className="pointer-events-none absolute -top-32 left-1/2 h-[420px] w-[620px] max-w-[120vw] -translate-x-1/2 rounded-full bg-primary/[0.07] blur-[120px]" />
-      <div className="pointer-events-none absolute bottom-[-15%] right-[-10%] h-[380px] w-[380px] rounded-full bg-secondary/[0.06] blur-[120px]" />
-
       {showVerified && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/95 backdrop-blur-sm">
           <div className="text-center space-y-5">
             <div className="relative mx-auto w-16 h-16">
-              <div className="absolute inset-0 rounded-2xl bg-primary/15 animate-ping" />
-              <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+              <div className="relative w-16 h-16 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center">
                 <div className="w-5 h-5 rounded-full bg-primary-foreground/80" />
               </div>
             </div>
             <div className="space-y-1.5">
-              <h2 className="font-orbitron text-lg font-semibold tracking-[-0.02em]">Identity Verified</h2>
+              <h2 className="font-orbitron text-lg font-semibold">Identity Verified</h2>
               <p className="text-sm text-muted-foreground">Initializing your AI Guardian…</p>
             </div>
           </div>
@@ -214,15 +203,15 @@ const Auth = () => {
       )}
 
       <div className="relative z-10 w-full max-w-[420px]">
-        <GlassCard className="p-7 sm:p-8" glow>
+        <GlassCard className="p-7 sm:p-8">
           <div className="mb-7">
             <div className="inline-flex items-center gap-2.5">
-              <div className="flex h-8 w-8 items-center justify-center rounded-[10px] bg-gradient-to-br from-primary to-secondary">
+              <div className="flex h-8 w-8 items-center justify-center rounded-[10px] bg-primary/10 border border-primary/20">
                 <div className="h-2.5 w-2.5 rounded-full bg-primary-foreground/90" />
               </div>
-              <span className="font-orbitron text-[17px] font-semibold tracking-[-0.02em]">NeuroAura</span>
+              <span className="font-orbitron text-[17px] font-semibold">NeuroAura</span>
             </div>
-            <h1 className="mt-6 font-orbitron text-[26px] font-semibold leading-[1.15] tracking-[-0.035em]">
+            <h1 className="mt-6 font-orbitron text-[26px] font-semibold leading-[1.15]">
               {isLogin ? "Welcome back" : "Create your account"}
             </h1>
             <p className="mt-2 text-[14px] leading-relaxed text-muted-foreground">

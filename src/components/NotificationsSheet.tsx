@@ -12,10 +12,10 @@ export default function NotificationsSheet({ open, onOpenChange }: Notifications
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="bg-background/95 backdrop-blur-xl border-l border-primary/20 w-full sm:max-w-md overflow-y-auto">
+      <SheetContent className="bg-background border-l border-border w-full sm:max-w-md overflow-y-auto">
         <SheetHeader>
           <div className="flex items-center justify-between">
-            <SheetTitle className="font-orbitron text-xl text-gradient flex items-center gap-2">
+            <SheetTitle className="font-orbitron text-xl text-foreground flex items-center gap-2">
               <Bell className="w-5 h-5" />
               Notifications
             </SheetTitle>
