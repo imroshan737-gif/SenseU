@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import ParticleBackground from "@/components/ParticleBackground";
 import GlassCard from "@/components/GlassCard";
 import NeonButton from "@/components/NeonButton";
 import AssessmentQuestion from "@/components/assessment/AssessmentQuestion";
@@ -277,10 +276,6 @@ export default function Assessment() {
   if (showPrivacy) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden bg-background">
-        <ParticleBackground />
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/5 rounded-full blur-[80px]" />
-        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-secondary/5 rounded-full blur-[80px]" />
-        
         <div className="relative z-10 w-full max-w-md">
           <PrivacyNotice onAccept={handlePrivacyAccept} onDecline={handlePrivacyDecline} />
         </div>
@@ -292,10 +287,6 @@ export default function Assessment() {
   if (result) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden bg-background">
-        <ParticleBackground />
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/5 rounded-full blur-[80px]" />
-        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-secondary/5 rounded-full blur-[80px]" />
-        
         <div className="relative z-10 w-full">
           <StressResultCard
             result={result}
@@ -311,10 +302,6 @@ export default function Assessment() {
   // Question flow
   return (
     <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden bg-background">
-      <ParticleBackground />
-      <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/5 rounded-full blur-[80px]" />
-      <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-secondary/5 rounded-full blur-[80px]" />
-
       <div className="relative z-10 w-full max-w-2xl" onKeyDown={(e) => {
         if (e.key === "Enter" && !e.shiftKey && canProceed) {
           e.preventDefault();
@@ -330,7 +317,7 @@ export default function Assessment() {
         </div>
 
         {/* Question card */}
-        <GlassCard className="animate-fade-up" glow>
+        <GlassCard className="animate-fade-up">
           <div className="space-y-8">
             <AssessmentQuestion
               key={currentQuestion.id}

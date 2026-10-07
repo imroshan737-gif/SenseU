@@ -53,19 +53,12 @@ export default function AssessmentProgress({
       
       {/* Center content */}
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="text-2xl font-orbitron font-bold text-gradient">
+        <span className="text-2xl font-orbitron font-bold text-primary">
           {currentStep}
         </span>
         <span className="text-xs text-muted-foreground">of {totalSteps}</span>
       </div>
 
-      {/* Glow effect */}
-      <div 
-        className="absolute inset-0 rounded-full blur-xl opacity-30"
-        style={{
-          background: `conic-gradient(from 0deg, hsl(var(--primary)) ${progress}%, transparent ${progress}%)`,
-        }}
-      />
     </div>
   );
 }

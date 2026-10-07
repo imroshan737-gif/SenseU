@@ -14,7 +14,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        orbitron: ['Sora', 'system-ui', 'sans-serif'],
+        orbitron: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         exo: ['Inter', 'system-ui', 'sans-serif'],
       },
       colors: {

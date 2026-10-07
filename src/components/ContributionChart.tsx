@@ -27,11 +27,8 @@ interface ContributionChartProps {
 }
 
 function getColor(count: number): React.CSSProperties {
-  if (count === 0) return { backgroundColor: "#0d1f2d" };
-  if (count === 1) return { backgroundColor: "#003d4d" };
-  if (count === 2) return { backgroundColor: "#006d7a" };
-  if (count === 3) return { backgroundColor: "#00a8b5" };
-  return { backgroundColor: "#00f0ff" };
+  const intensity = Math.min(4, Math.max(0, count));
+  return { backgroundColor: `hsl(var(--activity-${intensity}))` };
 }
 
 const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
@@ -160,13 +157,13 @@ const ContributionChart: React.FC<ContributionChartProps> = ({
 
   return (
     <>
-      <div className="rounded-2xl border border-cyan-900/40 bg-[#0d1b2a] p-4 w-full">
+      <div className="w-full rounded-xl border border-border bg-card p-4 sm:p-5">
         {/* Header */}
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-cyan-400 text-sm font-semibold tracking-widest uppercase">
+          <h3 className="text-foreground text-sm font-semibold tracking-wide uppercase">
             {title}
           </h3>
-          <span className="text-[#4ade80] text-xs font-mono">
+          <span className="text-muted-foreground text-xs">
             {loading ? "Loading..." : `${total} active days`}
           </span>
         </div>
@@ -181,7 +178,7 @@ const ContributionChart: React.FC<ContributionChartProps> = ({
                 <div
                   key={wi}
                   style={{ width: `${100 / totalWeeks}%` }}
-                  className="text-[9px] text-gray-500 truncate"
+                  className="text-[9px] text-muted-foreground truncate"
                 >
                   {label ? label.label : ""}
                 </div>
@@ -196,7 +193,7 @@ const ContributionChart: React.FC<ContributionChartProps> = ({
               {[0,1,2,3,4,5,6].map((d) => (
                 <div
                   key={d}
-                  className="text-[9px] text-gray-500 w-6 flex items-center"
+                  className="text-[9px] text-muted-foreground w-6 flex items-center"
                   style={{ height: "calc((100% - 24px) / 7)", marginBottom: "2px", minHeight: "11px" }}
                 >
                   {d % 2 === 1 ? DAYS[d].slice(0, 3) : ""}
@@ -221,7 +218,7 @@ const ContributionChart: React.FC<ContributionChartProps> = ({
                         onClick={() => day && realCount > 0 && setSelectedDate(day.date)}
                         title={day ? `${day.date}: ${realCount} session${realCount === 1 ? "" : "s"}` : ""}
                         style={day ? { ...getColor(day.count), aspectRatio: "1", maxHeight: "11px" } : { aspectRatio: "1", maxHeight: "11px" }}
-                        className={`w-full rounded-[2px] transition-all duration-150 hover:ring-1 hover:ring-cyan-400/60 ${
+                        className={`w-full rounded-[2px] transition-colors duration-150 hover:ring-1 hover:ring-primary/70 ${
                           !day ? "opacity-0 pointer-events-none" : ""
                         } ${realCount > 0 ? "cursor-pointer" : "cursor-default"}`}
                       />
@@ -234,7 +231,7 @@ const ContributionChart: React.FC<ContributionChartProps> = ({
 
           {/* Legend */}
           <div className="flex items-center justify-end gap-1 mt-3">
-            <span className="text-[10px] text-gray-500 mr-1">Less</span>
+            <span className="text-[10px] text-muted-foreground mr-1">Less</span>
             {[0,1,2,3,4].map((c) => (
               <div
                 key={c}
@@ -242,7 +239,7 @@ const ContributionChart: React.FC<ContributionChartProps> = ({
                 className="w-[13px] h-[13px] rounded-[2px]"
               />
             ))}
-            <span className="text-[10px] text-gray-500 ml-1">More</span>
+            <span className="text-[10px] text-muted-foreground ml-1">More</span>
           </div>
         </div>
       </div>
@@ -250,36 +247,36 @@ const ContributionChart: React.FC<ContributionChartProps> = ({
       <Sheet open={!!selectedDate} onOpenChange={(o) => !o && setSelectedDate(null)}>
         <SheetContent
           side="right"
-          className="bg-[#0d1b2a] border-l border-cyan-900/40 text-cyan-100 w-[380px] sm:max-w-md"
+          className="w-[min(380px,100vw)] border-l border-border bg-background text-foreground sm:max-w-md"
         >
           <SheetHeader>
-            <SheetTitle className="text-cyan-300 tracking-wide">
+            <SheetTitle className="text-foreground tracking-wide">
               {selectedDate ? formatDateLabel(selectedDate) : ""}
             </SheetTitle>
-            <SheetDescription className="text-cyan-500/70">
+            <SheetDescription className="text-muted-foreground">
               {selectedSessions.length} session{selectedSessions.length === 1 ? "" : "s"} completed on this day
             </SheetDescription>
           </SheetHeader>
 
           <div className="mt-6 space-y-3 max-h-[calc(100vh-160px)] overflow-y-auto pr-1">
             {selectedSessions.length === 0 && (
-              <p className="text-sm text-cyan-500/60">No sessions found.</p>
+              <p className="text-sm text-muted-foreground">No sessions found.</p>
             )}
             {selectedSessions.map((s) => (
               <div
                 key={s.id}
-                className="rounded-lg border border-cyan-900/40 bg-[#0a1622] p-3 hover:border-cyan-700/60 transition-colors"
+                className="rounded-lg border border-border bg-card p-3 transition-colors hover:border-primary/40"
               >
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-cyan-300 text-sm font-semibold capitalize">
+                  <span className="text-foreground text-sm font-semibold capitalize">
                     {s.session_type}
                   </span>
-                  <span className="text-[10px] text-cyan-500/70 font-mono">
+                  <span className="text-[10px] text-muted-foreground">
                     {formatTime(s.created_at)}
                   </span>
                 </div>
                 {s.title && (
-                  <p className="text-xs text-cyan-100/80">{s.title}</p>
+                  <p className="text-xs text-muted-foreground">{s.title}</p>
                 )}
               </div>
             ))}

@@ -5,7 +5,6 @@ import NeonButton from "@/components/NeonButton";
 import Depression from "@/components/assessment/Depression";
 import Anxiety from "@/components/assessment/Anxiety";
 import Stress from "@/components/assessment/Stress";
-import ParticleBackground from "@/components/ParticleBackground";
 import { useNavigate } from "react-router-dom";
 
 type AssessmentType = "depression" | "anxiety" | "stress" | null;
@@ -18,7 +17,6 @@ export default function ClinicalAssessments() {
   if (selectedTest === "depression") {
     return (
       <div className="min-h-screen p-4 pt-20">
-        <ParticleBackground />
         <div className="max-w-3xl mx-auto">
           <NeonButton variant="ghost" onClick={() => setSelectedTest(null)} className="mb-6">
             <ArrowLeft className="mr-2 h-4 w-4" /> Back to Assessments
@@ -32,7 +30,6 @@ export default function ClinicalAssessments() {
   if (selectedTest === "anxiety") {
     return (
       <div className="min-h-screen p-4 pt-20">
-        <ParticleBackground />
         <div className="max-w-3xl mx-auto">
           <NeonButton variant="ghost" onClick={() => setSelectedTest(null)} className="mb-6">
             <ArrowLeft className="mr-2 h-4 w-4" /> Back to Assessments
@@ -46,7 +43,6 @@ export default function ClinicalAssessments() {
   if (selectedTest === "stress") {
     return (
       <div className="min-h-screen p-4 pt-20">
-        <ParticleBackground />
         <div className="max-w-3xl mx-auto">
           <NeonButton variant="ghost" onClick={() => setSelectedTest(null)} className="mb-6">
             <ArrowLeft className="mr-2 h-4 w-4" /> Back to Assessments
@@ -61,8 +57,6 @@ export default function ClinicalAssessments() {
   // DEFAULT VIEW: Show the Menu with 3 Cards
   return (
     <div className="min-h-screen relative overflow-hidden bg-background p-4 md:p-8 pt-20">
-      <ParticleBackground />
-      
       <div className="max-w-5xl mx-auto space-y-8 relative z-10">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div>
@@ -81,7 +75,7 @@ export default function ClinicalAssessments() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Depression Card (Formerly PHQ-9) */}
-          <GlassCard className="p-6 hover:scale-[1.02] transition-transform duration-300" glow>
+          <GlassCard className="p-6 hover:-translate-y-0.5 transition-transform duration-200">
             <div className="p-3 bg-primary/10 w-fit rounded-xl mb-4 border border-primary/30">
               <TrendingDown className="w-8 h-8 text-primary" />
             </div>
@@ -96,7 +90,7 @@ export default function ClinicalAssessments() {
           </GlassCard>
 
           {/* Anxiety Card (Formerly GAD-7) */}
-          <GlassCard className="p-6 hover:scale-[1.02] transition-transform duration-300" glow>
+          <GlassCard className="p-6 hover:-translate-y-0.5 transition-transform duration-200">
             <div className="p-3 bg-secondary/10 w-fit rounded-xl mb-4 border border-secondary/30">
               <Activity className="w-8 h-8 text-secondary" />
             </div>
@@ -111,7 +105,7 @@ export default function ClinicalAssessments() {
           </GlassCard>
 
           {/* Stress Card (Formerly PSS) */}
-          <GlassCard className="p-6 hover:scale-[1.02] transition-transform duration-300" glow>
+          <GlassCard className="p-6 hover:-translate-y-0.5 transition-transform duration-200">
             <div className="p-3 bg-accent/10 w-fit rounded-xl mb-4 border border-accent/30">
               <Brain className="w-8 h-8 text-accent" />
             </div>

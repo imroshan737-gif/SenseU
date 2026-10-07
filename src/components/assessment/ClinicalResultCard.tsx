@@ -49,12 +49,8 @@ export default function ClinicalResultCard({ testName, scaleName, score, maxScor
   return (
     <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden bg-background">
       {/* Background effects */}
-      <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/5 rounded-full blur-[80px]" />
-      <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-secondary/5 rounded-full blur-[80px]" />
-      <div className={cn("absolute inset-0 bg-gradient-to-br opacity-20", severity.bg)} />
-
       <div className="relative z-10 w-full max-w-lg">
-        <GlassCard className="text-center" glow>
+        <GlassCard className="text-center">
           <div className="space-y-6">
             {/* Header */}
             <div className="flex items-center justify-center gap-2">

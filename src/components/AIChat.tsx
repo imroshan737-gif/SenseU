@@ -176,19 +176,19 @@ export default function AIChat({ isOpen, onClose, isDemo = false }: AIChatProps)
   if (!isOpen) return null;
 
   return (
-    <div className="fixed bottom-4 right-8 z-50 w-80 md:w-96 animate-scale-in">
-      <div className="rounded-2xl overflow-hidden border border-border/50 shadow-2xl shadow-primary/10 bg-card flex flex-col h-[calc(100vh-80px)]">
+    <div className="fixed inset-x-3 bottom-3 z-50 animate-scale-in sm:inset-x-auto sm:right-6 sm:w-96">
+      <div className="flex h-[calc(100svh-24px)] max-h-[760px] min-h-[440px] flex-col overflow-hidden rounded-xl border border-border bg-card shadow-xl sm:h-[min(760px,calc(100svh-32px))]">
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 bg-gradient-to-r from-primary/15 via-secondary/10 to-primary/15 border-b border-border/30">
+        <div className="flex items-center justify-between border-b border-border bg-muted/50 px-5 py-4">
           <div className="flex items-center gap-3">
             <div className="relative">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary via-secondary to-primary flex items-center justify-center shadow-lg shadow-primary/30">
-                <span className="text-lg">🌟</span>
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-primary/20 bg-primary/10">
+                <span className="text-lg">✦</span>
               </div>
               <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-400 border-2 border-card" />
             </div>
             <div>
-              <h4 className="font-orbitron font-bold text-sm text-gradient">Aurora ✨</h4>
+              <h4 className="font-orbitron font-semibold text-sm text-foreground">Aurora</h4>
               <p className="text-[10px] text-muted-foreground">
                 {isLoading ? "✍️ Typing..." : "● Your AI Guardian"}
               </p>
@@ -218,15 +218,13 @@ export default function AIChat({ isOpen, onClose, isDemo = false }: AIChatProps)
             /* Welcome screen */
             <div className="flex flex-col items-center justify-center h-full text-center space-y-5 animate-fade-up">
               <div className="relative">
-                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-primary via-violet-500 to-secondary flex items-center justify-center shadow-xl shadow-primary/30 animate-pulse">
-                  <span className="text-3xl">🌟</span>
+                <div className="flex h-16 w-16 items-center justify-center rounded-xl border border-primary/20 bg-primary/10">
+                  <span className="text-3xl text-primary">✦</span>
                 </div>
-                <div className="absolute -top-1 -right-1 text-xs">✨</div>
-                <div className="absolute -bottom-1 -left-1 text-xs">💫</div>
               </div>
 
               <div>
-                <h3 className="text-xl font-orbitron font-bold text-gradient mb-2">
+                <h3 className="text-xl font-orbitron font-semibold text-foreground mb-2">
                   Hiii! I'm Aurora~ 💕
                 </h3>
                 <p className="text-sm text-muted-foreground leading-relaxed max-w-[280px]">
@@ -239,7 +237,7 @@ export default function AIChat({ isOpen, onClose, isDemo = false }: AIChatProps)
                   <button
                     key={prompt.label}
                     onClick={() => sendMessage(`Give me ${prompt.label.toLowerCase()}`)}
-                    className="px-4 py-2 rounded-full text-xs font-medium border border-primary/30 bg-primary/5 hover:bg-primary/15 text-foreground hover:border-primary/60 transition-all duration-200 hover:scale-105"
+                    className="rounded-lg border border-border bg-muted/40 px-3 py-2 text-xs font-medium text-foreground transition-colors hover:border-primary/40 hover:bg-muted"
                   >
                     {prompt.emoji} {prompt.label}
                   </button>
@@ -257,7 +255,7 @@ export default function AIChat({ isOpen, onClose, isDemo = false }: AIChatProps)
                   <div
                     className={`max-w-[85%] p-3 rounded-2xl text-sm ${
                       msg.role === "user"
-                        ? "bg-gradient-to-br from-primary/25 to-secondary/15 border border-primary/30 rounded-br-md"
+                        ? "bg-primary/10 border border-primary/20 rounded-br-md"
                         : "bg-muted/20 border border-border/20 rounded-bl-md"
                     }`}
                   >
@@ -337,7 +335,7 @@ export default function AIChat({ isOpen, onClose, isDemo = false }: AIChatProps)
             <button
               onClick={() => sendMessage()}
               disabled={isLoading || (!input.trim() && !selectedImage)}
-              className="p-2.5 rounded-xl bg-gradient-to-r from-primary/30 to-secondary/30 text-primary hover:from-primary/50 hover:to-secondary/50 transition-all disabled:opacity-30 border border-primary/30"
+              className="p-2.5 rounded-lg bg-primary text-primary-foreground hover:bg-primary-glow transition-colors disabled:opacity-30 border border-primary/30"
             >
               {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
             </button>

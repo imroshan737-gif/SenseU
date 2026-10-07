@@ -8,7 +8,7 @@ interface NeonButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const NeonButton = forwardRef<HTMLButtonElement, NeonButtonProps>(
-  ({ className, variant = "primary", size = "md", glow = true, children, ...props }, ref) => {
+  ({ className, variant = "primary", size = "md", glow = false, children, ...props }, ref) => {
     const variants = {
       primary:
         "bg-primary text-primary-foreground border-transparent hover:bg-primary-glow",
@@ -30,7 +30,7 @@ const NeonButton = forwardRef<HTMLButtonElement, NeonButtonProps>(
       <button
         ref={ref}
         className={cn(
-          "relative inline-flex items-center justify-center rounded-xl border font-orbitron font-medium tracking-[-0.01em]",
+          "relative inline-flex items-center justify-center rounded-lg border font-orbitron font-medium",
           "transition-[background-color,border-color,box-shadow,transform] duration-200 ease-out",
           "active:scale-[0.985]",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",

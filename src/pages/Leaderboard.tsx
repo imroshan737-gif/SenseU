@@ -4,13 +4,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { useLeaderboard, type UserProfileDetails } from "@/hooks/useLeaderboard";
 import { Trophy, Flame, Target, Wind, Moon, Star, ChevronLeft, ChevronRight, Crown, Medal, Award, Loader2, Sparkles, Zap, ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
-import ParticleBackground from "@/components/ParticleBackground";
-
-const rankColors = [
-  "from-amber-400 to-yellow-600",
-  "from-slate-300 to-slate-500",
-  "from-amber-600 to-orange-800",
-];
 
 const rankIcons = [Crown, Medal, Award];
 
@@ -33,7 +26,6 @@ export default function Leaderboard() {
 
   return (
     <div className="relative min-h-screen bg-background overflow-hidden">
-      <ParticleBackground />
 
       <div className="relative z-10 max-w-4xl mx-auto px-4 py-8">
         {/* Header */}
@@ -46,11 +38,11 @@ export default function Leaderboard() {
           </button>
 
           <div className="flex items-center gap-3 flex-1">
-            <div className="p-3 rounded-2xl bg-gradient-to-br from-amber-500/20 to-orange-500/20 border border-amber-500/30 shadow-lg shadow-amber-500/10">
+            <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20">
               <Trophy className="w-8 h-8 text-amber-400" />
             </div>
             <div>
-              <h1 className="font-orbitron text-3xl font-bold text-gradient">Leaderboard</h1>
+            <h1 className="font-orbitron text-3xl font-bold text-foreground">Leaderboard</h1>
               <p className="text-sm text-muted-foreground">{totalCount} warriors competing</p>
             </div>
           </div>
@@ -83,22 +75,21 @@ export default function Leaderboard() {
                       key={entry.user_id}
                       onClick={() => handleViewProfile(entry.user_id)}
                       className={cn(
-                        "flex flex-col items-center gap-2 p-4 rounded-2xl border transition-all hover:scale-[1.03]",
-                        "bg-gradient-to-b from-muted/40 to-muted/10 border-amber-500/20 hover:border-amber-500/50",
+                        "flex flex-col items-center gap-2 p-4 rounded-xl border transition-colors duration-200",
+                        "bg-card border-border hover:border-primary/40",
                         sizes
                       )}
                     >
                       <div className={cn(
-                        "w-12 h-12 rounded-xl flex items-center justify-center bg-gradient-to-br text-background font-orbitron font-bold",
-                        rankColors[rank - 1]
+                        "w-12 h-12 rounded-lg flex items-center justify-center bg-primary/10 text-primary font-orbitron font-bold border border-primary/20"
                       )}>
                         <RankIcon className="w-6 h-6" />
                       </div>
-                      <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-amber-500/30">
+                      <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-border">
                         {entry.avatar_url ? (
                           <img src={entry.avatar_url} alt="" className="w-full h-full object-cover" />
                         ) : (
-                          <div className="w-full h-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
+                          <div className="w-full h-full bg-primary/10 flex items-center justify-center">
                             <span className="text-lg font-orbitron text-primary">{(entry.display_name || "?")[0].toUpperCase()}</span>
                           </div>
                         )}
@@ -125,7 +116,7 @@ export default function Leaderboard() {
                   key={entry.user_id}
                   onClick={() => handleViewProfile(entry.user_id)}
                   className={cn(
-                    "w-full flex items-center gap-4 p-4 rounded-xl border transition-all text-left group hover:scale-[1.01]",
+                    "w-full flex items-center gap-4 p-4 rounded-xl border transition-colors duration-200 text-left group",
                     "bg-muted/10 border-border/30 hover:border-primary/30 hover:bg-muted/20"
                   )}
                 >
@@ -137,7 +128,7 @@ export default function Leaderboard() {
                     {entry.avatar_url ? (
                       <img src={entry.avatar_url} alt="" className="w-full h-full object-cover" />
                     ) : (
-                      <div className="w-full h-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
+                      <div className="w-full h-full bg-primary/10 flex items-center justify-center">
                         <span className="text-xs font-orbitron text-primary">{(entry.display_name || "?")[0].toUpperCase()}</span>
                       </div>
                     )}
@@ -214,7 +205,7 @@ export default function Leaderboard() {
 
       {/* Profile Dialog */}
       <Dialog open={profileOpen} onOpenChange={setProfileOpen}>
-        <DialogContent className="sm:max-w-md bg-background/95 backdrop-blur-xl border-primary/20">
+        <DialogContent className="sm:max-w-md bg-background border-border">
           {profileLoading ? (
             <div className="flex items-center justify-center py-16">
               <Loader2 className="w-8 h-8 text-primary animate-spin" />
@@ -222,14 +213,14 @@ export default function Leaderboard() {
           ) : selectedProfile ? (
             <>
               <DialogHeader>
-                <DialogTitle className="font-orbitron text-gradient text-lg">Player Profile</DialogTitle>
+              <DialogTitle className="font-orbitron text-primary text-lg">Player Profile</DialogTitle>
               </DialogHeader>
               <div className="flex flex-col items-center gap-4 py-4">
-                <div className="w-20 h-20 rounded-full overflow-hidden border-3 border-primary/40 shadow-lg shadow-primary/20">
+                <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-primary/30">
                   {selectedProfile.avatar_url ? (
                     <img src={selectedProfile.avatar_url} alt="" className="w-full h-full object-cover" />
                   ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-primary/30 to-secondary/30 flex items-center justify-center">
+                    <div className="w-full h-full bg-primary/10 flex items-center justify-center">
                       <span className="text-2xl font-orbitron text-primary">{(selectedProfile.display_name || "?")[0].toUpperCase()}</span>
                     </div>
                   )}
@@ -246,10 +237,10 @@ export default function Leaderboard() {
                   { label: "Most Practiced", value: selectedProfile.most_practiced, icon: Target, color: "text-emerald-400" },
                   { label: "Current Streak", value: `${selectedProfile.current_streak} 🔥`, icon: Flame, color: "text-orange-400" },
                   { label: "Best Streak", value: `${selectedProfile.best_streak} ⚡`, icon: Zap, color: "text-amber-400" },
-                  { label: "Breathe", value: selectedProfile.breathe_sessions, icon: Wind, color: "text-cyan-400" },
-                  { label: "Focus", value: selectedProfile.focus_sessions, icon: Target, color: "text-green-400" },
-                  { label: "Rest", value: selectedProfile.rest_sessions, icon: Moon, color: "text-violet-400" },
-                  { label: "Relax", value: selectedProfile.relax_sessions, icon: Star, color: "text-pink-400" },
+                  { label: "Breathe", value: selectedProfile.breathe_sessions, icon: Wind, color: "text-primary" },
+                  { label: "Focus", value: selectedProfile.focus_sessions, icon: Target, color: "text-stress-balanced" },
+                  { label: "Rest", value: selectedProfile.rest_sessions, icon: Moon, color: "text-primary" },
+                  { label: "Relax", value: selectedProfile.relax_sessions, icon: Star, color: "text-primary" },
                 ].map(stat => (
                   <div key={stat.label} className="p-3 rounded-xl bg-muted/20 border border-border/30 flex items-center gap-2">
                     <stat.icon className={cn("w-4 h-4 shrink-0", stat.color)} />

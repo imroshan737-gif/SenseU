@@ -30,35 +30,35 @@ export default function DemoTour({ open, onOpenChange, onComplete }: DemoTourPro
       icon: Brain,
       title: "AI-Powered Stress Detection",
       description: "NeuroAura uses advanced AI to monitor your stress levels in real-time. Our algorithms analyze behavioral patterns to predict stress before it peaks.",
-      color: "from-violet-500 to-purple-500",
+      color: "bg-primary/10 border border-primary/20 text-primary",
       demo: "stress-meter",
     },
     {
       icon: Target,
       title: "Focus Mode",
       description: "Boost your productivity with smart focus sessions. We block distractions and guide you through proven concentration techniques.",
-      color: "from-cyan-500 to-blue-500",
+      color: "bg-primary/10 border border-primary/20 text-primary",
       demo: "focus-timer",
     },
     {
       icon: Moon,
       title: "Sleep Optimization",
       description: "Track your sleep quality and receive personalized recommendations to improve your rest and recovery.",
-      color: "from-indigo-500 to-violet-500",
+      color: "bg-primary/10 border border-primary/20 text-primary",
       demo: "sleep-tracker",
     },
     {
       icon: Zap,
       title: "Energy Management",
       description: "Monitor your energy levels throughout the day. Get suggestions for breaks and activities to maintain optimal performance.",
-      color: "from-amber-500 to-orange-500",
+      color: "bg-stress-rising/10 border border-stress-rising/20 text-stress-rising",
       demo: "energy-boost",
     },
     {
       icon: Shield,
       title: "24/7 AI Guardian",
       description: "Your personal AI wellness companion is always watching over you, ready to intervene when stress levels rise.",
-      color: "from-emerald-500 to-teal-500",
+      color: "bg-stress-balanced/10 border border-stress-balanced/20 text-stress-balanced",
       demo: "guardian",
     },
   ];
@@ -84,16 +84,16 @@ export default function DemoTour({ open, onOpenChange, onComplete }: DemoTourPro
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-background/95 backdrop-blur-xl border border-primary/20 max-w-2xl p-0 overflow-hidden">
+      <DialogContent className="max-h-[90vh] overflow-y-auto bg-background border border-border max-w-2xl p-0">
         {/* Progress bar */}
         <div className="h-1 bg-muted/30">
           <div
-            className="h-full bg-gradient-to-r from-primary to-secondary transition-all duration-500"
+            className="h-full bg-primary transition-all duration-300"
             style={{ width: `${((currentStep + 1) / tourSteps.length) * 100}%` }}
           />
         </div>
 
-        <div className="p-8">
+        <div className="p-6 sm:p-8">
           {/* Skip button */}
           <div className="flex justify-end mb-4">
             <button
@@ -115,12 +115,11 @@ export default function DemoTour({ open, onOpenChange, onComplete }: DemoTourPro
             <div className="flex justify-center mb-8">
               <div
                 className={cn(
-                  "w-24 h-24 rounded-2xl bg-gradient-to-br flex items-center justify-center",
-                  "shadow-[0_0_40px_rgba(0,240,255,0.3)]",
+                  "w-24 h-24 rounded-xl flex items-center justify-center",
                   step.color
                 )}
               >
-                <Icon className="w-12 h-12 text-white" />
+                <Icon className="w-12 h-12" />
               </div>
             </div>
 
@@ -141,7 +140,7 @@ export default function DemoTour({ open, onOpenChange, onComplete }: DemoTourPro
                   {[20, 35, 45, 60, 40, 25, 30].map((height, i) => (
                     <div
                       key={i}
-                      className="w-6 rounded-t bg-gradient-to-t from-violet-500 to-cyan-500 animate-pulse"
+                      className="w-6 rounded-t bg-primary/70"
                       style={{ 
                         height: `${height}%`,
                         animationDelay: `${i * 100}ms`
@@ -151,17 +150,17 @@ export default function DemoTour({ open, onOpenChange, onComplete }: DemoTourPro
                 </div>
               )}
               {step.demo === "focus-timer" && (
-                <div className="w-32 h-32 rounded-full border-4 border-cyan-500 flex items-center justify-center shadow-[0_0_30px_rgba(0,240,255,0.5)]">
-                  <span className="font-orbitron text-2xl text-cyan-400">25:00</span>
+                <div className="w-32 h-32 rounded-full border-4 border-primary/40 flex items-center justify-center">
+                  <span className="font-orbitron text-2xl text-primary">25:00</span>
                 </div>
               )}
               {step.demo === "sleep-tracker" && (
                 <div className="flex items-center gap-4">
-                  <Moon className="w-12 h-12 text-indigo-400 animate-pulse" />
+                  <Moon className="w-12 h-12 text-primary" />
                   <div className="space-y-2">
-                    <div className="h-2 w-32 bg-indigo-500/50 rounded-full" />
-                    <div className="h-2 w-24 bg-violet-500/50 rounded-full" />
-                    <div className="h-2 w-28 bg-purple-500/50 rounded-full" />
+                    <div className="h-2 w-32 bg-primary/50 rounded-full" />
+                    <div className="h-2 w-24 bg-primary/30 rounded-full" />
+                    <div className="h-2 w-28 bg-primary/40 rounded-full" />
                   </div>
                 </div>
               )}
@@ -181,8 +180,7 @@ export default function DemoTour({ open, onOpenChange, onComplete }: DemoTourPro
               )}
               {step.demo === "guardian" && (
                 <div className="relative">
-                  <div className="w-20 h-20 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 animate-pulse shadow-[0_0_40px_rgba(16,185,129,0.5)]" />
-                  <div className="absolute inset-0 w-20 h-20 rounded-full border-2 border-emerald-400 animate-ping" />
+                  <div className="w-20 h-20 rounded-full bg-stress-balanced/20 border border-stress-balanced/40" />
                 </div>
               )}
             </div>

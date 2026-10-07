@@ -38,13 +38,13 @@ export default function LeaderboardSheet({ open, onOpenChange }: LeaderboardShee
   return (
     <>
       <Sheet open={open} onOpenChange={onOpenChange}>
-        <SheetContent side="right" className="w-full sm:max-w-lg bg-background/95 backdrop-blur-xl border-l border-primary/20 overflow-y-auto">
+        <SheetContent side="right" className="w-full sm:max-w-lg bg-background border-l border-border overflow-y-auto">
           <SheetHeader className="pb-4">
             <SheetTitle className="font-orbitron text-2xl flex items-center gap-3">
-              <div className="p-2 rounded-xl bg-gradient-to-br from-amber-500/20 to-orange-500/20 border border-amber-500/30">
+              <div className="p-2 rounded-lg bg-amber-500/10 border border-amber-500/20">
                 <Trophy className="w-6 h-6 text-amber-400" />
               </div>
-              <span className="text-gradient">Leaderboard</span>
+              <span className="text-foreground">Leaderboard</span>
               <span className="ml-auto text-xs font-mono text-muted-foreground bg-muted/30 px-2 py-1 rounded-lg">{totalCount} players</span>
             </SheetTitle>
           </SheetHeader>
@@ -73,7 +73,7 @@ export default function LeaderboardSheet({ open, onOpenChange }: LeaderboardShee
                     className={cn(
                       "w-full flex items-center gap-3 p-3 rounded-xl border transition-all text-left group hover:scale-[1.01]",
                       isTopThree
-                        ? "bg-gradient-to-r from-muted/40 to-muted/20 border-amber-500/30 hover:border-amber-500/50 shadow-lg shadow-amber-500/5"
+                        ? "bg-card border-amber-500/20 hover:border-amber-500/35"
                         : "bg-muted/10 border-border/30 hover:border-primary/30 hover:bg-muted/20"
                     )}
                   >
@@ -92,7 +92,7 @@ export default function LeaderboardSheet({ open, onOpenChange }: LeaderboardShee
                       {entry.avatar_url ? (
                         <img src={entry.avatar_url} alt={entry.display_name || ""} className="w-full h-full object-cover" />
                       ) : (
-                        <div className="w-full h-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
+                        <div className="w-full h-full bg-primary/10 flex items-center justify-center">
                           <span className="text-xs font-orbitron text-primary">
                             {(entry.display_name || "?")[0].toUpperCase()}
                           </span>
@@ -179,7 +179,7 @@ export default function LeaderboardSheet({ open, onOpenChange }: LeaderboardShee
 
       {/* Profile Detail Dialog */}
       <Dialog open={profileOpen} onOpenChange={setProfileOpen}>
-        <DialogContent className="sm:max-w-md bg-background/95 backdrop-blur-xl border-primary/20">
+        <DialogContent className="sm:max-w-md bg-background border-border">
           {profileLoading ? (
             <div className="flex items-center justify-center py-16">
               <Loader2 className="w-8 h-8 text-primary animate-spin" />
@@ -187,16 +187,16 @@ export default function LeaderboardSheet({ open, onOpenChange }: LeaderboardShee
           ) : selectedProfile ? (
             <>
               <DialogHeader>
-                <DialogTitle className="font-orbitron text-gradient text-lg">Player Profile</DialogTitle>
+                <DialogTitle className="font-orbitron text-foreground text-lg">Player Profile</DialogTitle>
               </DialogHeader>
 
               <div className="flex flex-col items-center gap-4 py-4">
                 {/* Avatar */}
-                <div className="w-20 h-20 rounded-full overflow-hidden border-3 border-primary/40 shadow-lg shadow-primary/20">
+                <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-primary/30">
                   {selectedProfile.avatar_url ? (
                     <img src={selectedProfile.avatar_url} alt="" className="w-full h-full object-cover" />
                   ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-primary/30 to-secondary/30 flex items-center justify-center">
+                    <div className="w-full h-full bg-primary/10 flex items-center justify-center">
                       <span className="text-2xl font-orbitron text-primary">
                         {(selectedProfile.display_name || "?")[0].toUpperCase()}
                       </span>
@@ -221,10 +221,10 @@ export default function LeaderboardSheet({ open, onOpenChange }: LeaderboardShee
                   { label: "Most Practiced", value: selectedProfile.most_practiced, icon: Target, color: "text-emerald-400" },
                   { label: "Current Streak", value: `${selectedProfile.current_streak} 🔥`, icon: Flame, color: "text-orange-400" },
                   { label: "Best Streak", value: `${selectedProfile.best_streak} ⚡`, icon: Zap, color: "text-amber-400" },
-                  { label: "Breathe", value: selectedProfile.breathe_sessions, icon: Wind, color: "text-cyan-400" },
-                  { label: "Focus", value: selectedProfile.focus_sessions, icon: Target, color: "text-green-400" },
-                  { label: "Rest", value: selectedProfile.rest_sessions, icon: Moon, color: "text-violet-400" },
-                  { label: "Relax", value: selectedProfile.relax_sessions, icon: Star, color: "text-pink-400" },
+                  { label: "Breathe", value: selectedProfile.breathe_sessions, icon: Wind, color: "text-primary" },
+                  { label: "Focus", value: selectedProfile.focus_sessions, icon: Target, color: "text-stress-balanced" },
+                  { label: "Rest", value: selectedProfile.rest_sessions, icon: Moon, color: "text-primary" },
+                  { label: "Relax", value: selectedProfile.relax_sessions, icon: Star, color: "text-primary" },
                 ].map(stat => (
                   <div key={stat.label} className="p-3 rounded-xl bg-muted/20 border border-border/30 flex items-center gap-2">
                     <stat.icon className={cn("w-4 h-4 shrink-0", stat.color)} />

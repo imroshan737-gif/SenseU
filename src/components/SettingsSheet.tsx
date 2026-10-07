@@ -81,9 +81,9 @@ export default function SettingsSheet({ open, onOpenChange }: SettingsSheetProps
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="bg-background/95 backdrop-blur-xl border-l border-primary/20 w-full sm:max-w-md overflow-y-auto">
+      <SheetContent className="bg-background border-l border-border w-full sm:max-w-md overflow-y-auto">
         <SheetHeader>
-          <SheetTitle className="font-orbitron text-xl text-gradient flex items-center gap-2">
+        <SheetTitle className="font-orbitron text-xl text-foreground flex items-center gap-2">
             <Settings className="w-5 h-5" />
             Settings
           </SheetTitle>
