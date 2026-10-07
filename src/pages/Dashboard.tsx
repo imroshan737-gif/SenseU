@@ -286,6 +286,11 @@ const Dashboard = () => {
 
       {/* Main Content */}
       <div className="relative z-10 p-4 sm:p-6 max-w-full mx-auto">
+        {!showGuardianChat && (
+          <div className="mb-3 flex justify-end sm:hidden">
+            <AIGuardianOrb stressLevel={getStressState()} size="sm" onClick={() => setShowGuardianChat(true)} />
+          </div>
+        )}
         <div className="grid grid-cols-12 gap-6">
           {/* Left Panel - Live Vitals */}
           <VitalsSection vitals={vitals} onImprove={handleImprove} onStartSession={handleStartSession} />
@@ -497,7 +502,7 @@ const Dashboard = () => {
 
       {/* Floating AI Orb - hidden when chat is open */}
       {!showGuardianChat && (
-        <div className="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 z-50">
+        <div className="fixed bottom-8 right-8 z-50 hidden sm:block">
           <AIGuardianOrb stressLevel={getStressState()} size="lg" onClick={() => setShowGuardianChat(true)} />
         </div>
       )}
