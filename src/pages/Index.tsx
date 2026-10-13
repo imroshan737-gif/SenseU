@@ -170,14 +170,14 @@ const Index = () => {
         {/* Hero content — asymmetric 2-column */}
         <div className="mx-auto grid min-h-[92svh] w-full max-w-[1160px] items-center gap-12 px-6 pb-20 pt-32 lg:grid-cols-[1.05fr_0.95fr] lg:px-10 lg:pt-36">
           <div className="max-w-[600px]">
-            <div className="inline-flex items-center gap-2 rounded-full border border-sage-line-strong bg-sage-card/70 px-3.5 py-1.5">
-              <Sparkles className="w-3.5 h-3.5 text-sage-accent" />
-              <span className="text-[12.5px] font-medium text-sage-muted">
+            <div className="inline-flex items-center gap-3">
+              <span className="h-px w-6 bg-sage-accent" aria-hidden="true" />
+              <span className="text-[11px] font-medium uppercase tracking-[0.1em] text-sage-muted">
                 AI-Powered Wellness Platform
               </span>
             </div>
 
-            <h1 className="mt-7 font-exo text-[2.4rem] font-semibold leading-[1.08] text-sage-text sm:text-5xl lg:text-[3.5rem]">
+            <h1 className="mt-6 font-exo text-[2.4rem] font-medium leading-[1.1] text-sage-text sm:text-5xl lg:text-[3.35rem]">
               Your mental wellness{" "}
               <span className="text-sage-accent">guardian, always on.</span>
             </h1>
@@ -235,8 +235,8 @@ const Index = () => {
       <section ref={featuresRef} className="relative bg-sage-bg/55 px-6 py-24 lg:px-10">
         <div className="mx-auto max-w-[1160px]">
           <div className="max-w-[620px]">
-            <div className="inline-flex items-center gap-2 rounded-full border border-sage-line bg-sage-card px-3 py-1">
-              <BarChart3 className="w-3 h-3 text-sage-accent" />
+            <div className="inline-flex items-center gap-3">
+              <span className="h-px w-5 bg-sage-accent" aria-hidden="true" />
               <span className="text-[11px] font-medium uppercase tracking-[0.1em] text-sage-muted">
                 Features
               </span>
