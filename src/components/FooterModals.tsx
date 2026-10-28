@@ -1,6 +1,6 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Shield, FileText, Mail, User, Lock, Database, Eye, Sparkles, Brain, Cookie, AlertTriangle, CheckCircle2, BookOpen, Scale, Linkedin, ExternalLink, Heart } from "lucide-react";
+import { Shield, FileText, Mail, User, Lock, Database, Eye, Sparkles, Brain, Cookie, AlertTriangle, CheckCircle2, BookOpen, Scale, Linkedin, ExternalLink } from "lucide-react";
 
 interface FooterModalProps {
   open: boolean;
@@ -153,11 +153,6 @@ export function TermsModal({ open, onOpenChange }: FooterModalProps) {
 }
 
 export function ContactModal({ open, onOpenChange }: FooterModalProps) {
-  const team = [
-    { name: "Nimish Sharma", url: "https://www.linkedin.com/in/nimish-sharma-b40414386/" },
-    { name: "Maneesha G", url: "https://www.linkedin.com/in/maneesha-g-6b29ba353/" },
-    { name: "Monalisa K", url: "https://www.linkedin.com/in/monalisa-k-0a06323a2/" },
-  ];
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="bg-sage-section border border-sage-line max-w-lg p-6 shadow-xl">
@@ -188,34 +183,6 @@ export function ContactModal({ open, onOpenChange }: FooterModalProps) {
                   </a>
                 </div>
               </div>
-            </div>
-          </div>
-
-          {/* Team */}
-          <div className="relative p-5 rounded-2xl bg-sage-card border border-sage-line">
-            <div className="flex items-center gap-2 mb-4">
-              <Heart className="w-4 h-4 text-sage-accent" />
-              <h3 className="text-sm font-exo font-semibold uppercase tracking-[0.2em] text-sage-text">My Team</h3>
-              <div className="flex-1 h-px bg-sage-line" />
-            </div>
-            <div className="grid grid-cols-1 gap-2">
-              {team.map((m) => (
-                <a
-                  key={m.name}
-                  href={m.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center justify-between p-3 rounded-xl bg-sage-surface border border-sage-line hover:border-sage-accent/40 transition-colors"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-lg bg-sage-accent/10 border border-sage-line flex items-center justify-center text-sage-accent font-exo font-semibold text-sm">
-                      {m.name[0]}
-                    </div>
-                    <span className="font-medium text-sage-text group-hover:text-sage-accent transition-colors">{m.name}</span>
-                  </div>
-                  <Linkedin className="w-4 h-4 text-sage-muted group-hover:text-sage-accent transition-colors" />
-                </a>
-              ))}
             </div>
           </div>
         </div>
