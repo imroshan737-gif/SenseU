@@ -159,7 +159,7 @@ export function ContactModal({ open, onOpenChange }: FooterModalProps) {
         <DialogHeader>
           <DialogTitle className="sr-only">Contact Us</DialogTitle>
         </DialogHeader>
-        <ModalHeader icon={Mail} title="Get in Touch" subtitle="We'd love to hear from you" />
+        <ModalHeader icon={Mail} title="Get in Touch" subtitle="I'd love to hear from you" />
 
         <div className="space-y-5 pt-2">
           {/* Owner card */}
